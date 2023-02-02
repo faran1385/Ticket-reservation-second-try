@@ -9,7 +9,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{url('js/jQuery/jquery-3.6.3.min.js')}}"></script>
     <script src="{{url('js/home.js')}}"></script>
-
+    <script defer src="{{url('js/Alpinejs/dist/app.js')}}"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
