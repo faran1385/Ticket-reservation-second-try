@@ -1,0 +1,9 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+.btn-hover:hover{background: var(--bs-light)}.card-header-items-hover:hover{background: var(--bs-light);border-radius: .5rem}.center{display: flex !important ;justify-content: center !important;align-items: center !important;}.default-cursor{cursor: default}.pointer-cursor{cursor: pointer}.input-group-custom{position:relative;display:flex;flex-wrap:wrap;align-items:stretch}.fast-booking-card-hover:hover{box-shadow:0 .5rem 1rem rgba(var(--bs-body-color-rgb),.15)!important;position: relative;bottom: 10px !important;transition: all 0.3s ease-in-out;}.fast-booking-card-leave:not(:hover){box-shadow: none !important;position: relative;bottom: 0px !important;transition: all 0.3s ease-in-out;}.text-justify{text-align: justify}
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-icons/font/bootstrap-icons';
