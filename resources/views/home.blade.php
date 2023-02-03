@@ -441,12 +441,12 @@
                                 </div>
                                 <div x-show="page==='bus'">
                                     <div class="input-group d-flex justify-content-center">
-                                        <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
+                                        <div class="col-lg-6 col-11 input-group-custom d-flex ms-2">
                                             <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
                                                        style="  border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;"
-                                                       placeholder="origin(city)">
+                                                       placeholder="origin(city,terminal)">
                                             </div>
                                             <span
                                                 class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
@@ -459,7 +459,7 @@
                                                        class="form-control-lg form-control ps-4 rounded-start-0"
                                                        style="border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;"
-                                                       placeholder="Destination(city)">
+                                                       placeholder="Destination(city,terminal)">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
