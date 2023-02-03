@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title','Ticket reservation')
 @section('content')
-    <div x-data="{page:'bus'}">
+    <div x-data="{page:'tour'}">
         <section class="container mt-5">
             <div class="row">
                 <div class="col">
@@ -269,7 +269,7 @@
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
                                                        style="  border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;"
-                                                       placeholder="origin(city)">
+                                                       placeholder="Origin">
                                             </div>
                                             <span
                                                 class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
@@ -282,7 +282,7 @@
                                                        class="form-control-lg form-control ps-4 rounded-start-0"
                                                        style="border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;"
-                                                       placeholder="Destination(city)">
+                                                       placeholder="Destination">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
@@ -317,7 +317,7 @@
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
                                                        style="  border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;"
-                                                       placeholder="origin(city,airport)">
+                                                       placeholder="Origin">
                                             </div>
                                             <span
                                                 class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
@@ -330,7 +330,7 @@
                                                        class="form-control-lg form-control ps-4 rounded-start-0"
                                                        style="border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;"
-                                                       placeholder="Destination(city,airport)">
+                                                       placeholder="Destination">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
@@ -365,7 +365,7 @@
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
                                                        style="  border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;"
-                                                       placeholder="origin(city)">
+                                                       placeholder="Origin">
                                             </div>
                                             <span
                                                 class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
@@ -378,7 +378,7 @@
                                                        class="form-control-lg form-control ps-4 rounded-start-0"
                                                        style="border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;"
-                                                       placeholder="Destination(city)">
+                                                       placeholder="Destination">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
@@ -411,7 +411,7 @@
                                         <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
                                             <div class="col-12 mb-lg-0 mb-4 ms-lg-0">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       placeholder="Destination or hotel(inner and outer)">
+                                                       placeholder="Destination or hotel">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
@@ -446,7 +446,7 @@
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
                                                        style="  border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;"
-                                                       placeholder="origin(city,terminal)">
+                                                       placeholder="Origin">
                                             </div>
                                             <span
                                                 class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
@@ -459,7 +459,7 @@
                                                        class="form-control-lg form-control ps-4 rounded-start-0"
                                                        style="border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;"
-                                                       placeholder="Destination(city,terminal)">
+                                                       placeholder="Destination">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
@@ -467,6 +467,54 @@
                                                 <input type="text" class=" form-control-lg form-control rounded-start-0"
                                                        placeholder="Date of departure">
                                             </label>
+                                        </div>
+                                        <div class="col-lg-1 col-11 ms-2">
+                                <span class="d-grid">
+                                    <button class="btn btn-primary btn-lg text-white">Search</button>
+                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div x-show="page==='train'">
+                                    <div class="input-group d-flex justify-content-center">
+                                        <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
+                                            <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
+                                                <input type="text" class=" form-control-lg form-control rounded-end-0"
+                                                       style="  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;"
+                                                       placeholder="Origin">
+                                            </div>
+                                            <span
+                                                class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
+                                                style="height: 3rem">
+                                <svg viewBox="0 0 24 24" width="2rem" fill="currentColor"><path
+                                        d="m16.96 12.157.07.063 3.75 3.75a.757.757 0 0 1 .06.067l-.06-.067a.748.748 0 0 1 .22.53v.025a.728.728 0 0 1-.003.039L21 16.5a.747.747 0 0 1-.147.446l-.01.014-.008.01-.055.06-3.75 3.75a.75.75 0 0 1-1.123-.99l.063-.07 2.469-2.47H8.25a.75.75 0 0 1-.087-1.495l.087-.005h10.189l-2.47-2.47a.75.75 0 0 1-.062-.99l.063-.07a.75.75 0 0 1 .99-.063ZM8.03 3.22a.75.75 0 0 1 .063.99l-.063.07-2.47 2.47h10.19a.75.75 0 0 1 .088 1.495l-.088.005H5.56l2.47 2.47a.75.75 0 0 1 .063.99l-.063.07a.75.75 0 0 1-.99.063l-.07-.063-3.75-3.75-.055-.06a.644.644 0 0 1-.005-.007l.06.067A.756.756 0 0 1 3 7.5v-.014a.47.47 0 0 1 .003-.053L3 7.5a.756.756 0 0 1 .22-.53l3.75-3.75a.75.75 0 0 1 1.06 0Z"></path></svg>
+                            </span>
+                                            <div class="col-5">
+                                                <input type="text"
+                                                       class="form-control-lg form-control ps-4 rounded-start-0"
+                                                       style="border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;"
+                                                       placeholder="Destination">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
+                                            <label class="w-50">
+                                                <input type="text" class=" form-control-lg form-control rounded-end-0"
+                                                       style="  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;"
+                                                       placeholder="Going">
+                                            </label>
+                                            <label class="position-relative coming-input-label-disable w-50">
+                                                <input type="text" class=" form-control-lg form-control rounded-start-0"
+                                                       style="  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;"
+                                                       placeholder="Coming" disabled>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
+                                            <input type="text" class=" form-control-lg form-control"
+                                                   value="1 passenger">
                                         </div>
                                         <div class="col-lg-1 col-11 ms-2">
                                 <span class="d-grid">
