@@ -262,7 +262,7 @@
                                         <div class="mb-4"></div>
                                     </div>
                                 </div>
-                                <div x-show="page===innerfly">
+                                <div x-show="page==='innerfly'">
                                     <div class="input-group d-flex justify-content-center">
                                         <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
                                             <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
@@ -292,7 +292,7 @@
   border-bottom-right-radius: 0 !important;"
                                                        placeholder="Going">
                                             </label>
-                                            <label class="position-relative coming-input-label w-50">
+                                            <label class="position-relative coming-input-label-disable w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-start-0"
                                                        style="  border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;"
@@ -340,11 +340,11 @@
   border-bottom-right-radius: 0 !important;"
                                                        placeholder="Going">
                                             </label>
-                                            <label class="position-relative coming-input-label w-50">
+                                            <label class="position-relative coming-input-label-enable w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-start-0"
                                                        style="  border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;"
-                                                       placeholder="Coming" disabled>
+                                                       placeholder="Coming">
                                             </label>
                                         </div>
                                         <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">

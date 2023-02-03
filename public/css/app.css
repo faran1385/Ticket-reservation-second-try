@@ -18968,7 +18968,7 @@ textarea.form-control-lg {
 .bi-wikipedia::before {
   content: "\f8cc";
 }
-.coming-input-label:after{
+.coming-input-label-disable:after{
     content: "";
     position: absolute;
     right: 10px;
@@ -18977,7 +18977,15 @@ textarea.form-control-lg {
     width: 20px;
     background: url('https://cdn-icons-png.flaticon.com/512/748/748113.png') center / contain no-repeat;
     cursor: pointer;
+}.coming-input-label-enable:after{
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: url('https://cdn-icons-png.flaticon.com/512/748/748113.png') center / contain no-repeat;
+    cursor: pointer;
+     transform: rotate(45deg);
 }
-.rotate-45deg{
-    transform: rotate(45deg);
-}
+
