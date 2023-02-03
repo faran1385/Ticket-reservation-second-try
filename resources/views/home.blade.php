@@ -1,7 +1,21 @@
 @extends('layouts.master')
 @section('title','Ticket reservation')
 @section('content')
-    <div x-data="{page:'innerfly'}">
+    <div x-data="{page:'train',changeActiveTitle(){
+
+    let titles=document.querySelectorAll('.services')
+
+    titles.forEach(title=>{
+        if(title.classList.contains(this.page)){
+            title.classList.remove('card-header-items-hover')
+            title.classList.add('text-primary')
+        }else{
+            title.classList.add('card-header-items-hover')
+            title.classList.remove('text-primary')
+        }
+    })
+
+    },pageChanger(pageName){this.page=pageName;}}">
         <section class="container mt-5">
             <div class="row">
                 <div class="col">
@@ -19,8 +33,8 @@
                                 <li class="nav-item col-lg-2 col-md-4 col-sm-6 col-12 text-center ">
                                     <a class="default-cursor w-100 page-link d-flex justify-content-center" href="#">
                                         <div
-                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center" :class="(page==='train')&&'text-primary'">
-                                            <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
+                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center train" @click="pageChanger('train'),changeActiveTitle()">
+                                         <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
                                                 <path
@@ -36,8 +50,8 @@
                                     <a class="page-link default-cursor center w-100 d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center" :class="(page==='bus')&&'text-primary'">
-                                            <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
+                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center bus"  @click="pageChanger('bus'),changeActiveTitle() ">
+                                          <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
                                                 <path
@@ -52,7 +66,7 @@
                                 <li class="nav-item col-lg-2 col-md-4 col-sm-6 col-12 center  border-start border-xs-none border-md-none border-2 d-flex text-center  ">
                                     <a class="page-link  default-cursor d-flex justify-content-center w-100" href="#">
                                         <div
-                                            class="w-75 rounded-3 pointer-cursor card-header-items-hover services flex-column center" :class="(page==='hotel')&&'text-primary'">
+                                            class="w-75 rounded-3 pointer-cursor card-header-items-hover services flex-column center hotel" @click="pageChanger('hotel'),changeActiveTitle() ">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
@@ -69,8 +83,7 @@
                                     <a class="page-link center w-100 default-cursor d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center" :class="(page==='tour')&&'text-primary'">
-                                            <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
+                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center tour" @click="pageChanger('tour'),changeActiveTitle() ">                                          <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
                                                 <path
@@ -85,7 +98,7 @@
                                     <a class="page-link center w-100 default-cursor d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center" :class="(page==='outerfly')&&'text-primary'">
+                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center outerfly" @click="pageChanger('outerfly'),changeActiveTitle()">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
@@ -103,7 +116,7 @@
                                     <a class="page-link center w-100 default-cursor d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75 pointer-cursor center services flex-column  activedTitle" :class="(page==='innerfly')&&'text-primary'">
+                                            class="w-75 pointer-cursor center services flex-column  activedTitle innerfly" @click="pageChanger('innerfly'),changeActiveTitle()">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
