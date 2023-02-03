@@ -16,18 +16,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
-        .coming-input-label:after{
-            content: "";
-            position: absolute;
-            right: 10px;
-            top: 0;
-            bottom: 0;
-            width: 20px;
-            background: url('https://cdn-icons-png.flaticon.com/512/748/748113.png') center / contain no-repeat;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
 <header>

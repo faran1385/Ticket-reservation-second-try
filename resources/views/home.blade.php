@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title','Ticket reservation')
 @section('content')
-    <div x-data="{page:'train'}">
+    <div x-data="{page:'outerfly'}">
         <section class="container mt-5">
             <div class="row">
                 <div class="col">
@@ -121,79 +121,133 @@
                             <div class="row">
                                 <div class="d-flex dropdowns-place mb-4 px-5">
                                     <div x-show="page==='innerfly'">
-                                            <div class="dropdown dropdown-center" x-data="{value:'one sided',valueSetter(){this.value=event.target.textContent}}">
-                                                <button class=" btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
-                                                <ul class="dropdown-menu" >
-                                                   <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">one sided</li>
-                                                    <li class="dropdown-divider"></li>
-                                                   <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">back and forth</li>
-                                                </ul>
-                                            </div>
+                                        <div class="dropdown dropdown-center"
+                                             x-data="{value:'one sided',valueSetter(){this.value=event.target.textContent}}">
+                                            <button class=" btn border  dropdown-toggle" data-bs-toggle="dropdown"
+                                                    x-text="value"></button>
+                                            <ul class="dropdown-menu">
+                                                <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                    href="#">one sided
+                                                </li>
+                                                <li class="dropdown-divider"></li>
+                                                <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                    href="#">back and forth
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                     <div x-show="page==='outerfly'">
                                         <div class="d-flex">
-                                            <div class="dropdown me-4 dropdown-center" x-data="{value:'Back and forth',valueSetter(){this.value=event.target.textContent}}">
-                                                <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
-                                                <ul class="dropdown-menu" >
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">One sided</li>
+                                            <div class="dropdown me-4 dropdown-center"
+                                                 x-data="{value:'Back and forth',valueSetter(){this.value=event.target.textContent}}">
+                                                <button class="btn border  dropdown-toggle" data-bs-toggle="dropdown"
+                                                        x-text="value"></button>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">One sided
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Back and forth</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Back and forth
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Multi-rou1te</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Multi-rou1te
+                                                    </li>
                                                 </ul>
                                             </div>
-                                            <div class="dropdown dropdown-center" x-data="{value:'Economy',valueSetter(){this.value=event.target.textContent}}">
-                                                <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
-                                                <ul class="dropdown-menu" >
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Economy</li>
+                                            <div class="dropdown dropdown-center"
+                                                 x-data="{value:'Economy',valueSetter(){this.value=event.target.textContent}}">
+                                                <button class="btn border  dropdown-toggle" data-bs-toggle="dropdown"
+                                                        x-text="value"></button>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Economy
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Premium economy</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Premium economy
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Business</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Business
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Premium business</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Premium business
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">First class</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">First class
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Premium first class</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Premium first class
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                     <div x-show="page==='train'">
                                         <div class="d-flex">
-                                            <div class="dropdown me-4    dropdown-center" x-data="{value:'One sided',valueSetter(){this.value=event.target.textContent}}">
-                                                <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
-                                                <ul class="dropdown-menu" >
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">One sided</li>
+                                            <div class="dropdown me-4    dropdown-center"
+                                                 x-data="{value:'One sided',valueSetter(){this.value=event.target.textContent}}">
+                                                <button class="btn border  dropdown-toggle" data-bs-toggle="dropdown"
+                                                        x-text="value"></button>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">One sided
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Back and forth</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Back and forth
+                                                    </li>
                                                 </ul>
                                             </div>
-                                            <div class="dropdown me-4    dropdown-center" x-data="{value:'I do not want shutter',valueSetter(){this.value=event.target.textContent}}">
-                                                <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
-                                                <ul class="dropdown-menu" >
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">I do not want shutter</li>
+                                            <div class="dropdown me-4    dropdown-center"
+                                                 x-data="{value:'I do not want shutter',valueSetter(){this.value=event.target.textContent}}">
+                                                <button class="btn border  dropdown-toggle" data-bs-toggle="dropdown"
+                                                        x-text="value"></button>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">I do not want shutter
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">I do want shutter</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">I do want shutter
+                                                    </li>
                                                 </ul>
                                             </div>
-                                            <div class="dropdown me-4    dropdown-center" x-data="{value:'Ordinary passengers',valueSetter(){this.value=event.target.textContent}}">
-                                                <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
-                                                <ul class="dropdown-menu" >
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Ordinary passengers</li>
+                                            <div class="dropdown me-4    dropdown-center"
+                                                 x-data="{value:'Ordinary passengers',valueSetter(){this.value=event.target.textContent}}">
+                                                <button class="btn border  dropdown-toggle" data-bs-toggle="dropdown"
+                                                        x-text="value"></button>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Ordinary passengers
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Brothers</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Brothers
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Sisters</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">Sisters
+                                                    </li>
                                                 </ul>
                                             </div>
-                                            <div class="dropdown dropdown-center" x-data="{value:'I do not want to transport a car',valueSetter(){this.value=event.target.textContent}}">
-                                                <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
-                                                <ul class="dropdown-menu" >
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">I do not want to transport a car</li>
+                                            <div class="dropdown dropdown-center"
+                                                 x-data="{value:'I do not want to transport a car',valueSetter(){this.value=event.target.textContent}}">
+                                                <button class="btn border  dropdown-toggle" data-bs-toggle="dropdown"
+                                                        x-text="value"></button>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">I do not want to transport a car
+                                                    </li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">I do want to transport a car</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                        href="#">I do want to transport a car
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -208,49 +262,100 @@
                                         <div class="mb-4"></div>
                                     </div>
                                 </div>
-                                <div class="input-group d-flex justify-content-center">
-                                    <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
-                                        <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
-                                            <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                   style="  border-top-right-radius: 0 !important;
+                                <div x-show="page===innerfly">
+                                    <div class="input-group d-flex justify-content-center">
+                                        <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
+                                            <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
+                                                <input type="text" class=" form-control-lg form-control rounded-end-0"
+                                                       style="  border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;"
-                                                   placeholder="From">
-                                        </div>
-                                        <span
-                                            class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
-                                            style="height: 3rem">
+                                                       placeholder="origin(city)">
+                                            </div>
+                                            <span
+                                                class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
+                                                style="height: 3rem">
                                 <svg viewBox="0 0 24 24" width="2rem" fill="currentColor"><path
                                         d="m16.96 12.157.07.063 3.75 3.75a.757.757 0 0 1 .06.067l-.06-.067a.748.748 0 0 1 .22.53v.025a.728.728 0 0 1-.003.039L21 16.5a.747.747 0 0 1-.147.446l-.01.014-.008.01-.055.06-3.75 3.75a.75.75 0 0 1-1.123-.99l.063-.07 2.469-2.47H8.25a.75.75 0 0 1-.087-1.495l.087-.005h10.189l-2.47-2.47a.75.75 0 0 1-.062-.99l.063-.07a.75.75 0 0 1 .99-.063ZM8.03 3.22a.75.75 0 0 1 .063.99l-.063.07-2.47 2.47h10.19a.75.75 0 0 1 .088 1.495l-.088.005H5.56l2.47 2.47a.75.75 0 0 1 .063.99l-.063.07a.75.75 0 0 1-.99.063l-.07-.063-3.75-3.75-.055-.06a.644.644 0 0 1-.005-.007l.06.067A.756.756 0 0 1 3 7.5v-.014a.47.47 0 0 1 .003-.053L3 7.5a.756.756 0 0 1 .22-.53l3.75-3.75a.75.75 0 0 1 1.06 0Z"></path></svg>
                             </span>
-                                        <div class="col-5">
-                                            <input type="text" class="form-control-lg form-control ps-4 rounded-start-0"
-                                                   style="border-bottom-left-radius: 0 !important;
+                                            <div class="col-5">
+                                                <input type="text"
+                                                       class="form-control-lg form-control ps-4 rounded-start-0"
+                                                       style="border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;"
-                                                   placeholder="To">
+                                                       placeholder="Destination(city)">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
-                                        <label class="w-50">
-                                            <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                   style="  border-top-right-radius: 0 !important;
+                                        <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
+                                            <label class="w-50">
+                                                <input type="text" class=" form-control-lg form-control rounded-end-0"
+                                                       style="  border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;"
-                                                   placeholder="Going">
-                                        </label>
-                                        <label class="position-relative coming-input-label w-50">
-                                            <input type="text" class=" form-control-lg form-control rounded-start-0"
-                                                   style="  border-bottom-left-radius: 0 !important;
+                                                       placeholder="Going">
+                                            </label>
+                                            <label class="position-relative coming-input-label w-50">
+                                                <input type="text" class=" form-control-lg form-control rounded-start-0"
+                                                       style="  border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;"
-                                                   placeholder="Coming" disabled>
-                                        </label>
-                                    </div>
-                                    <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
-                                        <input type="text" class=" form-control-lg form-control"
-                                               placeholder="1 passenger">
-                                    </div>
-                                    <div class="col-lg-1 col-11 ms-2">
+                                                       placeholder="Coming" disabled>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
+                                            <input type="text" class=" form-control-lg form-control"
+                                                   placeholder="1 passenger">
+                                        </div>
+                                        <div class="col-lg-1 col-11 ms-2">
                                 <span class="d-grid">
                                     <button class="btn btn-primary btn-lg">Search</button>
                                 </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div x-show="page==='outerfly'">
+                                    <div class="input-group d-flex justify-content-center">
+                                        <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
+                                            <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
+                                                <input type="text" class=" form-control-lg form-control rounded-end-0"
+                                                       style="  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;"
+                                                       placeholder="From(city,airport)">
+                                            </div>
+                                            <span
+                                                class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
+                                                style="height: 3rem">
+                                <svg viewBox="0 0 24 24" width="2rem" fill="currentColor"><path
+                                        d="m16.96 12.157.07.063 3.75 3.75a.757.757 0 0 1 .06.067l-.06-.067a.748.748 0 0 1 .22.53v.025a.728.728 0 0 1-.003.039L21 16.5a.747.747 0 0 1-.147.446l-.01.014-.008.01-.055.06-3.75 3.75a.75.75 0 0 1-1.123-.99l.063-.07 2.469-2.47H8.25a.75.75 0 0 1-.087-1.495l.087-.005h10.189l-2.47-2.47a.75.75 0 0 1-.062-.99l.063-.07a.75.75 0 0 1 .99-.063ZM8.03 3.22a.75.75 0 0 1 .063.99l-.063.07-2.47 2.47h10.19a.75.75 0 0 1 .088 1.495l-.088.005H5.56l2.47 2.47a.75.75 0 0 1 .063.99l-.063.07a.75.75 0 0 1-.99.063l-.07-.063-3.75-3.75-.055-.06a.644.644 0 0 1-.005-.007l.06.067A.756.756 0 0 1 3 7.5v-.014a.47.47 0 0 1 .003-.053L3 7.5a.756.756 0 0 1 .22-.53l3.75-3.75a.75.75 0 0 1 1.06 0Z"></path></svg>
+                            </span>
+                                            <div class="col-5">
+                                                <input type="text"
+                                                       class="form-control-lg form-control ps-4 rounded-start-0"
+                                                       style="border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;"
+                                                       placeholder="To(city,airport)">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
+                                            <label class="w-50">
+                                                <input type="text" class=" form-control-lg form-control rounded-end-0"
+                                                       style="  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;"
+                                                       placeholder="Going">
+                                            </label>
+                                            <label class="position-relative coming-input-label w-50">
+                                                <input type="text" class=" form-control-lg form-control rounded-start-0"
+                                                       style="  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;"
+                                                       placeholder="Coming" disabled>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
+                                            <input type="text" class=" form-control-lg form-control"
+                                                   placeholder="1 passenger">
+                                        </div>
+                                        <div class="col-lg-1 col-11 ms-2">
+                                <span class="d-grid">
+                                    <button class="btn btn-primary btn-lg">Search</button>
+                                </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
