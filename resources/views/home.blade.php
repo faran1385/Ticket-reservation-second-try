@@ -1,11 +1,19 @@
 @extends('layouts.master')
 @section('title','Ticket reservation')
 @section('content')
+    <div x-data="{page:'outerfly'}">
     <section class="container mt-5">
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <img class="img-fluid card-img-top" src="{{url('images/flight1.webp')}}" style="width: 100%"/>
+                    <div x-data="{sourceIdentifier() {
+
+                   let cardPics=[{innerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp',outerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-b5a880ed.webp',train:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-f5969150.webp',hotel:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-8e1d56d8.webp',tour:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-1398106c.webp'}]
+
+                    return cardPics[0][page]
+                    }}">
+                        <img class="img-fluid card-img-top" :src="sourceIdentifier()" style="width: 100%"/>
+                    </div>
                     <div class="card-header d-flex bg-white px-0">
                         <ul class="nav w-100 d-flex justify-content-around align-baseline m-0">
                             <li class="nav-item col-lg-2 col-md-4 col-sm-6 col-12 text-center ">
@@ -579,4 +587,5 @@
             </div>
         </div>
     </section>
+    </div>
 @endsection

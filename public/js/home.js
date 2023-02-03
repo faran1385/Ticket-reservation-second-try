@@ -56,3 +56,4 @@ $(()=>{
         }
     })
 })
+let cardPics=[{innerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp',outerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-b5a880ed.webp',train:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-f5969150.webp',hotel:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-8e1d56d8.webp',tour:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-1398106c.webp'}]
