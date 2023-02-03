@@ -1,14 +1,14 @@
 @extends('layouts.master')
 @section('title','Ticket reservation')
 @section('content')
-    <div x-data="{page:'outerfly'}">
+    <div x-data="{page:'train'}">
         <section class="container mt-5">
             <div class="row">
                 <div class="col">
                     <div class="card">
                         <div x-data="{sourceIdentifier() {
 
-                   let cardPics=[{innerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp',outerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-b5a880ed.webp',train:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-f5969150.webp',hotel:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-8e1d56d8.webp',tour:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-1398106c.webp'}]
+                   let cardPics=[{innerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp',outerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-b5a880ed.webp',train:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-f5969150.webp',hotel:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-8e1d56d8.webp',tour:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-1398106c.webp',bus:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-824e4df4.webp'}]
 
                     return cardPics[0][page]
                     }}">
@@ -132,27 +132,80 @@
                                     </div>
                                     <div x-show="page==='outerfly'">
                                         <div class="d-flex">
-                                            <div class="dropdown dropdown-center" x-data="{value:'back and forth',valueSetter(){this.value=event.target.textContent}}">
+                                            <div class="dropdown me-4 dropdown-center" x-data="{value:'Back and forth',valueSetter(){this.value=event.target.textContent}}">
                                                 <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
                                                 <ul class="dropdown-menu" >
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">one sided</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">One sided</li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">back and forth</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Back and forth</li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">multi-rou1te</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Multi-rou1te</li>
                                                 </ul>
                                             </div>
-                                            <div class="dropdown dropdown-center" x-data="{value:'back and forth',valueSetter(){this.value=event.target.textContent}}">
+                                            <div class="dropdown dropdown-center" x-data="{value:'Economy',valueSetter(){this.value=event.target.textContent}}">
                                                 <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
                                                 <ul class="dropdown-menu" >
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">one sided</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Economy</li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">back and forth</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Premium economy</li>
                                                     <li class="dropdown-divider"></li>
-                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">multi-rou1te</li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Business</li>
+                                                    <li class="dropdown-divider"></li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Premium business</li>
+                                                    <li class="dropdown-divider"></li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">First class</li>
+                                                    <li class="dropdown-divider"></li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Premium first class</li>
                                                 </ul>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div x-show="page==='train'">
+                                        <div class="d-flex">
+                                            <div class="dropdown me-4    dropdown-center" x-data="{value:'One sided',valueSetter(){this.value=event.target.textContent}}">
+                                                <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
+                                                <ul class="dropdown-menu" >
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">One sided</li>
+                                                    <li class="dropdown-divider"></li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Back and forth</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dropdown me-4    dropdown-center" x-data="{value:'I do not want shutter',valueSetter(){this.value=event.target.textContent}}">
+                                                <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
+                                                <ul class="dropdown-menu" >
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">I do not want shutter</li>
+                                                    <li class="dropdown-divider"></li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">I do want shutter</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dropdown me-4    dropdown-center" x-data="{value:'Ordinary passengers',valueSetter(){this.value=event.target.textContent}}">
+                                                <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
+                                                <ul class="dropdown-menu" >
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Ordinary passengers</li>
+                                                    <li class="dropdown-divider"></li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Brothers</li>
+                                                    <li class="dropdown-divider"></li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">Sisters</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dropdown dropdown-center" x-data="{value:'I do not want to transport a car',valueSetter(){this.value=event.target.textContent}}">
+                                                <button class="btn border  dropdown-toggle"  data-bs-toggle="dropdown" x-text="value"></button>
+                                                <ul class="dropdown-menu" >
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">I do not want to transport a car</li>
+                                                    <li class="dropdown-divider"></li>
+                                                    <li class="dropdown-item pointer-cursor" @click="valueSetter()" href="#">I do want to transport a car</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div x-show="page==='bus'">
+                                        <div class="mb-4"></div>
+                                    </div>
+                                    <div x-show="page==='tour'">
+                                        <div class="mb-4"></div>
+                                    </div>
+                                    <div x-show="page==='hotel'">
+                                        <div class="mb-4"></div>
                                     </div>
                                 </div>
                                 <div class="input-group d-flex justify-content-center">
