@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title','Ticket reservation')
 @section('content')
-    <div x-data="{page:'tour'}">
+    <div x-data="{page:'innerfly'}">
         <section class="container mt-5">
             <div class="row">
                 <div class="col">
@@ -19,7 +19,7 @@
                                 <li class="nav-item col-lg-2 col-md-4 col-sm-6 col-12 text-center ">
                                     <a class="default-cursor w-100 page-link d-flex justify-content-center" href="#">
                                         <div
-                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center">
+                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center" :class="(page==='train')&&'text-primary'">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
@@ -36,7 +36,7 @@
                                     <a class="page-link default-cursor center w-100 d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center">
+                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center" :class="(page==='bus')&&'text-primary'">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
@@ -52,7 +52,7 @@
                                 <li class="nav-item col-lg-2 col-md-4 col-sm-6 col-12 center  border-start border-xs-none border-md-none border-2 d-flex text-center  ">
                                     <a class="page-link  default-cursor d-flex justify-content-center w-100" href="#">
                                         <div
-                                            class="w-75 rounded-3 pointer-cursor card-header-items-hover services flex-column center">
+                                            class="w-75 rounded-3 pointer-cursor card-header-items-hover services flex-column center" :class="(page==='hotel')&&'text-primary'">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
@@ -69,7 +69,7 @@
                                     <a class="page-link center w-100 default-cursor d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center">
+                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center" :class="(page==='tour')&&'text-primary'">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
@@ -85,7 +85,7 @@
                                     <a class="page-link center w-100 default-cursor d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center">
+                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center" :class="(page==='outerfly')&&'text-primary'">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
@@ -103,7 +103,7 @@
                                     <a class="page-link center w-100 default-cursor d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75 pointer-cursor center services flex-column text-primary activedTitle">
+                                            class="w-75 pointer-cursor center services flex-column  activedTitle" :class="(page==='innerfly')&&'text-primary'">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
