@@ -1,7 +1,8 @@
 @extends('layouts.master')
 @section('title','Ticket reservation')
 @section('content')
-    <div x-data="{page:'train',changeActiveTitle(){
+
+    <div x-data="{page:'innerfly',changeActiveTitle(){
 
     let titles=document.querySelectorAll('.services')
 
@@ -15,7 +16,12 @@
         }
     })
 
-    },pageChanger(pageName){this.page=pageName;}}">
+    },pageChanger(pageName){this.page=pageName;}}" x-init="()=>{
+            let defaultActive=document.querySelector(`.${page}`)
+
+            defaultActive.classList.remove('card-header-items-hover')
+            defaultActive.classList.add('text-primary')
+    }">
         <section class="container mt-5">
             <div class="row">
                 <div class="col">
@@ -33,8 +39,9 @@
                                 <li class="nav-item col-lg-2 col-md-4 col-sm-6 col-12 text-center ">
                                     <a class="default-cursor w-100 page-link d-flex justify-content-center" href="#">
                                         <div
-                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center train" @click="pageChanger('train'),changeActiveTitle()">
-                                         <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
+                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center train"
+                                            @click="pageChanger('train'),changeActiveTitle()">
+                                            <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
                                                 <path
@@ -50,8 +57,9 @@
                                     <a class="page-link default-cursor center w-100 d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center bus"  @click="pageChanger('bus'),changeActiveTitle() ">
-                                          <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
+                                            class="w-75 pointer-cursor  card-header-items-hover services flex-column center bus"
+                                            @click="pageChanger('bus'),changeActiveTitle() ">
+                                            <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
                                                 <path
@@ -66,7 +74,8 @@
                                 <li class="nav-item col-lg-2 col-md-4 col-sm-6 col-12 center  border-start border-xs-none border-md-none border-2 d-flex text-center  ">
                                     <a class="page-link  default-cursor d-flex justify-content-center w-100" href="#">
                                         <div
-                                            class="w-75 rounded-3 pointer-cursor card-header-items-hover services flex-column center hotel" @click="pageChanger('hotel'),changeActiveTitle() ">
+                                            class="w-75 rounded-3 pointer-cursor card-header-items-hover services flex-column center hotel"
+                                            @click="pageChanger('hotel'),changeActiveTitle() ">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
@@ -83,7 +92,9 @@
                                     <a class="page-link center w-100 default-cursor d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center tour" @click="pageChanger('tour'),changeActiveTitle() ">                                          <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
+                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center tour"
+                                            @click="pageChanger('tour'),changeActiveTitle() ">
+                                            <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
                                                 <path
@@ -98,7 +109,8 @@
                                     <a class="page-link center w-100 default-cursor d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center outerfly" @click="pageChanger('outerfly'),changeActiveTitle()">
+                                            class="w-75  card-header-items-hover services flex-column pointer-cursor center outerfly"
+                                            @click="pageChanger('outerfly'),changeActiveTitle()">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
@@ -116,7 +128,8 @@
                                     <a class="page-link center w-100 default-cursor d-flex justify-content-center"
                                        href="#">
                                         <div
-                                            class="w-75 pointer-cursor center services flex-column  activedTitle innerfly" @click="pageChanger('innerfly'),changeActiveTitle()">
+                                            class="w-75 pointer-cursor center services flex-column  activedTitle innerfly"
+                                            @click="pageChanger('innerfly'),changeActiveTitle()">
                                             <svg viewBox="0 0 24 24" width="36px" height="36px" class="mt-3"
                                                  fill="currentColor"
                                                  data-v-554c8425="">
@@ -173,7 +186,7 @@
                                                  x-data="{value:'Economy',valueSetter(){this.value=event.target.textContent}}">
                                                 <button class="btn border  dropdown-toggle" data-bs-toggle="dropdown"
                                                         x-text="value"></button>
-                                                <ul class="dropdown-menu">
+                                                <ul class="dropdown-menu overflow-auto" style="height: 15rem;">
                                                     <li class="dropdown-item pointer-cursor" @click="valueSetter()"
                                                         href="#">Economy
                                                     </li>
@@ -279,10 +292,23 @@
                                     <div class="input-group d-flex justify-content-center">
                                         <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
                                             <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
-                                                <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       style="  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;"
-                                                       placeholder="Origin">
+                                                <div
+                                                    x-data="{cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish'],open:false}">
+                                                    <input type="text"
+                                                           class=" form-control-lg form-control rounded-end-0 origin"
+                                                           placeholder="Origin" @click="open=true">
+                                                    <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"  x-show="open" @click.outside="if(event.target.classList.contains('origin')===false){open=false}">
+                                                        <template x-for="city in cities">
+                                                            <div>
+                                                                <li class="dropdown-item pointer-cursor"
+                                                                    href="#" x-text="city">
+                                                                </li>
+                                                                <li class="dropdown-divider"
+                                                                    :class="(city==='kish')&&'d-none'"></li>
+                                                            </div>
+                                                        </template>
+                                                    </ul>
+                                                </div>
                                             </div>
                                             <span
                                                 class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
@@ -293,23 +319,17 @@
                                             <div class="col-5">
                                                 <input type="text"
                                                        class="form-control-lg form-control ps-4 rounded-start-0"
-                                                       style="border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important;"
                                                        placeholder="Destination">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
                                             <label class="w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       style="  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;"
-                                                       placeholder="Going">
+                                                       placeholder="Departure date">
                                             </label>
                                             <label class="position-relative coming-input-label-disable w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-start-0"
-                                                       style="  border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important;"
-                                                       placeholder="Coming" disabled>
+                                                       placeholder="Return date" disabled>
                                             </label>
                                         </div>
                                         <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
@@ -328,8 +348,6 @@
                                         <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
                                             <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       style="  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;"
                                                        placeholder="Origin">
                                             </div>
                                             <span
@@ -340,24 +358,18 @@
                             </span>
                                             <div class="col-5">
                                                 <input type="text"
-                                                       class="form-control-lg form-control ps-4 rounded-start-0"
-                                                       style="border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important;"
+                                                       class="form-control-lg form-control ps-4 rounded-start-0""
                                                        placeholder="Destination">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
                                             <label class="w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       style="  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;"
-                                                       placeholder="Going">
+                                                       placeholder="Departure date">
                                             </label>
                                             <label class="position-relative coming-input-label-enable w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-start-0"
-                                                       style="  border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important;"
-                                                       placeholder="Coming">
+                                                       placeholder="Return date">
                                             </label>
                                         </div>
                                         <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
@@ -376,8 +388,6 @@
                                         <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
                                             <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       style="  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;"
                                                        placeholder="Origin">
                                             </div>
                                             <span
@@ -389,23 +399,18 @@
                                             <div class="col-5">
                                                 <input type="text"
                                                        class="form-control-lg form-control ps-4 rounded-start-0"
-                                                       style="border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important;"
+
                                                        placeholder="Destination">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
                                             <label class="w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       style="  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;"
-                                                       placeholder="Going">
+                                                       placeholder="Departure date">
                                             </label>
                                             <label class="position-relative  w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-start-0"
-                                                       style="  border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important;"
-                                                       placeholder="Coming">
+                                                       placeholder="Return date">
                                             </label>
                                         </div>
                                         <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
@@ -430,20 +435,16 @@
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
                                             <label class="w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       style="  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;"
-                                                       placeholder="Going">
+                                                       placeholder="Departure date">
                                             </label>
                                             <label class="position-relative  w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-start-0"
-                                                       style="  border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important;"
-                                                       placeholder="Coming">
+                                                       placeholder="Return date">
                                             </label>
                                         </div>
                                         <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
                                             <input type="text" class=" form-control-lg form-control"
-                                                   value="2 passenger,1 room">
+                                                   value="1 passenger,1 room">
                                         </div>
                                         <div class="col-lg-1 col-11 ms-2">
                                 <span class="d-grid">
@@ -457,8 +458,6 @@
                                         <div class="col-lg-6 col-11 input-group-custom d-flex ms-2">
                                             <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       style="  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;"
                                                        placeholder="Origin">
                                             </div>
                                             <span
@@ -470,8 +469,6 @@
                                             <div class="col-5">
                                                 <input type="text"
                                                        class="form-control-lg form-control ps-4 rounded-start-0"
-                                                       style="border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important;"
                                                        placeholder="Destination">
                                             </div>
                                         </div>
@@ -493,8 +490,6 @@
                                         <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
                                             <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       style="  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;"
                                                        placeholder="Origin">
                                             </div>
                                             <span
@@ -506,23 +501,17 @@
                                             <div class="col-5">
                                                 <input type="text"
                                                        class="form-control-lg form-control ps-4 rounded-start-0"
-                                                       style="border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important;"
                                                        placeholder="Destination">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
                                             <label class="w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-end-0"
-                                                       style="  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;"
-                                                       placeholder="Going">
+                                                       placeholder="Departure date">
                                             </label>
                                             <label class="position-relative coming-input-label-disable w-50">
                                                 <input type="text" class=" form-control-lg form-control rounded-start-0"
-                                                       style="  border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important;"
-                                                       placeholder="Coming" disabled>
+                                                       placeholder="Return date" disabled>
                                             </label>
                                         </div>
                                         <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
