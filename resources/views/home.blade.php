@@ -293,15 +293,15 @@
                                         <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
                                             <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
                                                 <div
-                                                    x-data="{cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish'],open:false}">
+                                                    x-data="{cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish'],open:false,value:''}">
                                                     <input type="text"
                                                            class=" form-control-lg form-control rounded-end-0 origin"
-                                                           placeholder="Origin" @click="open=true">
-                                                    <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"  x-show="open" @click.outside="if(event.target.classList.contains('origin')===false){open=false}">
+                                                           placeholder="Origin" @click="open=true" x-model="value">
+                                                    <ul class="dropdown-menu-displayless overflow-auto suggestion-cities" x-ref="dropdownMenu"  x-show="open"  @click.outside="if(event.target.classList.contains('origin')===false){open=false}">
                                                         <template x-for="city in cities">
                                                             <div>
                                                                 <li class="dropdown-item pointer-cursor"
-                                                                    href="#" x-text="city">
+                                                                    href="#" x-text="city" @click="value=city,$refs.dropdownMenu.classList.add('dropdown-menu-move')">
                                                                 </li>
                                                                 <li class="dropdown-divider"
                                                                     :class="(city==='kish')&&'d-none'"></li>
