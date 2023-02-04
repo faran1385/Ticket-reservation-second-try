@@ -289,7 +289,7 @@
                                     </div>
                                 </div>
                                 <div x-show="page==='innerfly'">
-                                    <div x-data="{cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish'],open:false,value:'',dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
+                                    <div x-data="{cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish'],open:false,value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
                                                         if($refs.dropdownMenu.classList.contains('dropdown-menu-move')){
                                                             $refs.dropdownMenu.classList.add('dropdown-menu-moveback')
                                                             $refs.dropdownMenu.classList.remove('dropdown-menu-move')
@@ -309,6 +309,14 @@
                                                         }
                                                         this.dropdownOpenFirst=false;
                                                         this.open=true;
+                                                    },valueSetter(city){
+                                                        if($refs.dropdownMenu.classList.contains('dropdown-menu-move')){
+                                                           this.value.destinationValue=city
+                                                           this.dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'])
+                                                        }else{
+                                                            this.value.originValue=city
+                                                            this.dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'])
+                                                        }
                                                     }}">
                                         <div class="input-group d-flex justify-content-center">
                                             <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
@@ -316,18 +324,23 @@
                                                     <input type="text"
                                                            class=" form-control-lg form-control rounded-end-0 origin"
                                                            placeholder="Origin"
-                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0')}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'])}}" x-model="value"
+                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0')}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'])}}" x-model="value.originValue"
                                                            x-ref="Origin">
                                                     <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"
                                                         x-ref="dropdownMenu" x-show="open"
-                                                        @click.outside="if(event.target.classList.contains('destination')===false&&event.target.classList.contains('origin')===false){open=false;
+                                                        @click.outside="if(event.target.classList.contains('destination')===false&&event.target.classList.contains('origin')===false){
+                                                        open=false;
                                                         dropdownOpenFirst=true
-                                                        }" :style="dropdownStyle">
+                                                        }else if(event.target.classList.contains('destination') || event.target.classList.contains('origin')){
+                                                            open=true
+                                                            dropdownOpenFirst=false
+                                                        }"
+                                                       :style="dropdownStyle">
                                                         <template x-for="city in cities">
                                                             <div>
                                                                 <li class="dropdown-item pointer-cursor"
                                                                     href="#" x-text="city"
-                                                                    @click="value=city,cityDropdownMover()">
+                                                                    @click="valueSetter(city),cityDropdownMover()">
                                                                 </li>
                                                                 <li class="dropdown-divider"
                                                                     :class="(city==='kish')&&'d-none'"></li>
@@ -343,8 +356,9 @@
                             </span>
                                                 <div class="col-5">
                                                     <input type="text"
-                                                           class="form-control-lg form-control ps-4 rounded-start-0 destination"
+                                                           class="form-control-lg form-control ps-4 rounded-start-0 valueSetter destination"
                                                            placeholder="Destination" x-ref="Destination"
+                                                           x-model="value.destinationValue"
                                                            @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244)}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'])}}">
                                                 </div>
                                             </div>
@@ -387,7 +401,7 @@
                             </span>
                                             <div class="col-5">
                                                 <input type="text"
-                                                       class="form-control-lg form-control ps-4 rounded-start-0""
+                                                       class="form-control-lg form-control ps-4 rounded-start-0"
                                                 placeholder="Destination">
                                             </div>
                                         </div>
