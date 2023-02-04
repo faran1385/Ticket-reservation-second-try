@@ -19043,4 +19043,7 @@ textarea.form-control-lg {
 .dropdown-menu-move{
     transition: all ease-in 100ms ;
     transform: translateX(244px);
+}.dropdown-menu-moveback{
+    transition: all ease-in 100ms ;
+    transform: translateX(0);
 }
