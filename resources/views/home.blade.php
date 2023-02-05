@@ -289,17 +289,18 @@
                                     </div>
                                 </div>
                                 <div x-show="page==='innerfly'">
-                                    <div x-data="{cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish'],open:false,value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
+                                    <div x-data="{cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish'],open:false,value:{dropdownPos:'',destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
                                                         if($refs.dropdownMenu.classList.contains('dropdown-menu-move')){
                                                             $refs.dropdownMenu.classList.add('dropdown-menu-moveback')
                                                             $refs.dropdownMenu.classList.remove('dropdown-menu-move')
-                                                            $refs.Origin.focus()
+                                                            this.open && $refs.Origin.focus()
                                                         }else{
                                                             $refs.dropdownMenu.classList.remove('dropdown-menu-moveback')
                                                             $refs.dropdownMenu.classList.add('dropdown-menu-move')
-                                                            $refs.Destination.focus()
+                                                            this.open && $refs.Destination.focus()
                                                         }
-                                                    },dropdownMenuSwitch(val){
+                                                    },dropdownMenuSwitch(val,dropPos){
+                                                        this.dropdownPos=dropPos
                                                         if(this.dropdownOpenFirst){
                                                             this.dropdownStyle.transform=`translateX(${val}px)`
                                                         }else{
@@ -310,12 +311,17 @@
                                                         this.dropdownOpenFirst=false;
                                                         this.open=true;
                                                     },valueSetter(city){
-                                                        if($refs.dropdownMenu.classList.contains('dropdown-menu-move')){
+                                                        if(this.dropdownPos==='destination'){
                                                            this.value.destinationValue=city
                                                            this.dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'])
+                                                           this.dropdownPos='origin'
                                                         }else{
                                                             this.value.originValue=city
                                                             this.dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'])
+                                                            this.dropdownPos='destination'
+                                                        }
+                                                        if(Boolean(this.value.destinationValue)===true&&Boolean(this.value.originValue)===true&&(this.value.destinationValue===this.value.originValue)===false){
+                                                            this.open=false
                                                         }
                                                     }}">
                                         <div class="input-group d-flex justify-content-center">
@@ -324,7 +330,7 @@
                                                     <input type="text"
                                                            class=" form-control-lg form-control rounded-end-0 origin"
                                                            placeholder="Origin"
-                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0')}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'])}}" x-model="value.originValue"
+                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin')}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin')}}" x-model="value.originValue"
                                                            x-ref="Origin">
                                                     <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"
                                                         x-ref="dropdownMenu" x-show="open"
@@ -359,7 +365,7 @@
                                                            class="form-control-lg form-control ps-4 rounded-start-0 valueSetter destination"
                                                            placeholder="Destination" x-ref="Destination"
                                                            x-model="value.destinationValue"
-                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244)}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'])}}">
+                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244,'destination')}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'destination')}}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
