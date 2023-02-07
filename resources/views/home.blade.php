@@ -337,6 +337,12 @@
                                                         }
                                                         if(Boolean(this.value.destinationValue)===true&&Boolean(this.value.originValue)===true&&(this.value.destinationValue===this.value.originValue)===false){
                                                             this.open=false
+                                                        }else if((this.value['destinationValue']===this.value['originValue'])===true){
+                                                            if(this.dropdownPos==='origin'){
+                                                                this.value['originValue']=''
+                                                            }else{
+                                                                this.value['destinationValue']=''
+                                                            }
                                                         }
                                                     },citySetter(){
 
@@ -366,6 +372,11 @@
                                                         @click.outside="if(event.target.classList.contains('destination')===false&&event.target.classList.contains('origin')===false){
                                                         open=false;
                                                         dropdownOpenFirst=true
+                                                        if(isValueSelected[0]===false){
+                                                            value['originValue']=''
+                                                        }else if(isValueSelected[1]===false){
+                                                            value['destinationValue']=''
+                                                        }
                                                         }else if(event.target.classList.contains('destination') || event.target.classList.contains('origin')){
                                                             open=true
                                                             dropdownOpenFirst=false
