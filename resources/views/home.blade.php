@@ -289,7 +289,8 @@
                                     </div>
                                 </div>
                                 <div x-show="page==='innerfly'">
-                                    <div x-data="{invalidSameCity:'',isInvalid:[false,false],settedCities:[],cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish','birjand'],open:false,dropdownPos:'',isValueSelected:[false,false],value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
+                                    <div x-data="{invalidSameCity:'',isInvalid:[false,false],settedCities:[],cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish','birjand'],
+                                                    open:false,dropdownPos:'',isValueSelected:[false,false],value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
                                                         if($refs.dropdownMenu.classList.contains('dropdown-menu-move')){
                                                             $refs.dropdownMenu.classList.add('dropdown-menu-moveback')
                                                             $refs.dropdownMenu.classList.remove('dropdown-menu-move')
@@ -312,12 +313,10 @@
                                                             if(this.dropdownPos==='destination'){
                                                                 if(this.isValueSelected[0]===false){
                                                                     this.value['originValue']=''
-                                                                    this.isInvalid[0]=true
                                                                 }
                                                             }else{
                                                                 if(this.isValueSelected[1]===false){
                                                                     this.value['destinationValue']=''
-                                                                    this.isInvalid[1]=true
                                                                 }
                                                             }
                                                         }
@@ -387,11 +386,11 @@
                                                             isInvalid[invalidSameCity]=true
                                                             console.log(isInvalid)
                                                         }
-                                                         if(isValueSelected[0]===false&&isInvalid[0]===false){
+                                                         if(isValueSelected[0]===false&&isInvalid[0]===false&&value['originValue']){
                                                             value['originValue']=''
                                                             isInvalid[0]=true
                                                             console.log(isInvalid)
-                                                        }else if(isValueSelected[1]===false&&isInvalid[1]===false){
+                                                        }else if(isValueSelected[1]===false&&isInvalid[1]===false&&value['destinationValue']){
                                                             value['destinationValue']=''
                                                             console.log('a')
                                                             isInvalid[1]=true
