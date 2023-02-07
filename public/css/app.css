@@ -18997,7 +18997,7 @@ textarea.form-control-lg {
 }
 .suggestion-cities{
     width:11rem;
-    height: 15rem
+    max-height: 15rem
 }
 .dropdown-menu-displayless {
     --bs-dropdown-zindex: 1000;

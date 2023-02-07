@@ -289,7 +289,7 @@
                                     </div>
                                 </div>
                                 <div x-show="page==='innerfly'">
-                                    <div x-data="{cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish'],open:false,value:{dropdownPos:'',destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
+                                    <div x-data="{settedCities:[],cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish','birjand'],open:false,dropdownPos:'',value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
                                                         if($refs.dropdownMenu.classList.contains('dropdown-menu-move')){
                                                             $refs.dropdownMenu.classList.add('dropdown-menu-moveback')
                                                             $refs.dropdownMenu.classList.remove('dropdown-menu-move')
@@ -300,6 +300,7 @@
                                                             this.open && $refs.Destination.focus()
                                                         }
                                                     },dropdownMenuSwitch(val,dropPos){
+                                                        this.settedCities=this.cities
                                                         this.dropdownPos=dropPos
                                                         if(this.dropdownOpenFirst){
                                                             this.dropdownStyle.transform=`translateX(${val}px)`
@@ -323,15 +324,27 @@
                                                         if(Boolean(this.value.destinationValue)===true&&Boolean(this.value.originValue)===true&&(this.value.destinationValue===this.value.originValue)===false){
                                                             this.open=false
                                                         }
-                                                    }}">
+                                                    },citySetter(){
+                                                        if(this.value['destinationValue']===''&&this.value['originValue']===''){
+                                                            this.settedCities=this.cities
+                                                        }else{
+                                                            this.settedCities=[];
+                                                            this.cities.forEach(city=>{
+                                                                if(city.startsWith(event.target.value)){
+                                                                    this.settedCities.push(city)
+                                                                }
+                                                            })
+                                                        }
+                                                    }}" x-init="citySetter()">
                                         <div class="input-group d-flex justify-content-center">
                                             <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
                                                 <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
                                                     <input type="text"
+                                                           x-model="value.originValue"
                                                            class=" form-control-lg form-control rounded-end-0 origin"
                                                            placeholder="Origin"
-                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin')}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin')}}" x-model="value.originValue"
-                                                           x-ref="Origin">
+                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin')}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin')}}"
+                                                           x-ref="Origin"  @keyup="citySetter()">
                                                     <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"
                                                         x-ref="dropdownMenu" x-show="open"
                                                         @click.outside="if(event.target.classList.contains('destination')===false&&event.target.classList.contains('origin')===false){
@@ -342,15 +355,20 @@
                                                             dropdownOpenFirst=false
                                                         }"
                                                        :style="dropdownStyle">
-                                                        <template x-for="city in cities">
-                                                            <div>
-                                                                <li class="dropdown-item pointer-cursor"
-                                                                    href="#" x-text="city"
-                                                                    @click="valueSetter(city),cityDropdownMover()">
-                                                                </li>
-                                                                <li class="dropdown-divider"
-                                                                    :class="(city==='kish')&&'d-none'"></li>
-                                                            </div>
+                                                            <template x-for="city in settedCities" x-ref="citiesTemplate">
+                                                                <div>
+                                                                    <li class="dropdown-item pointer-cursor"
+                                                                        href="#" x-text="city"
+                                                                        @click="valueSetter(city),cityDropdownMover()">
+                                                                    </li>
+                                                                    <li class="dropdown-divider"
+                                                                        :class="(city===settedCities[settedCities.length - 1])&&'d-none'"></li>
+                                                                </div>
+                                                            </template>
+                                                        <template x-if="settedCities.length<1">
+                                                            <li class="dropdown-item pointer-cursor text-center">
+                                                                Nothing found
+                                                            </li>
                                                         </template>
                                                     </ul>
                                                 </div>
@@ -365,6 +383,7 @@
                                                            class="form-control-lg form-control ps-4 rounded-start-0 valueSetter destination"
                                                            placeholder="Destination" x-ref="Destination"
                                                            x-model="value.destinationValue"
+                                                           @keyup="citySetter()"
                                                            @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244,'destination')}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'destination')}}">
                                                 </div>
                                             </div>

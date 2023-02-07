@@ -56,5 +56,3 @@ $(()=>{
         }
     })
 })
-let inputsValue={innerfly:{origin:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish'],destination:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish'],}}
-
