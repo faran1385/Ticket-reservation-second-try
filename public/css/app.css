@@ -19047,3 +19047,6 @@ textarea.form-control-lg {
     transition: all ease-in 100ms ;
     transform: translateX(0);
 }
+ .invalid-Placeholder::placeholder{
+     color:#e3342f;
+ }

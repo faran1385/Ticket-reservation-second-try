@@ -289,7 +289,7 @@
                                     </div>
                                 </div>
                                 <div x-show="page==='innerfly'">
-                                    <div x-data="{settedCities:[],cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish','birjand'],open:false,dropdownPos:'',isValueSelected:[false,false],value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
+                                    <div x-data="{isInvalid:[false,false],settedCities:[],cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish','birjand'],open:false,dropdownPos:'',isValueSelected:[false,false],value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
                                                         if($refs.dropdownMenu.classList.contains('dropdown-menu-move')){
                                                             $refs.dropdownMenu.classList.add('dropdown-menu-moveback')
                                                             $refs.dropdownMenu.classList.remove('dropdown-menu-move')
@@ -357,16 +357,20 @@
                                                             })
                                                         }
                                                     }}" x-init="citySetter()">
-                                        <div class="input-group d-flex justify-content-center">
+                                        <div class="input-group d-flex justify-content-center has-validation">
                                             <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
                                                 <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
                                                     <input type="text"
                                                            x-model="value.originValue"
+                                                           :class="(isInvalid[0])&&'is-invalid was-validated form-control:invalid invalid-Placeholder'"
                                                            class=" form-control-lg form-control rounded-end-0 origin"
                                                            placeholder="Origin"
                                                            @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin',false)}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin',true)}}"
                                                            x-ref="Origin" @keyup="citySetter(),isValueSelected[0]=false"
                                                            @keydown.tab="dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'origin',true),value['originValue']=''">
+                                                    <div class="invalid-feedback" x-show="isInvalid[0]">
+                                                        Please choose the origin.
+                                                    </div>
                                                     <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"
                                                         x-ref="dropdownMenu" x-show="open"
                                                         @click.outside="if(event.target.classList.contains('destination')===false&&event.target.classList.contains('origin')===false){
@@ -405,14 +409,18 @@
                                 <svg viewBox="0 0 24 24" width="2rem" fill="currentColor"><path
                                         d="m16.96 12.157.07.063 3.75 3.75a.757.757 0 0 1 .06.067l-.06-.067a.748.748 0 0 1 .22.53v.025a.728.728 0 0 1-.003.039L21 16.5a.747.747 0 0 1-.147.446l-.01.014-.008.01-.055.06-3.75 3.75a.75.75 0 0 1-1.123-.99l.063-.07 2.469-2.47H8.25a.75.75 0 0 1-.087-1.495l.087-.005h10.189l-2.47-2.47a.75.75 0 0 1-.062-.99l.063-.07a.75.75 0 0 1 .99-.063ZM8.03 3.22a.75.75 0 0 1 .063.99l-.063.07-2.47 2.47h10.19a.75.75 0 0 1 .088 1.495l-.088.005H5.56l2.47 2.47a.75.75 0 0 1 .063.99l-.063.07a.75.75 0 0 1-.99.063l-.07-.063-3.75-3.75-.055-.06a.644.644 0 0 1-.005-.007l.06.067A.756.756 0 0 1 3 7.5v-.014a.47.47 0 0 1 .003-.053L3 7.5a.756.756 0 0 1 .22-.53l3.75-3.75a.75.75 0 0 1 1.06 0Z"></path></svg>
                             </span>
-                                                <div class="col-5">
+                                                <div class="col-5 has-validation">
                                                     <input type="text"
                                                            class="form-control-lg form-control ps-4 rounded-start-0 valueSetter destination"
                                                            placeholder="Destination" x-ref="Destination"
                                                            x-model="value.destinationValue"
+                                                           :class="(isInvalid[1])&&'is-invalid was-validated form-control:invalid invalid-Placeholder'"
                                                            @keyup="citySetter(),isValueSelected[1]=false"
                                                            @keydown.tab="dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'destination',true),value['destinationValue']='',open=false"
                                                            @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244,'destination',false)}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'destination',true)}}">
+                                                    <div class="invalid-feedback" x-show="isInvalid[1]">
+                                                        choose the destination
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
