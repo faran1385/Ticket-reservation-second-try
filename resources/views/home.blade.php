@@ -289,7 +289,7 @@
                                     </div>
                                 </div>
                                 <div x-show="page==='innerfly'">
-                                    <div x-data="{settedCities:[],cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish','birjand'],open:false,dropdownPos:'',value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
+                                    <div x-data="{settedCities:[],cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish','birjand'],open:false,dropdownPos:'',isValueSelected:[false,false],value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
                                                         if($refs.dropdownMenu.classList.contains('dropdown-menu-move')){
                                                             $refs.dropdownMenu.classList.add('dropdown-menu-moveback')
                                                             $refs.dropdownMenu.classList.remove('dropdown-menu-move')
@@ -299,7 +299,7 @@
                                                             $refs.dropdownMenu.classList.add('dropdown-menu-move')
                                                             this.open && $refs.Destination.focus()
                                                         }
-                                                    },dropdownMenuSwitch(val,dropPos){
+                                                    },dropdownMenuSwitch(val,dropPos,setEmpty){
                                                         this.settedCities=this.cities
                                                         this.dropdownPos=dropPos
                                                         if(this.dropdownOpenFirst){
@@ -308,23 +308,38 @@
                                                             this.dropdownStyle.transform=``
                                                             $refs.dropdownMenu.classList.add(val[0])
                                                             $refs.dropdownMenu.classList.remove(val[1])
+                                                         if(setEmpty){
+                                                            console.log(this.isValueSelected)
+                                                            if(this.dropdownPos==='destination'){
+                                                                if(this.isValueSelected[0]===false){
+                                                                    this.value['originValue']=''
+                                                                }
+                                                            }else{
+                                                                if(this.isValueSelected[1]===false){
+                                                                    this.value['destinationValue']=''
+                                                                }
+                                                            }
+                                                        }
                                                         }
                                                         this.dropdownOpenFirst=false;
                                                         this.open=true;
                                                     },valueSetter(city){
                                                         if(this.dropdownPos==='destination'){
                                                            this.value.destinationValue=city
-                                                           this.dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'])
+                                                           this.isValueSelected[1]=true
+                                                           this.dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'',false)
                                                            this.dropdownPos='origin'
                                                         }else{
                                                             this.value.originValue=city
-                                                            this.dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'])
+                                                            this.isValueSelected[0]=true
+                                                            this.dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'',false)
                                                             this.dropdownPos='destination'
                                                         }
                                                         if(Boolean(this.value.destinationValue)===true&&Boolean(this.value.originValue)===true&&(this.value.destinationValue===this.value.originValue)===false){
                                                             this.open=false
                                                         }
                                                     },citySetter(){
+
                                                         if(this.value['destinationValue']===''&&this.value['originValue']===''){
                                                             this.settedCities=this.cities
                                                         }else{
@@ -343,8 +358,9 @@
                                                            x-model="value.originValue"
                                                            class=" form-control-lg form-control rounded-end-0 origin"
                                                            placeholder="Origin"
-                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin')}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin')}}"
-                                                           x-ref="Origin"  @keyup="citySetter()">
+                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin',false)}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin',true)}}"
+                                                           x-ref="Origin" @keyup="citySetter(),isValueSelected[0]=false"
+                                                           @keydown.tab="dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'origin',true),value['originValue']=''">
                                                     <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"
                                                         x-ref="dropdownMenu" x-show="open"
                                                         @click.outside="if(event.target.classList.contains('destination')===false&&event.target.classList.contains('origin')===false){
@@ -354,17 +370,17 @@
                                                             open=true
                                                             dropdownOpenFirst=false
                                                         }"
-                                                       :style="dropdownStyle">
-                                                            <template x-for="city in settedCities" x-ref="citiesTemplate">
-                                                                <div>
-                                                                    <li class="dropdown-item pointer-cursor"
-                                                                        href="#" x-text="city"
-                                                                        @click="valueSetter(city),cityDropdownMover()">
-                                                                    </li>
-                                                                    <li class="dropdown-divider"
-                                                                        :class="(city===settedCities[settedCities.length - 1])&&'d-none'"></li>
-                                                                </div>
-                                                            </template>
+                                                        :style="dropdownStyle">
+                                                        <template x-for="city in settedCities" x-ref="citiesTemplate">
+                                                            <div>
+                                                                <li class="dropdown-item pointer-cursor"
+                                                                    href="#" x-text="city"
+                                                                    @click="valueSetter(city),cityDropdownMover()">
+                                                                </li>
+                                                                <li class="dropdown-divider"
+                                                                    :class="(city===settedCities[settedCities.length - 1])&&'d-none'"></li>
+                                                            </div>
+                                                        </template>
                                                         <template x-if="settedCities.length<1">
                                                             <li class="dropdown-item pointer-cursor text-center">
                                                                 Nothing found
@@ -383,8 +399,9 @@
                                                            class="form-control-lg form-control ps-4 rounded-start-0 valueSetter destination"
                                                            placeholder="Destination" x-ref="Destination"
                                                            x-model="value.destinationValue"
-                                                           @keyup="citySetter()"
-                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244,'destination')}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'destination')}}">
+                                                           @keyup="citySetter(),isValueSelected[1]=false"
+                                                           @keydown.tab="dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'destination',true),value['destinationValue']='',open=false"
+                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244,'destination',false)}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'destination',true)}}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
@@ -427,7 +444,7 @@
                                             <div class="col-5">
                                                 <input type="text"
                                                        class="form-control-lg form-control ps-4 rounded-start-0"
-                                                placeholder="Destination">
+                                                       placeholder="Destination">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
