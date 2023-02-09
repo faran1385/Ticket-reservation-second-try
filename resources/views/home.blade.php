@@ -289,8 +289,8 @@
                                     </div>
                                 </div>
                                 <div x-show="page==='innerfly'">
-                                    <div x-data="{invalidSameCity:'',isInvalid:[false,false],settedCities:[],cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish','birjand'],
-                                                    open:false,dropdownPos:'',isValueSelected:[false,false],value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
+                                    <div x-data="{firsTimeSelectValue:[true,true],invalidSameCity:'',isInvalid:[false,false],settedCities:[],cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish','birjand'],
+                                                    open:false,dropdownPos:'',ValueSelected:['',''],value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
                                                         if($refs.dropdownMenu.classList.contains('dropdown-menu-move')){
                                                             $refs.dropdownMenu.classList.add('dropdown-menu-moveback')
                                                             $refs.dropdownMenu.classList.remove('dropdown-menu-move')
@@ -300,54 +300,69 @@
                                                             $refs.dropdownMenu.classList.add('dropdown-menu-move')
                                                             this.open && $refs.Destination.focus()
                                                         }
+                                                    },valueFixer(){
+                                                        if(this.dropdownPos==='destination'){
+                                                            this.value['originValue']=this.ValueSelected[0]
+                                                        }else if(this.dropdownPos==='origin'){
+                                                            this.value['destinationValue']=this.ValueSelected[1]
+                                                        }
                                                     },dropdownMenuSwitch(val,dropPos,setEmpty){
                                                         this.settedCities=this.cities
                                                         this.dropdownPos=dropPos
+                                                        if(this.ValueSelected[0]||this.ValueSelected[1]){this.valueFixer()}
                                                         if(this.dropdownOpenFirst){
                                                             this.dropdownStyle.transform=`translateX(${val}px)`
                                                         }else{
                                                             this.dropdownStyle.transform=``
                                                             $refs.dropdownMenu.classList.add(val[0])
                                                             $refs.dropdownMenu.classList.remove(val[1])
-                                                         if(setEmpty){
-                                                            if(this.dropdownPos==='destination'){
-                                                                if(this.isValueSelected[0]===false){
-                                                                    this.value['originValue']=''
-                                                                }
-                                                            }else{
-                                                                if(this.isValueSelected[1]===false){
+                                                            if(setEmpty){
+                                                                if(this.dropdownPos==='destination'){
+                                                                    if(this.ValueSelected[0]===''){
+                                                                        this.value['originValue']=''
+                                                                        if(this.firsTimeSelectValue[0]===false){
+                                                                            this.isInvalid[0]=true
+                                                                        }
+                                                                    }
+                                                                }else if(this.dropdownPos==='origin'){
+                                                                if(this.ValueSelected[1]===''){
                                                                     this.value['destinationValue']=''
+                                                                    if(this.firsTimeSelectValue[1]===false){
+                                                                        this.isInvalid[1]=true
+                                                                    }
                                                                 }
                                                             }
-                                                        }
+                                                           }
                                                         }
                                                         this.dropdownOpenFirst=false;
                                                         this.open=true;
                                                     },valueSetter(city){
                                                         if(this.dropdownPos==='destination'){
                                                            this.value.destinationValue=city
-                                                           this.isValueSelected[1]=true
+                                                           this.ValueSelected[1]=city
                                                            this.dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'',false)
                                                            this.dropdownPos='origin'
                                                            this.isInvalid[1]=false
                                                         }else{
                                                             this.value.originValue=city
-                                                            this.isValueSelected[0]=true
+                                                            this.ValueSelected[0]=city
                                                             this.dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'',false)
                                                             this.dropdownPos='destination'
                                                             this.isInvalid[0]=false
                                                         }
-                                                        if(Boolean(this.value.destinationValue)===true&&Boolean(this.value.originValue)===true&&(this.value.destinationValue===this.value.originValue)===false){
-                                                            this.open=false
+                                                        if((this.value['destinationValue']===this.value['originValue'])===false){
+                                                            if(this.value['destinationValue']!==''&&this.value['originValue']!==''){
+                                                                this.open=false
+                                                            }
                                                         }else if((this.value['destinationValue']===this.value['originValue'])===true){
                                                             if(this.dropdownPos==='origin'){
                                                                 this.value['originValue']=''
                                                                 this.invalidSameCity=0
-                                                                console.log(this.invalidSameCity)
+                                                                this.ValueSelected[0]=''
                                                             }else{
                                                                 this.value['destinationValue']=''
                                                                 this.invalidSameCity=1
-                                                                console.log(this.invalidSameCity)
+                                                                this.ValueSelected[1]=''
                                                             }
                                                         }
                                                     },citySetter(){
@@ -371,38 +386,36 @@
                                                            :class="(isInvalid[0])&&'is-invalid was-validated form-control:invalid invalid-Placeholder'"
                                                            class=" form-control-lg form-control rounded-end-0 origin"
                                                            placeholder="Origin"
+                                                           @click.outside="()=>{
+                                                           if(event.target.classList.contains('city')===false&&event.target.classList.contains('destination')===false){
+                                                               if((ValueSelected[0]===value['originValue'])===false){
+                                                                   value['originValue']=ValueSelected[0]
+                                                                   isInvalid[0]=false
+                                                               }else if(value['originValue']!==''&&ValueSelected[0]===false){
+                                                                    value['originValue']=''
+                                                                    isInvalid[0]=true
+                                                               }
+                                                           }
+                                                           }"
                                                            @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin',false)}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin',true)}}"
-                                                           x-ref="Origin" @keyup="citySetter(),isValueSelected[0]=false,isInvalid[0]=false"
+                                                           x-ref="Origin" @keyup="citySetter(),isInvalid[0]=false,firsTimeSelectValue[0]=false"
                                                            @keydown.tab="dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'origin',true),value['originValue']=''">
                                                     <div class="invalid-feedback" x-show="isInvalid[0]">
                                                         Please choose the origin.
                                                     </div>
                                                     <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"
                                                         x-ref="dropdownMenu" x-show="open"
-                                                        @click.outside="if(event.target.classList.contains('destination')===false&&event.target.classList.contains('origin')===false){
-                                                        open=false;
+                                                        @click.outside="if(event.target.classList.contains('origin')===false&&event.target.classList.contains('destination')===false){
+                                                        open=false
                                                         dropdownOpenFirst=true
-                                                        if(invalidSameCity!==''){
+                                                        if(invalidSameCity!==''&&ValueSelected[invalidSameCity]===''){
                                                             isInvalid[invalidSameCity]=true
-                                                            console.log(isInvalid)
                                                         }
-                                                         if(isValueSelected[0]===false&&isInvalid[0]===false&&value['originValue']){
-                                                            value['originValue']=''
-                                                            isInvalid[0]=true
-                                                            console.log(isInvalid)
-                                                        }else if(isValueSelected[1]===false&&isInvalid[1]===false&&value['destinationValue']){
-                                                            value['destinationValue']=''
-                                                            console.log('a')
-                                                            isInvalid[1]=true
-                                                        }
-                                                        }else if(event.target.classList.contains('destination') || event.target.classList.contains('origin')){
-                                                            open=true
-                                                            dropdownOpenFirst=false
                                                         }"
                                                         :style="dropdownStyle">
                                                         <template x-for="city in settedCities" x-ref="citiesTemplate">
                                                             <div>
-                                                                <li class="dropdown-item pointer-cursor"
+                                                                <li class="dropdown-item city pointer-cursor"
                                                                     href="#" x-text="city"
                                                                     @click="valueSetter(city),cityDropdownMover()">
                                                                 </li>
@@ -428,8 +441,16 @@
                                                            class="form-control-lg form-control ps-4 rounded-start-0 valueSetter destination"
                                                            placeholder="Destination" x-ref="Destination"
                                                            x-model="value.destinationValue"
+                                                           @click.outside="if(event.target.classList.contains('city')===false&&event.target.classList.contains('origin')===false){
+                                                               if((ValueSelected[1]===value['destinationValue'])===false){
+                                                                   value['destinationValue']=ValueSelected[1]
+                                                               }else if(value['destinationValue']!==''&&ValueSelected[1]===false){
+                                                                        value['destinationValue']=''
+                                                                        isInvalid[1]=true
+                                                               }
+                                                           }"
                                                            :class="(isInvalid[1])&&'is-invalid was-validated form-control:invalid invalid-Placeholder'"
-                                                           @keyup="citySetter(),isValueSelected[1]=false,isInvalid[1]=false"
+                                                           @keyup="citySetter(),isInvalid[1]=false,firsTimeSelectValue[1]=false"
                                                            @keydown.tab="dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'destination',true),value['destinationValue']='',open=false"
                                                            @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244,'destination',false)}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'destination',true)}}">
                                                     <div class="invalid-feedback" x-show="isInvalid[1]">
