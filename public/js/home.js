@@ -56,3 +56,10 @@ $(()=>{
         }
     })
 })
+document.addEventListener('alpine:init', () => {
+    Alpine.data('dropdown', (el) => ({
+        firsTimeSelectValue:[true,true],
+        invalidSameCity:'',
+        isInvalid:[false,false],
+    }))
+})

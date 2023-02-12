@@ -289,6 +289,7 @@
                                     </div>
                                 </div>
                                 <div x-show="page==='innerfly'">
+                                    <div x-data="dropdown" x-init=""></div>
                                     <div x-data="{firsTimeSelectValue:[true,true],invalidSameCity:'',isInvalid:[false,false],settedCities:[],cities:['tehran','ahvaz','shiraz','mashhad','bandarabbas','isfehan','tabriz','kish','birjand'],
                                                     open:false,dropdownPos:'',ValueSelected:['',''],value:{destinationValue:'',originValue:''},dropdownStyle:{},dropdownOpenFirst:true,cityDropdownMover(){
                                                         if($refs.dropdownMenu.classList.contains('dropdown-menu-move')){
@@ -329,6 +330,7 @@
                                                                     this.value['destinationValue']=''
                                                                     if(this.firsTimeSelectValue[1]===false){
                                                                         this.isInvalid[1]=true
+                                                                        console.log(this.firsTimeSelectValue)
                                                                     }
                                                                 }
                                                             }
@@ -399,7 +401,13 @@
                                                            }"
                                                            @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin',false)}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin',true)}}"
                                                            x-ref="Origin" @keyup="citySetter(),isInvalid[0]=false,firsTimeSelectValue[0]=false"
-                                                           @keydown.tab="dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'origin',true),value['originValue']=''">
+                                                           @keydown.tab="()=>{
+                                                                dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'origin',true)
+                                                                if(ValueSelected[0]===''){
+                                                                    value['originValue']=''
+                                                                    isInvalid[0]=true;
+                                                                }
+                                                           }">
                                                     <div class="invalid-feedback" x-show="isInvalid[0]">
                                                         Please choose the origin.
                                                     </div>
@@ -430,7 +438,18 @@
                                                         </template>
                                                     </ul>
                                                 </div>
-                                                <span
+                                                <span @click="if(ValueSelected[1]&&ValueSelected[0]){
+                                                    value['destinationValue']=ValueSelected[0]
+                                                    value['origin']=ValueSelected[1]
+                                                    ValueSelected[1]=ValueSelected[0]
+                                                    ValueSelected[0]=value['origin']
+                                                    $el.style.cursor='pointer'
+                                                }"
+                                                      @mouseover="if(ValueSelected[1]&&ValueSelected[0]){
+                                                      $el.style.cursor='pointer'
+                                                      }else{
+                                                      $el.style.cursor='not-allowed'
+                                                      }"
                                                     class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
                                                     style="height: 3rem">
                                 <svg viewBox="0 0 24 24" width="2rem" fill="currentColor"><path
@@ -451,7 +470,14 @@
                                                            }"
                                                            :class="(isInvalid[1])&&'is-invalid was-validated form-control:invalid invalid-Placeholder'"
                                                            @keyup="citySetter(),isInvalid[1]=false,firsTimeSelectValue[1]=false"
-                                                           @keydown.tab="dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'destination',true),value['destinationValue']='',open=false"
+                                                           @keydown.tab="()=>{
+                                                                dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'destination',true)
+                                                                if(ValueSelected[1]===''){
+                                                                    value['destinationValue']=''
+                                                                    isInvalid[1]=true
+                                                                }
+                                                                open=false
+                                                           }"
                                                            @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244,'destination',false)}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'destination',true)}}">
                                                     <div class="invalid-feedback" x-show="isInvalid[1]">
                                                         choose the destination
