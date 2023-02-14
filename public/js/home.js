@@ -58,6 +58,7 @@ $(()=>{
 })
 document.addEventListener('alpine:init', () => {
     Alpine.data('orgAndDes', () => ({
+        cityIndex:null,
         firsTimeSelectValue:[true,true],
         invalidSameCity:'',
         isInvalid:[false,false],
@@ -69,6 +70,19 @@ document.addEventListener('alpine:init', () => {
         value:{destinationValue:'',originValue:''},
         dropdownStyle:{},
         dropdownOpenFirst:true,
+        init(){
+          window.addEventListener('keyup',()=>{
+                if(event.key==='Tab'){
+                    if(event.target===this.$refs.Origin){
+                        this.dropdownPos='origin'
+                        this.open=true
+                    }else if(event.target===this.$refs.Destination){
+                        this.open=true
+                        this.cityDropdownMover()
+                    }
+                }
+          })
+        },
         cityDropdownMover(){
             if(this.$refs.dropdownMenu.classList.contains('dropdown-menu-move')){
                 this.$refs.dropdownMenu.classList.add('dropdown-menu-moveback')
@@ -81,11 +95,10 @@ document.addEventListener('alpine:init', () => {
             }
         },
         valueFixer(valueIndex,selectedInputIndex){
-
-                this.value[valueIndex]=this.ValueSelected[selectedInputIndex]
+             this.value[valueIndex]=this.ValueSelected[selectedInputIndex]
         },dropdownMenuSwitch(val,dropPos,setEmpty,valueIndex,valueIndexText){
-            this.settedCities=this.cities
             this.dropdownPos=dropPos
+            this.settedCities=this.cities
             if(this.ValueSelected[0]||this.ValueSelected[1]){
               this.valueFixer(valueIndexText,valueIndex)
             }
@@ -97,33 +110,37 @@ document.addEventListener('alpine:init', () => {
                 this.$refs.dropdownMenu.classList.remove(val[1])
                 if(setEmpty){
                         if(this.ValueSelected[valueIndex]===''){
-                            this.value[valueIndexText]=''
-                            if(this.firsTimeSelectValue[valueIndex]===false){
-                                this.isInvalid[valueIndex]=true
-                            }
+                            this.setInvalid(valueIndex,valueIndexText)
                         }
                     }
                 }
             this.dropdownOpenFirst=false;
-            this.open=true;
+            if(!this.open){
+                this.open=true
+            }
         },
         valueSetter(city){
+            this.cityIndex=null
             if(this.dropdownPos==='destination'){
                 this.value.destinationValue=city
                 this.ValueSelected[1]=city
                 this.dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'',false,1,'destinationValue')
                 this.dropdownPos='origin'
                 this.isInvalid[1]=false
+                this.firsTimeSelectValue[1]=false
             }else{
                 this.value.originValue=city
                 this.ValueSelected[0]=city
                 this.dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'',false,0,'originValue')
                 this.dropdownPos='destination'
                 this.isInvalid[0]=false
+                this.firsTimeSelectValue[0]=false
             }
             if((this.value['destinationValue']===this.value['originValue'])===false){
                 if(this.value['destinationValue']!==''&&this.value['originValue']!==''){
                     this.open=false
+                    this.$refs.Origin.blur()
+                    this.$refs.Destination.blur()
                 }
             }else if((this.value['destinationValue']===this.value['originValue'])===true){
                 if(this.dropdownPos==='origin'){
@@ -150,13 +167,15 @@ document.addEventListener('alpine:init', () => {
             }
         },
         inputClickOutside(selectedInputIndex,Class,valueIndex){
-            if(event.target.classList.contains('city')===false&&event.target.classList.contains(Class)===false){
-                if((this.ValueSelected[selectedInputIndex]===this.value[valueIndex])===false){
-                    this.value[valueIndex]=this.ValueSelected[selectedInputIndex]
+
+            if(event.target.classList.contains('city')===false){
+                if((this.ValueSelected[selectedInputIndex]===this.value[valueIndex])===false&&this.ValueSelected[selectedInputIndex]!==''){
+                    this.valueFixer(valueIndex,selectedInputIndex)
                     this.isInvalid[selectedInputIndex]=false
-                }else if(this.value[valueIndex]!==''&&this.ValueSelected[selectedInputIndex]===false){
+                }else if(this.value[valueIndex]!==''&&this.ValueSelected[selectedInputIndex]===''){
                     this.value[valueIndex]=''
                     this.isInvalid[selectedInputIndex]=true
+                    console.log('s')
                 }
             }
         },
@@ -180,9 +199,67 @@ document.addEventListener('alpine:init', () => {
         },inputKeyUp(inputIndex){
             this.citySetter()
             this.isInvalid[inputIndex]=false
+            if((event.key==='ArrowDown'||event.key==='ArrowUp'||event.key==='Enter')===false){
+                this.cityIndex=null
+            }
             if(event.key!=='Tab'){
                 this.firsTimeSelectValue[inputIndex]=false
             }
+        },dropdownMenuClickOutside(){
+            if(event.target.classList.contains('origin')===false&&event.target.classList.contains('destination')===false){
+                this.open=false
+                this.dropdownOpenFirst=true
+                if(this.invalidSameCity!==''&&this.ValueSelected[this.invalidSameCity]===''){
+                    this.isInvalid[this.invalidSameCity]=true
+                }
+            }
+        },valueMover:{
+            ['@click'](){
+                if(this.ValueSelected[1]&&this.ValueSelected[0]){
+                    this.value['destinationValue']=this.ValueSelected[0]
+                    this.value['origin']=this.ValueSelected[1]
+                    this.ValueSelected[1]=this.ValueSelected[0]
+                    this.ValueSelected[0]=this.value['origin']
+                    this.$el.style.cursor='pointer'
+                }
+            },
+            ['@mouseover'](){
+                if(this.ValueSelected[1]&&this.ValueSelected[0]){
+                    this.$el.style.cursor='pointer'
+                }else{
+                    this.$el.style.cursor='not-allowed'
+                }
+            }
+        },selectNextCity(){
+            if(this.cityIndex===null){
+                this.cityIndex=0
+            }else{
+                if(this.cityIndex===this.settedCities.length-1){
+                    this.cityIndex=0
+                }else{
+                    this.cityIndex++
+                }
+            }
+            this.scrollToSelectedCity()
+        },selectPrevCity(){
+            if(this.cityIndex===null){
+                this.cityIndex=this.settedCities.length-1
+            }else{
+                if(this.cityIndex===0){
+                    this.cityIndex=this.settedCities.length-1
+                }else{
+                    this.cityIndex--
+                }
+            }
+            this.scrollToSelectedCity()
+        },scrollToSelectedCity(){
+            if(this.$refs.dropdownMenu.children.length!==3){
+                this.$refs.dropdownMenu.children[this.cityIndex+1].scrollIntoView({block:'center'})
+            }
+        },
+        chooseCity(){
+            this.valueSetter(this.$refs.dropdownMenu.children[this.cityIndex+1].textContent.trim())
+            this.cityDropdownMover()
         }
     }))
 })

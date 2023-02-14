@@ -7,12 +7,8 @@
             <div class="row">
                 <div class="col">
                     <div class="card">
-                        <div x-data="{sourceIdentifier() {
-
-                   let cardPics=[{innerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp',outerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-b5a880ed.webp',train:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-f5969150.webp',hotel:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-8e1d56d8.webp',tour:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-1398106c.webp',bus:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-824e4df4.webp'}]
-
-                    return cardPics[0][page]
-                    }}">
+                        <div x-data="{sourceIdentifier() {let cardPics=[{innerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp',outerfly:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-b5a880ed.webp',train:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-f5969150.webp',hotel:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-8e1d56d8.webp',tour:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-1398106c.webp',bus:'https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-824e4df4.webp'}]
+                            return cardPics[0][page]}}">
                             <img class="img-fluid card-img-top" :src="sourceIdentifier()" style="width: 100%"/>
                         </div>
                         <div class="card-header d-flex bg-white px-0">
@@ -282,24 +278,22 @@
                                                            @click.outside="inputClickOutside(0,'destination','originValue')"
                                                            @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin',false,0,'originValue')}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin',true,0,'originValue')}}"
                                                            x-ref="Origin" @keyup="inputKeyUp(0)"
-                                                           @keydown.tab="dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'origin',true,0,'originValue'),inputTab('origin',0),setInvalid(0,'originValue'),valueFixer('originValue',0)">
+                                                           @keyup.down="selectNextCity"
+                                                           @keyup.enter="chooseCity()"
+                                                           @keyup.up="selectPrevCity"
+                                                           @keydown.tab="dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'origin',true,0,'originValue'),inputTab('origin',0),valueFixer('originValue',0)">
                                                     <div class="invalid-feedback" x-show="isInvalid[0]">
                                                         Please choose the origin.
                                                     </div>
                                                     <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"
                                                         x-ref="dropdownMenu" x-show="open"
-                                                        @click.outside="if(event.target.classList.contains('origin')===false&&event.target.classList.contains('destination')===false){
-                                                        open=false
-                                                        dropdownOpenFirst=true
-                                                        if(invalidSameCity!==''&&ValueSelected[invalidSameCity]===''){
-                                                            isInvalid[invalidSameCity]=true
-                                                        }
-                                                        }"
+                                                        @click.outside="dropdownMenuClickOutside,cityIndex=''"
                                                         :style="dropdownStyle">
                                                         <template x-for="city in settedCities" x-ref="citiesTemplate">
                                                             <div>
                                                                 <li class="dropdown-item city pointer-cursor"
                                                                     href="#" x-text="city"
+                                                                    :class="(settedCities[cityIndex]===city)&&'selected-city'"
                                                                     @click="valueSetter(city),cityDropdownMover()">
                                                                 </li>
                                                                 <li class="dropdown-divider"
@@ -313,18 +307,7 @@
                                                         </template>
                                                     </ul>
                                                 </div>
-                                                <span @click="if(ValueSelected[1]&&ValueSelected[0]){
-                                                    value['destinationValue']=ValueSelected[0]
-                                                    value['origin']=ValueSelected[1]
-                                                    ValueSelected[1]=ValueSelected[0]
-                                                    ValueSelected[0]=value['origin']
-                                                    $el.style.cursor='pointer'
-                                                }"
-                                                      @mouseover="if(ValueSelected[1]&&ValueSelected[0]){
-                                                      $el.style.cursor='pointer'
-                                                      }else{
-                                                      $el.style.cursor='not-allowed'
-                                                      }"
+                                                <span x-bind="valueMover"
                                                     class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
                                                     style="height: 3rem">
                                 <svg viewBox="0 0 24 24" width="2rem" fill="currentColor"><path
@@ -338,6 +321,9 @@
                                                            @click.outside="inputClickOutside(1,'origin','destinationValue')"
                                                            :class="(isInvalid[1])&&'is-invalid was-validated form-control:invalid invalid-Placeholder'"
                                                            @keyup="inputKeyUp(1)"
+                                                           @keyup.up="selectPrevCity"
+                                                           @keyup.enter="chooseCity()"
+                                                           @keyup.down="selectNextCity"
                                                            @keydown.tab="dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'destination',true,1,'destinationValue'),inputTab('destination',0)"
                                                            @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244,'destination',false,1,'destinationValue')}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'destination',true,1,'destinationValue')}}">
                                                     <div class="invalid-feedback" x-show="isInvalid[1]">

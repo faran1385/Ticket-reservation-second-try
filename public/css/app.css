@@ -19050,3 +19050,6 @@ textarea.form-control-lg {
  .invalid-Placeholder::placeholder{
      color:#e3342f;
  }
+ .selected-city{
+     background:#e9ecef;
+ }
