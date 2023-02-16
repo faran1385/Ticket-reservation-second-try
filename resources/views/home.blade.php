@@ -267,90 +267,155 @@
                                 </div>
                                 <div x-show="page==='innerfly'">
                                     <div x-data="orgAndDes" x-init="citySetter()">
-                                        <div class="input-group d-flex justify-content-center has-validation">
-                                            <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
-                                                <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
-                                                    <input type="text"
-                                                           x-model="value.originValue"
-                                                           :class="(isInvalid[0])&&'is-invalid was-validated form-control:invalid invalid-Placeholder'"
-                                                           class=" form-control-lg form-control rounded-end-0 origin"
-                                                           placeholder="Origin"
-                                                           @click.outside="inputClickOutside(0,'destination','originValue')"
-                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin',false,0,'originValue')}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin',true,0,'originValue')}}"
-                                                           x-ref="Origin" @keyup="inputKeyUp(0)"
-                                                           @keyup.down="selectNextCity"
-                                                           @keyup.enter="chooseCity()"
-                                                           @keyup.up="selectPrevCity"
-                                                           @keydown.tab="dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'origin',true,0,'originValue'),inputTab('origin',0),valueFixer('originValue',0)">
-                                                    <div class="invalid-feedback" x-show="isInvalid[0]">
-                                                        Please choose the origin.
-                                                    </div>
-                                                    <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"
-                                                        x-ref="dropdownMenu" x-show="open"
-                                                        @click.outside="dropdownMenuClickOutside,cityIndex=''"
-                                                        :style="dropdownStyle">
-                                                        <template x-for="city in settedCities" x-ref="citiesTemplate">
-                                                            <div>
-                                                                <li class="dropdown-item city pointer-cursor"
-                                                                    href="#" x-text="city"
-                                                                    :class="(settedCities[cityIndex]===city)&&'selected-city'"
-                                                                    @click="valueSetter(city),cityDropdownMover()">
+                                        <div x-data="calendar" x-init="">
+                                            <div class="input-group d-flex justify-content-center has-validation">
+                                                <div class="col-lg-4 col-11 input-group-custom d-flex ms-2">
+                                                    <div class="col-5 mb-lg-0 mb-4 ms-lg-0">
+                                                        <input type="text"
+                                                               x-model="value.originValue"
+                                                               :class="(isInvalid[0])&&'is-invalid was-validated form-control:invalid invalid-Placeholder'"
+                                                               class=" form-control-lg form-control rounded-end-0 origin"
+                                                               placeholder="Origin"
+                                                               @click.outside="inputClickOutside(0,'destination','originValue')"
+                                                               @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch('0','origin',false,0,'originValue')}else{dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'origin',true,0,'originValue')}}"
+                                                               x-ref="Origin" @keyup="inputKeyUp(0)"
+                                                               @keyup.down="selectNextCity"
+                                                               @keyup.enter="chooseCity()"
+                                                               @keyup.up="selectPrevCity"
+                                                               @keydown.tab="dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'origin',true,0,'originValue'),inputTab('origin',0),valueFixer('originValue',0)">
+                                                        <div class="invalid-feedback" x-show="isInvalid[0]">
+                                                            Please choose the origin.
+                                                        </div>
+                                                        <ul class="dropdown-menu-displayless overflow-auto suggestion-cities"
+                                                            x-ref="dropdownMenu" x-show="open"
+                                                            @click.outside="dropdownMenuClickOutside,cityIndex=''"
+                                                            :style="dropdownStyle">
+                                                            <template x-for="city in settedCities"
+                                                                      x-ref="citiesTemplate">
+                                                                <div>
+                                                                    <li class="dropdown-item city pointer-cursor"
+                                                                        href="#" x-text="city"
+                                                                        :class="(settedCities[cityIndex]===city)&&'selected-city'"
+                                                                        @click="valueSetter(city),cityDropdownMover()">
+                                                                    </li>
+                                                                    <li class="dropdown-divider"
+                                                                        :class="(city===settedCities[settedCities.length - 1])&&'d-none'"></li>
+                                                                </div>
+                                                            </template>
+                                                            <template x-if="settedCities.length<1">
+                                                                <li class="text-center">
+                                                                    Nothing found
                                                                 </li>
-                                                                <li class="dropdown-divider"
-                                                                    :class="(city===settedCities[settedCities.length - 1])&&'d-none'"></li>
-                                                            </div>
+                                                            </template>
+                                                        </ul>
+                                                    </div>
+                                                    <span x-bind="valueMover"
+                                                          class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
+                                                          style="height: 3rem">
+                                <svg viewBox="0 0 24 24" width="2rem" fill="currentColor"><path
+                                        d="m16.96 12.157.07.063 3.75 3.75a.757.757 0 0 1 .06.067l-.06-.067a.748.748 0 0 1 .22.53v.025a.728.728 0 0 1-.003.039L21 16.5a.747.747 0 0 1-.147.446l-.01.014-.008.01-.055.06-3.75 3.75a.75.75 0 0 1-1.123-.99l.063-.07 2.469-2.47H8.25a.75.75 0 0 1-.087-1.495l.087-.005h10.189l-2.47-2.47a.75.75 0 0 1-.062-.99l.063-.07a.75.75 0 0 1 .99-.063ZM8.03 3.22a.75.75 0 0 1 .063.99l-.063.07-2.47 2.47h10.19a.75.75 0 0 1 .088 1.495l-.088.005H5.56l2.47 2.47a.75.75 0 0 1 .063.99l-.063.07a.75.75 0 0 1-.99.063l-.07-.063-3.75-3.75-.055-.06a.644.644 0 0 1-.005-.007l.06.067A.756.756 0 0 1 3 7.5v-.014a.47.47 0 0 1 .003-.053L3 7.5a.756.756 0 0 1 .22-.53l3.75-3.75a.75.75 0 0 1 1.06 0Z"></path></svg>
+                            </span>
+                                                    <div class="col-5 has-validation">
+                                                        <input type="text"
+                                                               class="form-control-lg form-control ps-4 rounded-start-0 valueSetter destination"
+                                                               placeholder="Destination" x-ref="Destination"
+                                                               x-model="value.destinationValue"
+                                                               @click.outside="inputClickOutside(1,'origin','destinationValue')"
+                                                               :class="(isInvalid[1])&&'is-invalid was-validated form-control:invalid invalid-Placeholder'"
+                                                               @keyup="inputKeyUp(1)"
+                                                               @keyup.up="selectPrevCity"
+                                                               @keyup.enter="chooseCity()"
+                                                               @keyup.down="selectNextCity"
+                                                               @keydown.tab="dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'destination',true,1,'destinationValue'),inputTab('destination',0)"
+                                                               @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244,'destination',false,1,'destinationValue')}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'destination',true,1,'destinationValue')}}">
+                                                        <div class="invalid-feedback" x-show="isInvalid[1]">
+                                                            choose the destination
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
+                                                    <label class="w-50">
+                                                        <input type="text"
+                                                               class=" form-control-lg form-control rounded-end-0"
+                                                               placeholder="Departure date">
+                                                    </label>
+                                                    <label class="position-relative coming-input-label-disable w-50">
+                                                        <input type="text"
+                                                               class=" form-control-lg form-control rounded-start-0"
+                                                               placeholder="Return date" disabled>
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
+                                                    <input type="text" class=" form-control-lg form-control"
+                                                           value="1 passenger">
+                                                </div>
+                                                <div class="col-lg-1 col-11 ms-2">
+                                <span class="d-grid">
+                                    <button class="btn btn-primary btn-lg text-white">Search</button>
+                                </span>
+                                                </div>
+                                            </div>
+                                            <div class="bg-white rounded border" style="width: 450px">
+                                                <div class="d-flex p-3 justify-content-between align-items-baseline">
+                                                        <span
+                                                            x-ref="prevMonth"
+                                                            class="user-select-none border border-dark material-symbols-outlined rounded-circle center disabled"
+                                                            style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
+                                                            @click="if($el.classList.contains('disabled')===false){setDays(-1)}$refs.nextMonth.classList.remove('disabled'),$refs.nextMonth.classList.add('month-mover-hover','pointer-cursor')"><</span>
+                                                    <p class="fs-4" x-text="calendarTitle" x-init=""></p>
+                                                    <span
+                                                        x-ref="nextMonth"
+                                                        class="month-mover-hover user-select-none border border-dark material-symbols-outlined rounded-circle center pointer-cursor ms-2"
+                                                        style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
+                                                        @click="if($el.classList.contains('disabled')===false){setDays(1)}$refs.prevMonth.classList.remove('disabled'),$refs.prevMonth.classList.add('month-mover-hover','pointer-cursor')">></span>
+                                                </div>
+                                                <div>
+                                                    <ul class="d-flex p-0 fw-bold">
+                                                        <li class="list-group-item text-center"
+                                                            style="width: calc(100% /7)">Sun
+                                                        </li>
+                                                        <li class="list-group-item text-center"
+                                                            style="width: calc(100% /7)">Mon
+                                                        </li>
+                                                        <li class="list-group-item text-center"
+                                                            style="width: calc(100% /7)">Tue
+                                                        </li>
+                                                        <li class="list-group-item text-center"
+                                                            style="width: calc(100% /7)">Wed
+                                                        </li>
+                                                        <li class="list-group-item text-center"
+                                                            style="width: calc(100% /7)">Thu
+                                                        </li>
+                                                        <li class="list-group-item text-center"
+                                                            style="width: calc(100% /7)">Fri
+                                                        </li>
+                                                        <li class="list-group-item text-center"
+                                                            style="width: calc(100% /7)">Sat
+                                                        </li>
+                                                    </ul>
+                                                    <ul class="d-flex flex-wrap p-0">
+                                                        <template x-for="day in daysOfLastMonth">
+                                                            <li class=" list-group-item user-select-none  text-center mb-3 text-muted  default-cursor"
+                                                                style="z-index: 1;width: calc(100% / 7)"
+                                                                x-init="">
+                                                                <span class=""></span>
+                                                            </li>
                                                         </template>
-                                                        <template x-if="settedCities.length<1">
-                                                            <li class="text-center">
-                                                                Nothing found
+                                                        <template x-for="day in daysOfThisMonth">
+                                                            <li class=" list-group-item user-select-none  text-center calendar-days-before-hover mb-3 pointer-cursor calendar-days-before position-relative"
+                                                                style="z-index: 1;width: calc(100% / 7)"
+                                                            >
+                                                                <span x-text="day" class="" :class="((date.getDay()>day)&&currMonth===date.getMonth())&&'past-day'"></span>
+                                                            </li>
+                                                        </template>
+                                                        <template x-for="day in daysOfNextMonth">
+                                                            <li class=" list-group-item  user-select-none text-center mb-3 text-muted default-cursor"
+                                                                style="z-index: 1;width: calc(100% / 7)"
+                                                                x-init="">
                                                             </li>
                                                         </template>
                                                     </ul>
                                                 </div>
-                                                <span x-bind="valueMover"
-                                                    class="input-group-text pointer-cursor col-2 rounded-0 d-flex justify-content-center"
-                                                    style="height: 3rem">
-                                <svg viewBox="0 0 24 24" width="2rem" fill="currentColor"><path
-                                        d="m16.96 12.157.07.063 3.75 3.75a.757.757 0 0 1 .06.067l-.06-.067a.748.748 0 0 1 .22.53v.025a.728.728 0 0 1-.003.039L21 16.5a.747.747 0 0 1-.147.446l-.01.014-.008.01-.055.06-3.75 3.75a.75.75 0 0 1-1.123-.99l.063-.07 2.469-2.47H8.25a.75.75 0 0 1-.087-1.495l.087-.005h10.189l-2.47-2.47a.75.75 0 0 1-.062-.99l.063-.07a.75.75 0 0 1 .99-.063ZM8.03 3.22a.75.75 0 0 1 .063.99l-.063.07-2.47 2.47h10.19a.75.75 0 0 1 .088 1.495l-.088.005H5.56l2.47 2.47a.75.75 0 0 1 .063.99l-.063.07a.75.75 0 0 1-.99.063l-.07-.063-3.75-3.75-.055-.06a.644.644 0 0 1-.005-.007l.06.067A.756.756 0 0 1 3 7.5v-.014a.47.47 0 0 1 .003-.053L3 7.5a.756.756 0 0 1 .22-.53l3.75-3.75a.75.75 0 0 1 1.06 0Z"></path></svg>
-                            </span>
-                                                <div class="col-5 has-validation">
-                                                    <input type="text"
-                                                           class="form-control-lg form-control ps-4 rounded-start-0 valueSetter destination"
-                                                           placeholder="Destination" x-ref="Destination"
-                                                           x-model="value.destinationValue"
-                                                           @click.outside="inputClickOutside(1,'origin','destinationValue')"
-                                                           :class="(isInvalid[1])&&'is-invalid was-validated form-control:invalid invalid-Placeholder'"
-                                                           @keyup="inputKeyUp(1)"
-                                                           @keyup.up="selectPrevCity"
-                                                           @keyup.enter="chooseCity()"
-                                                           @keyup.down="selectNextCity"
-                                                           @keydown.tab="dropdownMenuSwitch(['dropdown-menu-moveback','dropdown-menu-move'],'destination',true,1,'destinationValue'),inputTab('destination',0)"
-                                                           @click="()=>{if(dropdownOpenFirst){dropdownMenuSwitch(244,'destination',false,1,'destinationValue')}else{dropdownMenuSwitch(['dropdown-menu-move','dropdown-menu-moveback'],'destination',true,1,'destinationValue')}}">
-                                                    <div class="invalid-feedback" x-show="isInvalid[1]">
-                                                        choose the destination
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
-                                                <label class="w-50">
-                                                    <input type="text"
-                                                           class=" form-control-lg form-control rounded-end-0"
-                                                           placeholder="Departure date">
-                                                </label>
-                                                <label class="position-relative coming-input-label-disable w-50">
-                                                    <input type="text"
-                                                           class=" form-control-lg form-control rounded-start-0"
-                                                           placeholder="Return date" disabled>
-                                                </label>
-                                            </div>
-                                            <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
-                                                <input type="text" class=" form-control-lg form-control"
-                                                       value="1 passenger">
-                                            </div>
-                                            <div class="col-lg-1 col-11 ms-2">
-                                <span class="d-grid">
-                                    <button class="btn btn-primary btn-lg text-white">Search</button>
-                                </span>
                                             </div>
                                         </div>
                                     </div>

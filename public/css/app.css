@@ -16,7 +16,7 @@
 }
 
 .default-cursor {
-  cursor: default;
+  cursor: context-menu;
 }
 
 .pointer-cursor {
@@ -19053,3 +19053,44 @@ textarea.form-control-lg {
  .selected-city{
      background:#e9ecef;
  }
+ .month-mover-hover:hover{
+     color:#f2f2f2;
+     background: black;
+ }
+ .disabled{
+     border:none!important;
+     color:#f2f2f2;
+ }
+ .calendar-days-before::before{
+     position: absolute!important;
+     content: ''!important;
+     height: 35px!important;
+     width: 35px!important;
+     z-index: -1!important;
+     top: 50%!important;
+     left:50%!important;
+     border-radius: 50%!important;
+     transform: translate(-50%,-50%)!important;
+
+ }
+.calendar-days-before-hover:hover::before {
+    background: #f2f2f2;
+}
+.active-calendar-days:before{
+    background: #0d6efd!important;
+}
+.past-day{
+    display: inline-block;
+    position: relative;
+}
+.past-day:before{
+    content: '';
+    position: absolute;
+    left: -0.1em;
+    right: -0.1em;
+    top: 0.38em;
+    bottom: 0.38em;
+    background: linear-gradient(to left top, transparent 45.5%, currentColor 47.5%, currentColor 52.5%, transparent 54.5%);
+    pointer-events: none;
+}
+
