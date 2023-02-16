@@ -320,13 +320,17 @@ document.addEventListener('alpine:init', () => {
              let setThisMonth=()=>{
                 this.daysOfThisMonth=[]
                 for (let i = 1; i <= lastDateofMonth; i++){
-                    this.daysOfThisMonth.push(i)
+                    if((this.date.getDay()>i)&&this.currMonth===this.date.getMonth()){
+                        this.daysOfThisMonth.push({isPass:true})
+                    }else{
+                        this.daysOfThisMonth.push({isPass:false})
+                    }
                 }
                 setNextMonth()
             }
             let setNextMonth=()=>{
                 this.daysOfNextMonth=[]
-                for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
+                for (let i = lastDayofMonth; i < 6; i++) {
                     this.daysOfNextMonth.push(i - lastDayofMonth + 1)
                 }
             }
@@ -370,6 +374,12 @@ document.addEventListener('alpine:init', () => {
                 nextYear()
             }else{
                 prevYear()
+            }
+            this.setPastDay()
+        },
+        setPastDay(){
+            if(''){
+
             }
         }
     }))
