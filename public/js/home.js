@@ -271,6 +271,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('pageChanger', () => ({
         page: 'innerfly',
         date:new Date(),
+        isBackAndForth:false,
         changeActiveTitle() {
 
             let titles = document.querySelectorAll('.services')
@@ -305,6 +306,8 @@ document.addEventListener('alpine:init', () => {
         daysOfLastMonth:[],
         daysOfNextMonth:[],
         daysOfThisMonth:[],
+        selectedDays:[null],
+        datesAlt:'Date departure',
         init(){
             this.currYear=this.date.getFullYear()
             this.currMonth=this.date.getMonth()
@@ -320,7 +323,7 @@ document.addEventListener('alpine:init', () => {
              let setThisMonth=()=>{
                 this.daysOfThisMonth=[]
                 for (let i = 1; i <= lastDateofMonth; i++){
-                    if((this.date.getDay()>i)&&this.currMonth===this.date.getMonth()){
+                    if((this.date.getDay()>i)&&this.currMonth===this.date.getMonth()&&this.currYear===this.date.getFullYear()){
                         this.daysOfThisMonth.push({isPass:true})
                     }else{
                         this.daysOfThisMonth.push({isPass:false})
@@ -375,12 +378,52 @@ document.addEventListener('alpine:init', () => {
             }else{
                 prevYear()
             }
-            this.setPastDay()
         },
-        setPastDay(){
-            if(''){
-
+        setActive(){
+            if(this.selectedDays.length===2){
+                if(this.selectedDays[0]===null||this.selectedDays[1]===null){
+                    if(!this.$el.children[0].classList.contains('past-day')){
+                        this.$el.classList.add('active','active-calendar-days','text-white')
+                        if(this.selectedDays[0]===null){
+                            this.selectedDays[0]={element:this.$el,year:this.currYear,month:this.currMonth}
+                        }else{
+                            this.selectedDays[1]={element:this.$el,year:this.currYear,month:this.currMonth}
+                        }
+                    }
+                }
+            }else{
+                if(this.selectedDays[0]===null&&!this.$el.children[0].classList.contains('past-day')){
+                    this.$el.classList.add('active','active-calendar-days','text-white')
+                    this.selectedDays[0]={element:this.$el,year:this.currYear,month:this.currMonth}
+                }
             }
+        },
+        checkSelectedDaysPos(){
+            if(this.isBackAndForth===true){
+                this.selectedDays.push(null)
+            }else{
+                this.selectedDays[1]&&this.selectedDays[1].element.classList.remove('active','active-calendar-days','text-white')
+                this.selectedDays.length===2&&this.selectedDays.pop()
+            }
+        },
+        setInactive(){
+            this.selectedDays.forEach((object,index)=>{
+                if(object!==null&&object.element===this.$el){
+                    this.selectedDays[index].element.classList.remove('active','active-calendar-days','text-white')
+                    this.selectedDays[index]=null
+                }
+            })
+        },
+        activatedDaysShow(){
+                this.selectedDays.forEach((object)=>{
+                    if(object!==null){
+                        if(object.year!==this.currYear||object.month!==this.currMonth){
+                            object.element.classList.remove('active','active-calendar-days','text-white')
+                        }else{
+                            object.element.classList.add('active','active-calendar-days','text-white')
+                        }
+                    }
+                })
         }
     }))
 })

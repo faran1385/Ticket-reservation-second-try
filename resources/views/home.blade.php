@@ -129,11 +129,11 @@
                                             <button class=" btn border  dropdown-toggle" data-bs-toggle="dropdown"
                                                     x-text="value"></button>
                                             <ul class="dropdown-menu">
-                                                <li class="dropdown-item pointer-cursor" @click="valueSetter()"
-                                                    href="#">one sided
+                                                <li class="dropdown-item pointer-cursor" @click="valueSetter(),isBackAndForth=false"
+                                                    href="#" >one sided
                                                 </li>
                                                 <li class="dropdown-divider"></li>
-                                                <li class="dropdown-item pointer-cursor" @click="valueSetter()"
+                                                <li class="dropdown-item pointer-cursor" @click="valueSetter(),isBackAndForth=true"
                                                     href="#">back and forth
                                                 </li>
                                             </ul>
@@ -341,8 +341,8 @@
                                                     </label>
                                                     <label class="position-relative coming-input-label-disable w-50">
                                                         <input type="text"
-                                                               class=" form-control-lg form-control rounded-start-0"
-                                                               placeholder="Return date" disabled>
+                                                               class=" form-control-lg form-control rounded-start-0" :disabled="checkSelectedDaysPos"
+                                                               placeholder="Return date">
                                                     </label>
                                                 </div>
                                                 <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
@@ -361,13 +361,13 @@
                                                             x-ref="prevMonth"
                                                             class="user-select-none border border-dark material-symbols-outlined rounded-circle center disabled"
                                                             style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                            @click="if($el.classList.contains('disabled')===false){setDays(-1)}$refs.nextMonth.classList.remove('disabled'),$refs.nextMonth.classList.add('month-mover-hover','pointer-cursor')"><</span>
+                                                            @click="if($el.classList.contains('disabled')===false){setDays(-1),activatedDaysShow()}$refs.nextMonth.classList.remove('disabled'),$refs.nextMonth.classList.add('month-mover-hover','pointer-cursor')"><</span>
                                                     <p class="fs-4" x-text="calendarTitle" x-init=""></p>
                                                     <span
                                                         x-ref="nextMonth"
                                                         class="month-mover-hover user-select-none border border-dark material-symbols-outlined rounded-circle center pointer-cursor ms-2"
                                                         style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                        @click="if($el.classList.contains('disabled')===false){setDays(1)}$refs.prevMonth.classList.remove('disabled'),$refs.prevMonth.classList.add('month-mover-hover','pointer-cursor')">></span>
+                                                        @click="if($el.classList.contains('disabled')===false){setDays(1),activatedDaysShow()}$refs.prevMonth.classList.remove('disabled'),$refs.prevMonth.classList.add('month-mover-hover','pointer-cursor')">></span>
                                                 </div>
                                                 <div>
                                                     <ul class="d-flex p-0 fw-bold">
@@ -403,7 +403,9 @@
                                                         </template>
                                                         <template x-for="day in daysOfThisMonth">
                                                             <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before position-relative"
-                                                                style="z-index: 1;width: calc(100% / 7)" :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'">
+                                                                style="z-index: 1;width: calc(100% / 7)" :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
+                                                                @click="if($el.classList.contains('active-calendar-days')){setInactive()}else{setActive()}"
+                                                            >
                                                                 <span x-text="daysOfThisMonth.indexOf(day)+1" class="" :class="day.isPass&&'past-day'"></span>
                                                             </li>
                                                         </template>
