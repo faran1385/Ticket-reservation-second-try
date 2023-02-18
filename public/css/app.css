@@ -18986,7 +18986,7 @@ textarea.form-control-lg {
     width: 20px;
     background: url('https://cdn-icons-png.flaticon.com/512/748/748113.png') center / contain no-repeat;
     cursor: pointer;
-     transform: rotate(45deg);
+     transform: rotate(45deg)!important;
 }
  .rounded-end-0{
      border-top-right-radius: 0 !important;border-bottom-right-radius: 0 !important;
@@ -19074,7 +19074,9 @@ textarea.form-control-lg {
 
  }
 .calendar-days-before-hover:hover::before {
-    background: #f2f2f2;
+    background: rgb(13, 110, 253,50%);
+    color:white;
+
 }
 .active-calendar-days:before{
     background: #0d6efd!important;
@@ -19093,6 +19095,6 @@ textarea.form-control-lg {
     background: linear-gradient(to left top, transparent 45.5%, currentColor 47.5%, currentColor 52.5%, transparent 54.5%);
     pointer-events: none;
 }
-.rotate-45{
-    transfor:rotate(45deg);
+.rotate-45:after{
+    transform: rotate(0);
 }

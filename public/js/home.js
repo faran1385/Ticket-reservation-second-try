@@ -177,7 +177,6 @@ document.addEventListener('alpine:init', () => {
                 } else if (this.value[valueIndex] !== '' && this.ValueSelected[selectedInputIndex] === '') {
                     this.value[valueIndex] = ''
                     this.isInvalid[selectedInputIndex] = true
-                    console.log('s')
                 }
             }
         },
@@ -288,7 +287,6 @@ document.addEventListener('alpine:init', () => {
 
         }, pageChanger(pageName) {
             this.page = pageName
-            console.log(this.date)
         }, pageDetector() {
             let defaultActive = document.querySelector(`.${this.page}`)
             defaultActive.classList.remove('card-header-items-hover')
@@ -308,6 +306,12 @@ document.addEventListener('alpine:init', () => {
         daysOfThisMonth:[],
         selectedDays:[null],
         datesAlt:'Date departure',
+        isSameValue(array){
+            let isSame=array.every((element)=>{
+                return element!==null
+            })
+            return isSame
+        },
         init(){
             this.currYear=this.date.getFullYear()
             this.currMonth=this.date.getMonth()
@@ -383,36 +387,46 @@ document.addEventListener('alpine:init', () => {
             if(this.selectedDays.length===2){
                 if(this.selectedDays[0]===null||this.selectedDays[1]===null){
                     if(!this.$el.children[0].classList.contains('past-day')){
-                        this.$el.classList.add('active','active-calendar-days','text-white')
                         if(this.selectedDays[0]===null){
-                            this.selectedDays[0]={element:this.$el,year:this.currYear,month:this.currMonth}
+                            setActive(0,this.$el,this.selectedDays,this.currYear,this.currMonth)
                         }else{
-                            this.selectedDays[1]={element:this.$el,year:this.currYear,month:this.currMonth}
+                            setActive(1,this.$el,this.selectedDays,this.currYear,this.currMonth)
                         }
                     }
+                }else{
+                    setEmpty(this.selectedDays,0)
+                    setEmpty(this.selectedDays,1)
+                    setActive(0,this.$el,this.selectedDays,this.currYear,this.currMonth)
                 }
             }else{
                 if(this.selectedDays[0]===null&&!this.$el.children[0].classList.contains('past-day')){
-                    this.$el.classList.add('active','active-calendar-days','text-white')
-                    this.selectedDays[0]={element:this.$el,year:this.currYear,month:this.currMonth}
+                    setEmpty(this.selectedDays,0)
+                    setActive(0,this.$el,this.selectedDays,this.currYear,this.currMonth)
+                }else if(this.selectedDays[0]!==null&&!this.$el.children[0].classList.contains('past-day')){
+                    setEmpty(this.selectedDays,0)
+                    setActive(0,this.$el,this.selectedDays,this.currYear,this.currMonth)
+                }
+            }
+            function setActive(index,target,array,year,month){
+                target.classList.add('active','active-calendar-days','text-white')
+                array[index]={element:target,year:year,month:month}
+            }
+            function setEmpty(array,index){
+                if((array[index]===null)===false){
+                    array[index].element.classList.remove('active','active-calendar-days','text-white')
+                    array[index]=null
                 }
             }
         },
         checkSelectedDaysPos(){
             if(this.isBackAndForth===true){
                 this.selectedDays.push(null)
+                return false
             }else{
                 this.selectedDays[1]&&this.selectedDays[1].element.classList.remove('active','active-calendar-days','text-white')
                 this.selectedDays.length===2&&this.selectedDays.pop()
+                return true
             }
-        },
-        setInactive(){
-            this.selectedDays.forEach((object,index)=>{
-                if(object!==null&&object.element===this.$el){
-                    this.selectedDays[index].element.classList.remove('active','active-calendar-days','text-white')
-                    this.selectedDays[index]=null
-                }
-            })
         },
         activatedDaysShow(){
                 this.selectedDays.forEach((object)=>{

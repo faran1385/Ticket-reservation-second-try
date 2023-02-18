@@ -341,7 +341,7 @@
                                                     </label>
                                                     <label class="position-relative coming-input-label-disable w-50">
                                                         <input type="text"
-                                                               class=" form-control-lg form-control rounded-start-0" :disabled="checkSelectedDaysPos"
+                                                               class=" form-control-lg form-control rounded-start-0" :disabled="(checkSelectedDaysPos)"
                                                                placeholder="Return date">
                                                     </label>
                                                 </div>
@@ -404,7 +404,7 @@
                                                         <template x-for="day in daysOfThisMonth">
                                                             <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before position-relative"
                                                                 style="z-index: 1;width: calc(100% / 7)" :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
-                                                                @click="if($el.classList.contains('active-calendar-days')){setInactive()}else{setActive()}"
+                                                                @click="if(isSameValue(selectedDays)){setActive()}else{setActive()}"
                                                             >
                                                                 <span x-text="daysOfThisMonth.indexOf(day)+1" class="" :class="day.isPass&&'past-day'"></span>
                                                             </li>
