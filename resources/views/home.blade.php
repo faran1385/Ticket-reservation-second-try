@@ -361,13 +361,13 @@
                                                             x-ref="prevMonth"
                                                             class="user-select-none border border-dark material-symbols-outlined rounded-circle center disabled"
                                                             style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                            @click="if($el.classList.contains('disabled')===false){setDays(-1),activatedDaysShow()}$refs.nextMonth.classList.remove('disabled'),$refs.nextMonth.classList.add('month-mover-hover','pointer-cursor')"><</span>
+                                                            @click="if($el.classList.contains('disabled')===false){setDays(-1),activatedDaysShow(),betweenSelectedDays()}$refs.nextMonth.classList.remove('disabled'),$refs.nextMonth.classList.add('month-mover-hover','pointer-cursor')"><</span>
                                                     <p class="fs-4" x-text="calendarTitle" x-init=""></p>
                                                     <span
                                                         x-ref="nextMonth"
                                                         class="month-mover-hover user-select-none border border-dark material-symbols-outlined rounded-circle center pointer-cursor ms-2"
                                                         style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                        @click="if($el.classList.contains('disabled')===false){setDays(1),activatedDaysShow()}$refs.prevMonth.classList.remove('disabled'),$refs.prevMonth.classList.add('month-mover-hover','pointer-cursor')">></span>
+                                                        @click="if($el.classList.contains('disabled')===false){setDays(1),activatedDaysShow(),betweenSelectedDays()}$refs.prevMonth.classList.remove('disabled'),$refs.prevMonth.classList.add('month-mover-hover','pointer-cursor')">></span>
                                                 </div>
                                                 <div>
                                                     <ul class="d-flex p-0 fw-bold">
@@ -402,17 +402,17 @@
                                                             </li>
                                                         </template>
                                                         <template x-for="day in daysOfThisMonth">
-                                                            <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before position-relative"
+                                                            <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before calendar-day position-relative"
                                                                 style="z-index: 1;width: calc(100% / 7)" :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
-                                                                @click="if(isSameValue(selectedDays)){setActive()}else{setActive()}"
-                                                            >
-                                                                <span x-text="daysOfThisMonth.indexOf(day)+1" class="" :class="day.isPass&&'past-day'"></span>
+                                                                @click="if(isSameValue(selectedDays)){setActive()}else{setActive()}" x-show="day.isShow">
+                                                                <span  x-text="daysOfThisMonth.indexOf(day)+1" class="" :class="day.isPass&&'past-day'" ></span>
+
                                                             </li>
                                                         </template>
                                                         <template x-for="day in daysOfNextMonth">
                                                             <li class=" list-group-item  user-select-none text-center mb-3 text-muted default-cursor"
                                                                 style="z-index: 1;width: calc(100% / 7)"
-                                                                x-init="">
+                                                            >
                                                             </li>
                                                         </template>
                                                     </ul>

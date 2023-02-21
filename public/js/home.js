@@ -269,8 +269,8 @@ document.addEventListener('alpine:init', () => {
 document.addEventListener('alpine:init', () => {
     Alpine.data('pageChanger', () => ({
         page: 'innerfly',
-        date:new Date(),
-        isBackAndForth:false,
+        date: new Date(),
+        isBackAndForth: false,
         changeActiveTitle() {
 
             let titles = document.querySelectorAll('.services')
@@ -296,53 +296,55 @@ document.addEventListener('alpine:init', () => {
 })
 document.addEventListener('alpine:init', () => {
     Alpine.data('calendar', () => ({
-        date:new Date(),
-        currYear:null,
-        currMonth:null,
-        months:['January','February','March','April','May','June','July','August','September','October','November','December'],
-        calendarTitle:null,
-        daysOfLastMonth:[],
-        daysOfNextMonth:[],
-        daysOfThisMonth:[],
-        selectedDays:[null],
-        datesAlt:'Date departure',
-        isSameValue(array){
-            let isSame=array.every((element)=>{
-                return element!==null
+        date: new Date(),
+        currYear: null,
+        currMonth: null,
+        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        calendarTitle: null,
+        daysOfLastMonth: [],
+        daysOfNextMonth: [],
+        daysOfThisMonth: [],
+        selectedDays: [null],
+        datesAlt: 'Date departure',
+        isSameValue(array) {
+            let isSame = array.every((element) => {
+                return element !== null
             })
             return isSame
         },
-        init(){
-            this.currYear=this.date.getFullYear()
-            this.currMonth=this.date.getMonth()
-            this.setDays(0,false)
+        init() {
+            this.currYear = this.date.getFullYear()
+            this.currMonth = this.date.getMonth()
+            this.setDays(0, false)
         },
-        setDays(monthChanger){
+        setDays(monthChanger) {
             this.yearLimit(monthChanger)
-            this.calendarTitle=this.months[this.currMonth]+' '+this.currYear
+            this.calendarTitle = this.months[this.currMonth] + ' ' + this.currYear
             let firstDayofMonth = new Date(this.currYear, this.currMonth, 1).getDay(),
                 lastDateofMonth = new Date(this.currYear, this.currMonth + 1, 0).getDate(),
                 lastDayofMonth = new Date(this.currYear, this.currMonth, lastDateofMonth).getDay(),
-                lastDateofLastMonth = new Date(this.currYear,this.currMonth, 0).getDate();
-             let setThisMonth=()=>{
-                this.daysOfThisMonth=[]
-                for (let i = 1; i <= lastDateofMonth; i++){
-                    if((this.date.getDay()>i)&&this.currMonth===this.date.getMonth()&&this.currYear===this.date.getFullYear()){
-                        this.daysOfThisMonth.push({isPass:true})
-                    }else{
-                        this.daysOfThisMonth.push({isPass:false})
+                lastDateofLastMonth = new Date(this.currYear, this.currMonth, 0).getDate(),
+                nextMonthLastDay = new Date(this.currYear, this.currMonth + 2, 0).getDate();
+            let setThisMonth = () => {
+                this.daysOfThisMonth = []
+                for (let i = 1; i <= 31; i++) {
+                    let show = i > lastDateofMonth ? false : true
+                    if ((this.date.getDate() > i) && this.currMonth === this.date.getMonth() && this.currYear === this.date.getFullYear()) {
+                        this.daysOfThisMonth.push({isPass: true, isShow: show})
+                    } else {
+                        this.daysOfThisMonth.push({isPass: false, isShow: show})
                     }
                 }
                 setNextMonth()
             }
-            let setNextMonth=()=>{
-                this.daysOfNextMonth=[]
+            let setNextMonth = () => {
+                this.daysOfNextMonth = []
                 for (let i = lastDayofMonth; i < 6; i++) {
                     this.daysOfNextMonth.push(i - lastDayofMonth + 1)
                 }
             }
-             let setPrevMonth=()=>{
-                this.daysOfLastMonth=[]
+            let setPrevMonth = () => {
+                this.daysOfLastMonth = []
                 for (let i = firstDayofMonth; i > 0; i--) {
                     this.daysOfLastMonth.push(lastDateofLastMonth - i + 1)
                 }
@@ -350,94 +352,149 @@ document.addEventListener('alpine:init', () => {
             }
             setPrevMonth()
         },
-        yearLimit(monthChanger){
-            let yearValidation=()=>{
-                if(this.currMonth===this.date.getMonth()+1&&this.currYear===this.date.getFullYear()){
+        yearLimit(monthChanger) {
+            let yearValidation = () => {
+                if (this.currMonth === this.date.getMonth() + 1 && this.currYear === this.date.getFullYear()) {
                     this.$refs.prevMonth.classList.add('disabled')
-                    this.$refs.prevMonth.classList.remove('month-mover-hover','pointer-cursor')
-                }else if(this.currMonth===this.date.getMonth()-1&&this.currYear===this.date.getFullYear()+2){
+                    this.$refs.prevMonth.classList.remove('month-mover-hover', 'pointer-cursor')
+                } else if (this.currMonth === this.date.getMonth() - 1 && this.currYear === this.date.getFullYear() + 2) {
                     this.$refs.nextMonth.classList.add('disabled')
-                    this.$refs.nextMonth.classList.remove('month-mover-hover','pointer-cursor')
+                    this.$refs.nextMonth.classList.remove('month-mover-hover', 'pointer-cursor')
                 }
             }
             yearValidation()
-            let prevYear=()=>{
-                if(this.currMonth==0&&this.currYear>new Date().getFullYear()&&monthChanger===-1){
-                    this.currMonth=11
-                    this.currYear+=-1
-                }else{
-                    this.currMonth+=monthChanger
+            let prevYear = () => {
+                if (this.currMonth == 0 && this.currYear > new Date().getFullYear() && monthChanger === -1) {
+                    this.currMonth = 11
+                    this.currYear += -1
+                } else {
+                    this.currMonth += monthChanger
                 }
             }
-            let nextYear=()=>{
-                if(this.currMonth==11&&this.currYear<new Date().getFullYear()+3&&monthChanger===1){
-                    this.currMonth=0
-                    this.currYear+=1
-                }else{
-                    this.currMonth+=monthChanger
+            let nextYear = () => {
+                if (this.currMonth == 11 && this.currYear < new Date().getFullYear() + 3 && monthChanger === 1) {
+                    this.currMonth = 0
+                    this.currYear += 1
+                } else {
+                    this.currMonth += monthChanger
                 }
             }
-            if(monthChanger===1){
+            if (monthChanger === 1) {
                 nextYear()
-            }else{
+            } else {
                 prevYear()
             }
         },
-        setActive(){
-            if(this.selectedDays.length===2){
-                if(this.selectedDays[0]===null||this.selectedDays[1]===null){
-                    if(!this.$el.children[0].classList.contains('past-day')){
-                        if(this.selectedDays[0]===null){
-                            setActive(0,this.$el,this.selectedDays,this.currYear,this.currMonth)
-                        }else{
-                            setActive(1,this.$el,this.selectedDays,this.currYear,this.currMonth)
+        setActive() {
+            if (this.selectedDays.length === 2) {
+                if (this.selectedDays[0] === null || this.selectedDays[1] === null) {
+                    if (!this.$el.children[0].classList.contains('past-day')) {
+                        if (this.selectedDays[0] === null) {
+                            setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                        } else {
+                            if (this.selectedDays[0].year <= this.currYear) {
+                                if (this.selectedDays[0].month < this.currMonth) {
+                                    setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                                    this.betweenSelectedDays()
+                                } else if (this.selectedDays[0].month == this.currMonth && +(this.selectedDays[0].day) < +(this.$el.textContent.trim())) {
+                                    setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                                    this.betweenSelectedDays()
+                                } else {
+                                    setEmpty(this.selectedDays, 0)
+                                    setEmpty(this.selectedDays, 1)
+                                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                                }
+                            } else {
+                                setEmpty(this.selectedDays, 0)
+                                setEmpty(this.selectedDays, 1)
+                                setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                            }
                         }
                     }
-                }else{
-                    setEmpty(this.selectedDays,0)
-                    setEmpty(this.selectedDays,1)
-                    setActive(0,this.$el,this.selectedDays,this.currYear,this.currMonth)
+                } else {
+                    setEmpty(this.selectedDays, 0)
+                    setEmpty(this.selectedDays, 1)
+                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
                 }
-            }else{
-                if(this.selectedDays[0]===null&&!this.$el.children[0].classList.contains('past-day')){
-                    setEmpty(this.selectedDays,0)
-                    setActive(0,this.$el,this.selectedDays,this.currYear,this.currMonth)
-                }else if(this.selectedDays[0]!==null&&!this.$el.children[0].classList.contains('past-day')){
-                    setEmpty(this.selectedDays,0)
-                    setActive(0,this.$el,this.selectedDays,this.currYear,this.currMonth)
+            } else {
+                if (this.selectedDays[0] === null && !this.$el.children[0].classList.contains('past-day')) {
+                    setEmpty(this.selectedDays, 0)
+                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                } else if (this.selectedDays[0] !== null && !this.$el.children[0].classList.contains('past-day')) {
+                    setEmpty(this.selectedDays, 0)
+                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
                 }
             }
-            function setActive(index,target,array,year,month){
-                target.classList.add('active','active-calendar-days','text-white')
-                array[index]={element:target,year:year,month:month}
+
+            function setActive(index, target, array, year, month) {
+                target.classList.add('active', 'active-calendar-days', 'text-white')
+                array[index] = {element: target, year: year, month: month, day: target.textContent.trim()}
             }
-            function setEmpty(array,index){
-                if((array[index]===null)===false){
-                    array[index].element.classList.remove('active','active-calendar-days','text-white')
-                    array[index]=null
+
+            function setEmpty(array, index) {
+                if ((array[index] === null) === false) {
+                    array[index].element.classList.remove('active', 'active-calendar-days', 'text-white')
+                    array[index] = null
                 }
             }
         },
-        checkSelectedDaysPos(){
-            if(this.isBackAndForth===true){
+        checkSelectedDaysPos() {
+            if (this.isBackAndForth === true) {
                 this.selectedDays.push(null)
                 return false
-            }else{
-                this.selectedDays[1]&&this.selectedDays[1].element.classList.remove('active','active-calendar-days','text-white')
-                this.selectedDays.length===2&&this.selectedDays.pop()
+            } else {
+                this.selectedDays[1] && this.selectedDays[1].element.classList.remove('active', 'active-calendar-days', 'text-white')
+                this.selectedDays.length === 2 && this.selectedDays.pop()
                 return true
             }
         },
-        activatedDaysShow(){
-                this.selectedDays.forEach((object)=>{
-                    if(object!==null){
-                        if(object.year!==this.currYear||object.month!==this.currMonth){
-                            object.element.classList.remove('active','active-calendar-days','text-white')
-                        }else{
-                            object.element.classList.add('active','active-calendar-days','text-white')
+        activatedDaysShow() {
+            this.selectedDays.forEach((object) => {
+                if (object !== null) {
+                    if (object.year !== this.currYear || object.month !== this.currMonth) {
+                        object.element.classList.remove('active', 'active-calendar-days', 'text-white')
+                    } else {
+                        object.element.classList.add('active', 'active-calendar-days', 'text-white')
+                    }
+                }
+            })
+        },
+        betweenSelectedDays() {
+
+            let days = document.querySelectorAll('.calendar-day')
+            if (this.selectedDays.length === 2 && this.isSameValue(this.selectedDays)) {
+                if (this.selectedDays[0].year === this.selectedDays[1].year && this.selectedDays[0].month === this.selectedDays[1].month) {
+                    for (let i = this.selectedDays[0].day; i < this.selectedDays[1].day; i++) {
+                        if (typeof i == "number") {
+                            days[i - 1].classList.add('days-between-selects')
                         }
                     }
-                })
+                } else {
+                    this.betweenDaysMultiMonths()
+                }
+            }
+        },
+        betweenDaysMultiMonths() {
+            let thisMonthLastDay = new Date(this.currYear, this.currMonth + 1, 0).getDate(),
+                lastDateOfLastMonth = new Date(this.currYear, this.currMonth, 0).getDate();
+            let setedBetween = document.querySelectorAll('.days-between-selects')
+            setedBetween.forEach(element => {
+                element.classList.remove('days-between-selects')
+            })
+            let days = document.querySelectorAll('.calendar-day')
+            if (this.currMonth === this.selectedDays[0].month) {
+                for (let i = this.selectedDays[0].day; i <= thisMonthLastDay; i++) {
+                    days[i - 1].classList.add('days-between-selects')
+                }
+            } else if (this.currMonth === this.selectedDays[1].month) {
+                for (let i = 1; i < this.selectedDays[1].day; i++) {
+                    days[i - 1].classList.add('days-between-selects')
+                }
+            } else if(this.currMonth<this.selectedDays[1].month&&this.currMonth>this.selectedDays[0].month){
+                for (let i = 1; i <= thisMonthLastDay; i++) {
+                    days[i - 1].classList.add('days-between-selects')
+                }
+            }
         }
     }))
 })
