@@ -404,7 +404,7 @@
                                                         <template x-for="day in daysOfThisMonth">
                                                             <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before calendar-day position-relative"
                                                                 style="z-index: 1;width: calc(100% / 7)" :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
-                                                                @click="if(isSameValue(selectedDays)){setActive()}else{setActive()}" x-show="day.isShow">
+                                                                @click="setActive()" x-show="day.isShow">
                                                                 <span  x-text="daysOfThisMonth.indexOf(day)+1" class="" :class="day.isPass&&'past-day'" ></span>
 
                                                             </li>

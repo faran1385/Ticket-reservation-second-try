@@ -407,11 +407,16 @@ document.addEventListener('alpine:init', () => {
                             } else {
                                 setEmpty(this.selectedDays, 0)
                                 setEmpty(this.selectedDays, 1)
+                                console.log('s')
                                 setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
                             }
                         }
                     }
                 } else {
+                    let setedBetween = document.querySelectorAll('.days-between-selects')
+                    setedBetween.forEach(element => {
+                        element.classList.remove('days-between-selects')
+                    })
                     setEmpty(this.selectedDays, 0)
                     setEmpty(this.selectedDays, 1)
                     setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
