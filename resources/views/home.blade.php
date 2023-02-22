@@ -336,13 +336,15 @@
                                                 <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
                                                     <label class="w-50">
                                                         <input type="text"
-                                                               class=" form-control-lg form-control rounded-end-0"
-                                                               placeholder="Departure date">
+                                                               class=" form-control-lg form-control rounded-end-0 "
+                                                               placeholder="Departure date" x-model="selectedDayInputVal[0]"
+                                                        @keydown.prevent=''>
                                                     </label>
                                                     <label class="position-relative coming-input-label-disable w-50">
                                                         <input type="text"
-                                                               class=" form-control-lg form-control rounded-start-0" :disabled="(checkSelectedDaysPos)"
-                                                               placeholder="Return date">
+                                                               class=" form-control-lg form-control rounded-start-0 " :disabled="(checkSelectedDaysPos)"
+                                                               placeholder="Return date" x-model="selectedDayInputVal[1]"
+                                                        @keydown.prevent="">
                                                     </label>
                                                 </div>
                                                 <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">

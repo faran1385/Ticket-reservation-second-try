@@ -304,8 +304,10 @@ document.addEventListener('alpine:init', () => {
         daysOfLastMonth: [],
         daysOfNextMonth: [],
         daysOfThisMonth: [],
+        selectedDayInputVal:['',''],
         selectedDays: [null],
         datesAlt: 'Date departure',
+        monthsAbbreviation:['Jan','Feb','Mar','Apr','May','June','July','Aug','Sep','Oct','Nov','Dec'],
         isSameValue(array) {
             let isSame = array.every((element) => {
                 return element !== null
@@ -390,25 +392,24 @@ document.addEventListener('alpine:init', () => {
                 if (this.selectedDays[0] === null || this.selectedDays[1] === null) {
                     if (!this.$el.children[0].classList.contains('past-day')) {
                         if (this.selectedDays[0] === null) {
-                            setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                            setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
                         } else {
                             if (this.selectedDays[0].year <= this.currYear) {
                                 if (this.selectedDays[0].month < this.currMonth) {
-                                    setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                                    setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
                                     this.betweenSelectedDays()
                                 } else if (this.selectedDays[0].month == this.currMonth && +(this.selectedDays[0].day) < +(this.$el.textContent.trim())) {
-                                    setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                                    setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
                                     this.betweenSelectedDays()
                                 } else {
-                                    setEmpty(this.selectedDays, 0)
-                                    setEmpty(this.selectedDays, 1)
-                                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                                    setEmpty(this.selectedDays, 0,this.selectedDayInputVal)
+                                    setEmpty(this.selectedDays, 1,this.selectedDayInputVal)
+                                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
                                 }
                             } else {
-                                setEmpty(this.selectedDays, 0)
-                                setEmpty(this.selectedDays, 1)
-                                console.log('s')
-                                setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                                setEmpty(this.selectedDays, 0,this.selectedDayInputVal)
+                                setEmpty(this.selectedDays, 1,this.selectedDayInputVal)
+                                setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
                             }
                         }
                     }
@@ -417,28 +418,30 @@ document.addEventListener('alpine:init', () => {
                     setedBetween.forEach(element => {
                         element.classList.remove('days-between-selects')
                     })
-                    setEmpty(this.selectedDays, 0)
-                    setEmpty(this.selectedDays, 1)
-                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                    setEmpty(this.selectedDays, 0,this.selectedDayInputVal)
+                    setEmpty(this.selectedDays, 1,this.selectedDayInputVal)
+                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
                 }
             } else {
                 if (this.selectedDays[0] === null && !this.$el.children[0].classList.contains('past-day')) {
-                    setEmpty(this.selectedDays, 0)
-                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                    setEmpty(this.selectedDays, 0,this.selectedDayInputVal)
+                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
                 } else if (this.selectedDays[0] !== null && !this.$el.children[0].classList.contains('past-day')) {
-                    setEmpty(this.selectedDays, 0)
-                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth)
+                    setEmpty(this.selectedDays, 0,this.selectedDayInputVal)
+                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
                 }
             }
 
-            function setActive(index, target, array, year, month) {
+            function setActive(index, target, array, year, month,inputValue,monthsAbbreviation) {
                 target.classList.add('active', 'active-calendar-days', 'text-white')
                 array[index] = {element: target, year: year, month: month, day: target.textContent.trim()}
+                inputValue[index]=`${monthsAbbreviation[month]} ${target.textContent.trim()}.${year}`
             }
 
-            function setEmpty(array, index) {
+            function setEmpty(array, index,inputVal) {
                 if ((array[index] === null) === false) {
                     array[index].element.classList.remove('active', 'active-calendar-days', 'text-white')
+                    inputVal[index]=''
                     array[index] = null
                 }
             }
@@ -448,6 +451,10 @@ document.addEventListener('alpine:init', () => {
                 this.selectedDays.push(null)
                 return false
             } else {
+                let setedBetween = document.querySelectorAll('.days-between-selects')
+                setedBetween.forEach(element => {
+                    element.classList.remove('days-between-selects')
+                })
                 this.selectedDays[1] && this.selectedDays[1].element.classList.remove('active', 'active-calendar-days', 'text-white')
                 this.selectedDays.length === 2 && this.selectedDays.pop()
                 return true
@@ -467,12 +474,23 @@ document.addEventListener('alpine:init', () => {
         betweenSelectedDays() {
 
             let days = document.querySelectorAll('.calendar-day')
+
             if (this.selectedDays.length === 2 && this.isSameValue(this.selectedDays)) {
                 if (this.selectedDays[0].year === this.selectedDays[1].year && this.selectedDays[0].month === this.selectedDays[1].month) {
-                    for (let i = this.selectedDays[0].day; i < this.selectedDays[1].day; i++) {
-                        if (typeof i == "number") {
-                            days[i - 1].classList.add('days-between-selects')
+                    let setBetweens=()=>{
+                        for (let i = this.selectedDays[0].day; i < this.selectedDays[1].day; i++) {
+                            if (typeof i == "number") {
+                                days[i - 1].classList.add('days-between-selects')
+                            }
                         }
+                    }
+                    if(this.currMonth===this.selectedDays[0].month){
+                        setBetweens()
+                    }else{
+                        let setedBetween = document.querySelectorAll('.days-between-selects')
+                        setedBetween.forEach(element => {
+                            element.classList.remove('days-between-selects')
+                        })
                     }
                 } else {
                     this.betweenDaysMultiMonths()
