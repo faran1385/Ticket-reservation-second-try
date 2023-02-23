@@ -129,11 +129,13 @@
                                             <button class=" btn border  dropdown-toggle" data-bs-toggle="dropdown"
                                                     x-text="value"></button>
                                             <ul class="dropdown-menu">
-                                                <li class="dropdown-item pointer-cursor" @click="valueSetter(),isBackAndForth=false"
-                                                    href="#" >one sided
+                                                <li class="dropdown-item pointer-cursor"
+                                                    @click="valueSetter(),isBackAndForth=false"
+                                                    href="#">one sided
                                                 </li>
                                                 <li class="dropdown-divider"></li>
-                                                <li class="dropdown-item pointer-cursor" @click="valueSetter(),isBackAndForth=true"
+                                                <li class="dropdown-item pointer-cursor"
+                                                    @click="valueSetter(),isBackAndForth=true"
                                                     href="#">back and forth
                                                 </li>
                                             </ul>
@@ -337,14 +339,17 @@
                                                     <label class="w-50">
                                                         <input type="text"
                                                                class=" form-control-lg form-control rounded-end-0 "
-                                                               placeholder="Departure date" x-model="selectedDayInputVal[0]"
-                                                        @keydown.prevent=''>
+                                                               placeholder="Departure date"
+                                                               x-model="selectedDayInputVal[0]"
+                                                               @keydown.prevent=''>
                                                     </label>
                                                     <label class="position-relative coming-input-label-disable w-50">
                                                         <input type="text"
-                                                               class=" form-control-lg form-control rounded-start-0 " :disabled="(checkSelectedDaysPos)"
-                                                               placeholder="Return date" x-model="selectedDayInputVal[1]"
-                                                        @keydown.prevent="">
+                                                               class=" form-control-lg form-control rounded-start-0 "
+                                                               :disabled="(checkSelectedDaysPos)"
+                                                               placeholder="Return date"
+                                                               x-model="selectedDayInputVal[1]"
+                                                               @keydown.prevent="">
                                                     </label>
                                                 </div>
                                                 <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
@@ -357,67 +362,99 @@
                                 </span>
                                                 </div>
                                             </div>
-                                            <div class="bg-white rounded border" style="width: 450px">
-                                                <div class="d-flex p-3 justify-content-between align-items-baseline">
-                                                        <span
-                                                            x-ref="prevMonth"
-                                                            class="user-select-none border border-dark material-symbols-outlined rounded-circle center disabled"
-                                                            style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                            @click="if($el.classList.contains('disabled')===false){setDays(-1),activatedDaysShow(),betweenSelectedDays()}$refs.nextMonth.classList.remove('disabled'),$refs.nextMonth.classList.add('month-mover-hover','pointer-cursor')"><</span>
-                                                    <p class="fs-4" x-text="calendarTitle" x-init=""></p>
-                                                    <span
-                                                        x-ref="nextMonth"
-                                                        class="month-mover-hover user-select-none border border-dark material-symbols-outlined rounded-circle center pointer-cursor ms-2"
-                                                        style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                        @click="if($el.classList.contains('disabled')===false){setDays(1),activatedDaysShow(),betweenSelectedDays()}$refs.prevMonth.classList.remove('disabled'),$refs.prevMonth.classList.add('month-mover-hover','pointer-cursor')">></span>
-                                                </div>
-                                                <div>
-                                                    <ul class="d-flex p-0 fw-bold">
-                                                        <li class="list-group-item text-center"
-                                                            style="width: calc(100% /7)">Sun
-                                                        </li>
-                                                        <li class="list-group-item text-center"
-                                                            style="width: calc(100% /7)">Mon
-                                                        </li>
-                                                        <li class="list-group-item text-center"
-                                                            style="width: calc(100% /7)">Tue
-                                                        </li>
-                                                        <li class="list-group-item text-center"
-                                                            style="width: calc(100% /7)">Wed
-                                                        </li>
-                                                        <li class="list-group-item text-center"
-                                                            style="width: calc(100% /7)">Thu
-                                                        </li>
-                                                        <li class="list-group-item text-center"
-                                                            style="width: calc(100% /7)">Fri
-                                                        </li>
-                                                        <li class="list-group-item text-center"
-                                                            style="width: calc(100% /7)">Sat
-                                                        </li>
-                                                    </ul>
-                                                    <ul class="d-flex flex-wrap p-0">
-                                                        <template x-for="day in daysOfLastMonth">
-                                                            <li class=" list-group-item user-select-none  text-center mb-3 text-muted  default-cursor"
-                                                                style="z-index: 1;width: calc(100% / 7)"
-                                                                x-init="">
-                                                                <span class=""></span>
+                                            <div class="bg-white rounded border carousel slide" id="calendar"
+                                                 style="width: 450px">
+                                                <div class="carousel-inner">
+                                                    <div class="d-flex justify-content-center p-3 align-items-baseline">
+                                                        <p class="fs-4" x-text="calendarTitle" x-init=""></p>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center">
+                                                        <div
+                                                            class="d-flex p-3 justify-content-between align-items-baseline position-relative w-75"
+                                                            style="bottom: 1.5rem;">
+                                                                <span
+                                                                    x-ref="prevMonth"
+                                                                    class="user-select-none  border border-dark material-symbols-outlined rounded-circle center carousel-control-prev disabled"
+                                                                    style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
+                                                                    data-bs-slide="prev"
+                                                                    data-bs-target="#calendar"
+                                                                    @click="if($el.classList.contains('disabled')===false){setDays(-1),activatedDaysShow(),betweenSelectedDays()}$refs.nextMonth.classList.remove('disabled'),$refs.nextMonth.classList.add('month-mover-hover','pointer-cursor')">
+                                                                    <</span>
+                                                            <span
+                                                                x-ref="nextMonth"
+                                                                data-bs-slide="next"
+                                                                data-bs-target="#calendar"
+                                                                class="month-mover-hover user-select-none border carousel-control-next border-dark material-symbols-outlined rounded-circle center pointer-cursor ms-2"
+                                                                style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
+                                                                @click="if($el.classList.contains('disabled')===false){setDays(1),activatedDaysShow(),betweenSelectedDays()}$refs.prevMonth.classList.remove('disabled'),$refs.prevMonth.classList.add('month-mover-hover','pointer-cursor')">></span>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <ul class="d-flex p-0 fw-bold">
+                                                            <li class="list-group-item text-center"
+                                                                style="width: calc(100% /7)">Sun
                                                             </li>
-                                                        </template>
-                                                        <template x-for="day in daysOfThisMonth">
-                                                            <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before calendar-day position-relative"
-                                                                style="z-index: 1;width: calc(100% / 7)" :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
-                                                                @click="setActive()" x-show="day.isShow">
-                                                                <span  x-text="daysOfThisMonth.indexOf(day)+1" class="" :class="day.isPass&&'past-day'" ></span>
+                                                            <li class="list-group-item text-center"
+                                                                style="width: calc(100% /7)">Mon
+                                                            </li>
+                                                            <li class="list-group-item text-center"
+                                                                style="width: calc(100% /7)">Tue
+                                                            </li>
+                                                            <li class="list-group-item text-center"
+                                                                style="width: calc(100% /7)">Wed
+                                                            </li>
+                                                            <li class="list-group-item text-center"
+                                                                style="width: calc(100% /7)">Thu
+                                                            </li>
+                                                            <li class="list-group-item text-center"
+                                                                style="width: calc(100% /7)">Fri
+                                                            </li>
+                                                            <li class="list-group-item text-center"
+                                                                style="width: calc(100% /7)">Sat
+                                                            </li>
+                                                        </ul>
+                                                        <div class="carousel-item active">
+                                                            <ul class="d-flex flex-wrap p-0">
+                                                                <template x-for="day in daysOfLastMonth">
+                                                                    <li class=" list-group-item user-select-none  text-center mb-3 text-muted  default-cursor"
+                                                                        style="z-index: 1;width: calc(100% / 7)"
+                                                                        x-init="">
+                                                                        <span class=""></span>
+                                                                    </li>
+                                                                </template>
+                                                                <template x-for="day in daysOfThisMonth">
+                                                                    <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before calendar-day position-relative"
+                                                                        style="z-index: 1;width: calc(100% / 7)"
+                                                                        :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
+                                                                        @click="setActive()" x-show="day.isShow">
+                                                                        <span x-text="daysOfThisMonth.indexOf(day)+1"
+                                                                              class="" style="width: 1.5rem;"
+                                                                              :class="day.isPass&&'past-day text-muted'"></span>
 
-                                                            </li>
-                                                        </template>
-                                                        <template x-for="day in daysOfNextMonth">
-                                                            <li class=" list-group-item  user-select-none text-center mb-3 text-muted default-cursor"
-                                                                style="z-index: 1;width: calc(100% / 7)"
-                                                            >
-                                                            </li>
-                                                        </template>
-                                                    </ul>
+                                                                    </li>
+                                                                </template>
+                                                                <template x-for="day in daysOfNextMonth">
+                                                                    <li class=" list-group-item  user-select-none text-center mb-3 text-muted default-cursor"
+                                                                        style="z-index: 1;width: calc(100% / 7)"
+                                                                    >
+                                                                    </li>
+                                                                </template>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="carousel-item">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-center"
+                                                     style="border-top: 1px solid #eee">
+                                                    <div
+                                                        class="w-75 d-flex align-items-center justify-content-between mb-1"
+                                                        style="height: 3rem;">
+                                                        <a class="link-primary text-decoration-none pointer-cursor">go
+                                                            to today</a>
+                                                        <button class="btn btn-primary text-white">submit</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

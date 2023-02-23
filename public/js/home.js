@@ -388,9 +388,9 @@ document.addEventListener('alpine:init', () => {
             }
         },
         setActive() {
-            if (this.selectedDays.length === 2) {
+            if (this.selectedDays.length === 2&&this.$el.children[0].classList.contains('past-day')===false) {
                 if (this.selectedDays[0] === null || this.selectedDays[1] === null) {
-                    if (!this.$el.children[0].classList.contains('past-day')) {
+                    if (this.$el.children[0].classList.contains('past-day')===false) {
                         if (this.selectedDays[0] === null) {
                             setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
                         } else {
@@ -455,6 +455,7 @@ document.addEventListener('alpine:init', () => {
                 setedBetween.forEach(element => {
                     element.classList.remove('days-between-selects')
                 })
+                this.selectedDayInputVal[1]=''
                 this.selectedDays[1] && this.selectedDays[1].element.classList.remove('active', 'active-calendar-days', 'text-white')
                 this.selectedDays.length === 2 && this.selectedDays.pop()
                 return true
@@ -477,14 +478,16 @@ document.addEventListener('alpine:init', () => {
 
             if (this.selectedDays.length === 2 && this.isSameValue(this.selectedDays)) {
                 if (this.selectedDays[0].year === this.selectedDays[1].year && this.selectedDays[0].month === this.selectedDays[1].month) {
+
                     let setBetweens=()=>{
-                        for (let i = this.selectedDays[0].day; i < this.selectedDays[1].day; i++) {
+                        console.log(this.selectedDays[0].day<this.selectedDays[1].day)
+                        for (let i = +(this.selectedDays[0].day); i < +(this.selectedDays[1].day); i++) {
                             if (typeof i == "number") {
                                 days[i - 1].classList.add('days-between-selects')
                             }
                         }
                     }
-                    if(this.currMonth===this.selectedDays[0].month){
+                    if(this.currYear===this.selectedDays[0].year&&this.currMonth===this.selectedDays[0].month){
                         setBetweens()
                     }else{
                         let setedBetween = document.querySelectorAll('.days-between-selects')
@@ -505,17 +508,30 @@ document.addEventListener('alpine:init', () => {
                 element.classList.remove('days-between-selects')
             })
             let days = document.querySelectorAll('.calendar-day')
-            if (this.currMonth === this.selectedDays[0].month) {
+            if (this.currYear === this.selectedDays[0].year&&this.currMonth === this.selectedDays[0].month) {
                 for (let i = this.selectedDays[0].day; i <= thisMonthLastDay; i++) {
                     days[i - 1].classList.add('days-between-selects')
                 }
-            } else if (this.currMonth === this.selectedDays[1].month) {
+            } else if (this.currYear === this.selectedDays[1].year&&this.currMonth === this.selectedDays[1].month) {
                 for (let i = 1; i < this.selectedDays[1].day; i++) {
                     days[i - 1].classList.add('days-between-selects')
                 }
             } else if(this.currMonth<this.selectedDays[1].month&&this.currMonth>this.selectedDays[0].month){
                 for (let i = 1; i <= thisMonthLastDay; i++) {
                     days[i - 1].classList.add('days-between-selects')
+                }
+            }else if(this.selectedDays[1].year>this.selectedDays[0].year){
+                function set(){
+                    for (let i = 1; i <= thisMonthLastDay; i++) {
+                        days[i - 1].classList.add('days-between-selects')
+                    }
+                }
+                if(this.currYear===this.selectedDays[1].year&&this.currMonth<this.selectedDays[1].month){
+                    set()
+                }else if(this.currYear>this.selectedDays[0].year&&this.currYear<this.selectedDays[1].year){
+                    set()
+                }else if(this.currYear===this.selectedDays[0].year&&this.currMonth>this.selectedDays[0].month){
+                    set()
                 }
             }
         }
