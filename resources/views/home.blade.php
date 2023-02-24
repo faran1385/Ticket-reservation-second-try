@@ -376,7 +376,7 @@
                                                                     x-ref="prevMonth"
                                                                     class="user-select-none border border-dark material-symbols-outlined rounded-circle center position-absolute top-0 bottom-0 start-0  disabled"
                                                                     style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                                    @click="if($el.classList.contains('disabled')===false){setDays(-1),activatedDaysShow(),betweenSelectedDays()}setRequiresInput(1,'next')">
+                                                                    @click="if($el.classList.contains('disabled')===false&&isSliding===false){setDays(-1),activatedDaysShow(),betweenSelectedDays(),isSliding=true,isSlidingToggle()}setRequiresInput(1,'next')">
                                                                     <</span>
                                                             <span
                                                                 x-ref="nextMonth"
@@ -384,7 +384,7 @@
                                                                 data-bs-target="#calendar"
                                                                 class="month-mover-hover user-select-none border position-absolute top-0 bottom-0 end-0 border-dark material-symbols-outlined rounded-circle center pointer-cursor ms-2"
                                                                 style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                                @click="if($el.classList.contains('disabled')===false){setDays(1),activatedDaysShow(),betweenSelectedDays()}setRequiresInput(0,'prev')">></span>
+                                                                @click="if($el.classList.contains('disabled')===false&&isSliding===false){setDays(1),activatedDaysShow(),betweenSelectedDays(),isSliding=true,isSlidingToggle()}setRequiresInput(0,'prev')">></span>
                                                         </div>
                                                     </div>
                                                     <div>
@@ -411,7 +411,7 @@
                                                                 style="width: calc(100% /7)">Sat
                                                             </li>
                                                         </ul>
-                                                        <div class="carousel-item">
+                                                        <div class="carousel-item" >
                                                             <ul class="d-flex flex-wrap p-0">
                                                                 <template x-for="day in daysOfLastMonth[0]">
                                                                     <li class=" list-group-item user-select-none  text-center mb-3 text-muted  default-cursor"

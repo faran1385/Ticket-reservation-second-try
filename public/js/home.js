@@ -305,6 +305,7 @@ document.addEventListener('alpine:init', () => {
         daysOfNextMonth: [[],[]],
         daysOfThisMonth: [[],[]],
         monthMoverSpans:null,
+        isSliding:false,
         indexOfSlide:null,
         selectedDayInputVal:['',''],
         selectedDays: [null],
@@ -321,6 +322,11 @@ document.addEventListener('alpine:init', () => {
             this.currYear = this.date.getFullYear()
             this.currMonth = this.date.getMonth()
             this.setDays(0)
+        },
+        isSlidingToggle(){
+          setTimeout(()=>{
+              this.isSliding=false
+          },600)
         },
         setDays(monthChanger) {
             let slides=document.querySelectorAll('.carousel-item')
@@ -572,3 +578,5 @@ document.addEventListener('alpine:init', () => {
         }
     }))
 })
+
+
