@@ -301,9 +301,11 @@ document.addEventListener('alpine:init', () => {
         currMonth: null,
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         calendarTitle: null,
-        daysOfLastMonth: [],
-        daysOfNextMonth: [],
-        daysOfThisMonth: [],
+        daysOfLastMonth: [[],[]],
+        daysOfNextMonth: [[],[]],
+        daysOfThisMonth: [[],[]],
+        monthMoverSpans:null,
+        indexOfSlide:null,
         selectedDayInputVal:['',''],
         selectedDays: [null],
         datesAlt: 'Date departure',
@@ -315,11 +317,25 @@ document.addEventListener('alpine:init', () => {
             return isSame
         },
         init() {
+            this.monthMoverSpans=[this.$refs.prevMonth,this.$refs.nextMonth]
             this.currYear = this.date.getFullYear()
             this.currMonth = this.date.getMonth()
-            this.setDays(0, false)
+            this.setDays(0)
         },
         setDays(monthChanger) {
+            let slides=document.querySelectorAll('.carousel-item')
+            for(let element of slides){
+                if(element.classList.contains('active')&&!element.classList.contains('not-first-time')){
+                    slides[0].classList.add('not-first-time')
+                    slides[1].classList.add('not-first-time')
+                    this.indexOfSlide=Array.from(slides).indexOf(element)
+                    break;
+                }else if(!element.classList.contains('active')&&element.classList.contains('not-first-time')){
+                    this.indexOfSlide=Array.from(slides).indexOf(element)
+                    break;
+                }
+            }
+
             this.yearLimit(monthChanger)
             this.calendarTitle = this.months[this.currMonth] + ' ' + this.currYear
             let firstDayofMonth = new Date(this.currYear, this.currMonth, 1).getDay(),
@@ -328,27 +344,27 @@ document.addEventListener('alpine:init', () => {
                 lastDateofLastMonth = new Date(this.currYear, this.currMonth, 0).getDate(),
                 nextMonthLastDay = new Date(this.currYear, this.currMonth + 2, 0).getDate();
             let setThisMonth = () => {
-                this.daysOfThisMonth = []
+                this.daysOfThisMonth[this.indexOfSlide] = []
                 for (let i = 1; i <= 31; i++) {
                     let show = i > lastDateofMonth ? false : true
                     if ((this.date.getDate() > i) && this.currMonth === this.date.getMonth() && this.currYear === this.date.getFullYear()) {
-                        this.daysOfThisMonth.push({isPass: true, isShow: show})
+                        this.daysOfThisMonth[this.indexOfSlide].push({isPass: true, isShow: show})
                     } else {
-                        this.daysOfThisMonth.push({isPass: false, isShow: show})
+                        this.daysOfThisMonth[this.indexOfSlide].push({isPass: false, isShow: show})
                     }
                 }
                 setNextMonth()
             }
             let setNextMonth = () => {
-                this.daysOfNextMonth = []
+                this.daysOfNextMonth[this.indexOfSlide] = []
                 for (let i = lastDayofMonth; i < 6; i++) {
-                    this.daysOfNextMonth.push(i - lastDayofMonth + 1)
+                    this.daysOfNextMonth[this.indexOfSlide].push(i - lastDayofMonth + 1)
                 }
             }
             let setPrevMonth = () => {
-                this.daysOfLastMonth = []
+                this.daysOfLastMonth[this.indexOfSlide] = []
                 for (let i = firstDayofMonth; i > 0; i--) {
-                    this.daysOfLastMonth.push(lastDateofLastMonth - i + 1)
+                    this.daysOfLastMonth[this.indexOfSlide].push(lastDateofLastMonth - i + 1)
                 }
                 setThisMonth()
             }
@@ -357,11 +373,14 @@ document.addEventListener('alpine:init', () => {
         yearLimit(monthChanger) {
             let yearValidation = () => {
                 if (this.currMonth === this.date.getMonth() + 1 && this.currYear === this.date.getFullYear()) {
-                    this.$refs.prevMonth.classList.add('disabled')
-                    this.$refs.prevMonth.classList.remove('month-mover-hover', 'pointer-cursor')
+                    setRequires(this.monthMoverSpans,0)
                 } else if (this.currMonth === this.date.getMonth() - 1 && this.currYear === this.date.getFullYear() + 2) {
-                    this.$refs.nextMonth.classList.add('disabled')
-                    this.$refs.nextMonth.classList.remove('month-mover-hover', 'pointer-cursor')
+                    setRequires(this.monthMoverSpans,1)
+                }
+                function setRequires(array,index){
+                    array[index].classList.add('disabled')
+                    array[index].classList.remove('month-mover-hover','pointer-cursor')
+                    array[index].removeAttribute('data-bs-slide','data-bs-target')
                 }
             }
             yearValidation()
@@ -508,6 +527,15 @@ document.addEventListener('alpine:init', () => {
                 element.classList.remove('days-between-selects')
             })
             let days = document.querySelectorAll('.calendar-day')
+            let realDays=[]
+                for(let i=0;i<days.length/2;i++){
+                    if(this.indexOfSlide===1){
+                        realDays.push(days[i+days.length/2])
+                    }else{
+                        realDays.push(days[i])
+                    }
+                }
+            days=realDays
             if (this.currYear === this.selectedDays[0].year&&this.currMonth === this.selectedDays[0].month) {
                 for (let i = this.selectedDays[0].day; i <= thisMonthLastDay; i++) {
                     days[i - 1].classList.add('days-between-selects')
@@ -534,6 +562,13 @@ document.addEventListener('alpine:init', () => {
                     set()
                 }
             }
+        },
+        setRequiresInput(index,sliderMoverValue){
+            this.monthMoverSpans[index].classList.remove('disabled')
+            this.monthMoverSpans[index].classList.add('month-mover-hover','pointer-cursor')
+            this.monthMoverSpans[index].setAttribute('data-bs-slide',sliderMoverValue)
+            this.monthMoverSpans[index].setAttribute('data-bs-target','#calendar')
+
         }
     }))
 })

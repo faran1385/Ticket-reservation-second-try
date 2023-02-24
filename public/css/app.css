@@ -19093,7 +19093,7 @@ textarea.form-control-lg {
     background: linear-gradient(to left top, transparent 45.5%, currentColor 47.5%, currentColor 52.5%, transparent 54.5%);
     pointer-events: none;
 }
-.rotate-45:after{
+.rotate-none:after{
     transform: rotate(0);
 }
 .days-between-selects{

@@ -345,7 +345,7 @@
                                                     </label>
                                                     <label class="position-relative coming-input-label-disable w-50">
                                                         <input type="text"
-                                                               class=" form-control-lg form-control rounded-start-0 "
+                                                               class=" form-control-lg form-control rounded-start-0"
                                                                :disabled="(checkSelectedDaysPos)"
                                                                placeholder="Return date"
                                                                x-model="selectedDayInputVal[1]"
@@ -374,19 +374,17 @@
                                                             style="bottom: 1.5rem;">
                                                                 <span
                                                                     x-ref="prevMonth"
-                                                                    class="user-select-none  border border-dark material-symbols-outlined rounded-circle center carousel-control-prev disabled"
+                                                                    class="user-select-none border border-dark material-symbols-outlined rounded-circle center position-absolute top-0 bottom-0 start-0  disabled"
                                                                     style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                                    data-bs-slide="prev"
-                                                                    data-bs-target="#calendar"
-                                                                    @click="if($el.classList.contains('disabled')===false){setDays(-1),activatedDaysShow(),betweenSelectedDays()}$refs.nextMonth.classList.remove('disabled'),$refs.nextMonth.classList.add('month-mover-hover','pointer-cursor')">
+                                                                    @click="if($el.classList.contains('disabled')===false){setDays(-1),activatedDaysShow(),betweenSelectedDays()}setRequiresInput(1,'next')">
                                                                     <</span>
                                                             <span
                                                                 x-ref="nextMonth"
                                                                 data-bs-slide="next"
                                                                 data-bs-target="#calendar"
-                                                                class="month-mover-hover user-select-none border carousel-control-next border-dark material-symbols-outlined rounded-circle center pointer-cursor ms-2"
+                                                                class="month-mover-hover user-select-none border position-absolute top-0 bottom-0 end-0 border-dark material-symbols-outlined rounded-circle center pointer-cursor ms-2"
                                                                 style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                                @click="if($el.classList.contains('disabled')===false){setDays(1),activatedDaysShow(),betweenSelectedDays()}$refs.prevMonth.classList.remove('disabled'),$refs.prevMonth.classList.add('month-mover-hover','pointer-cursor')">></span>
+                                                                @click="if($el.classList.contains('disabled')===false){setDays(1),activatedDaysShow(),betweenSelectedDays()}setRequiresInput(0,'prev')">></span>
                                                         </div>
                                                     </div>
                                                     <div>
@@ -413,27 +411,27 @@
                                                                 style="width: calc(100% /7)">Sat
                                                             </li>
                                                         </ul>
-                                                        <div class="carousel-item active">
+                                                        <div class="carousel-item">
                                                             <ul class="d-flex flex-wrap p-0">
-                                                                <template x-for="day in daysOfLastMonth">
+                                                                <template x-for="day in daysOfLastMonth[0]">
                                                                     <li class=" list-group-item user-select-none  text-center mb-3 text-muted  default-cursor"
                                                                         style="z-index: 1;width: calc(100% / 7)"
                                                                         x-init="">
                                                                         <span class=""></span>
                                                                     </li>
                                                                 </template>
-                                                                <template x-for="day in daysOfThisMonth">
+                                                                <template x-for="day in daysOfThisMonth[0]">
                                                                     <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before calendar-day position-relative"
                                                                         style="z-index: 1;width: calc(100% / 7)"
                                                                         :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
                                                                         @click="setActive()" x-show="day.isShow">
-                                                                        <span x-text="daysOfThisMonth.indexOf(day)+1"
+                                                                        <span x-text="daysOfThisMonth[0].indexOf(day)+1"
                                                                               class="" style="width: 1.5rem;"
                                                                               :class="day.isPass&&'past-day text-muted'"></span>
 
                                                                     </li>
                                                                 </template>
-                                                                <template x-for="day in daysOfNextMonth">
+                                                                <template x-for="day in daysOfNextMonth[0]">
                                                                     <li class=" list-group-item  user-select-none text-center mb-3 text-muted default-cursor"
                                                                         style="z-index: 1;width: calc(100% / 7)"
                                                                     >
@@ -441,8 +439,33 @@
                                                                 </template>
                                                             </ul>
                                                         </div>
-                                                        <div class="carousel-item">
+                                                        <div class="carousel-item active">
+                                                            <ul class="d-flex flex-wrap p-0">
+                                                                <template x-for="day in daysOfLastMonth[1]">
+                                                                    <li class=" list-group-item user-select-none  text-center mb-3 text-muted  default-cursor"
+                                                                        style="z-index: 1;width: calc(100% / 7)"
+                                                                        x-init="">
+                                                                        <span class=""></span>
+                                                                    </li>
+                                                                </template>
+                                                                <template x-for="day in daysOfThisMonth[1]">
+                                                                    <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before calendar-day position-relative"
+                                                                        style="z-index: 1;width: calc(100% / 7)"
+                                                                        :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
+                                                                        @click="setActive()" x-show="day.isShow">
+                                                                        <span x-text="daysOfThisMonth[1].indexOf(day)+1"
+                                                                              class="" style="width: 1.5rem;"
+                                                                              :class="day.isPass&&'past-day text-muted'"></span>
 
+                                                                    </li>
+                                                                </template>
+                                                                <template x-for="day in daysOfNextMonth[1]">
+                                                                    <li class=" list-group-item  user-select-none text-center mb-3 text-muted default-cursor"
+                                                                        style="z-index: 1;width: calc(100% / 7)"
+                                                                    >
+                                                                    </li>
+                                                                </template>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
