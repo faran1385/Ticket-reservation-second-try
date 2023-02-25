@@ -474,6 +474,7 @@ document.addEventListener('alpine:init', () => {
             }
         },
         checkSelectedDaysPos() {
+
             if (this.isBackAndForth === true) {
                 this.selectedDays.push(null)
                 this.$refs.returnInput.nextElementSibling.classList.remove('rotate-none')
@@ -506,21 +507,28 @@ document.addEventListener('alpine:init', () => {
             })
         },
         betweenSelectedDays() {
-
             let days = document.querySelectorAll('.calendar-day')
 
             if (this.selectedDays.length === 2 && this.isSameValue(this.selectedDays)) {
                 if (this.selectedDays[0].year === this.selectedDays[1].year && this.selectedDays[0].month === this.selectedDays[1].month) {
-
                     let setBetweens=()=>{
-                        console.log(this.selectedDays[0].day<this.selectedDays[1].day)
                         for (let i = +(this.selectedDays[0].day); i < +(this.selectedDays[1].day); i++) {
                             if (typeof i == "number") {
+
                                 days[i - 1].classList.add('days-between-selects')
                             }
                         }
                     }
                     if(this.currYear===this.selectedDays[0].year&&this.currMonth===this.selectedDays[0].month){
+                        let realDays=[]
+                        for(let i=0;i<days.length/2;i++){
+                            if(this.indexOfSlide===1){
+                                realDays.push(days[i+days.length/2])
+                            }else{
+                                realDays.push(days[i])
+                            }
+                        }
+                        days=realDays
                         setBetweens()
                     }else{
                         let setedBetween = document.querySelectorAll('.days-between-selects')
