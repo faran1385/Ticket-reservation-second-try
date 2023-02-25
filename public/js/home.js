@@ -58,6 +58,7 @@ $(() => {
         }
     })
 })
+
 document.addEventListener('alpine:init', () => {
     Alpine.data('orgAndDes', () => ({
         cityIndex: null,
@@ -269,6 +270,7 @@ document.addEventListener('alpine:init', () => {
 document.addEventListener('alpine:init', () => {
     Alpine.data('pageChanger', () => ({
         page: 'innerfly',
+        innerflyPageDropsVal:{howToFly:'one sided'},
         date: new Date(),
         isBackAndForth: false,
         changeActiveTitle() {
@@ -474,12 +476,18 @@ document.addEventListener('alpine:init', () => {
         checkSelectedDaysPos() {
             if (this.isBackAndForth === true) {
                 this.selectedDays.push(null)
+                this.$refs.returnInput.nextElementSibling.classList.remove('rotate-none')
+                this.$refs.returnInput.nextElementSibling.classList.add('rotate-45')
+                this.innerflyPageDropsVal.howToFly='back and forth'
                 return false
             } else {
                 let setedBetween = document.querySelectorAll('.days-between-selects')
                 setedBetween.forEach(element => {
                     element.classList.remove('days-between-selects')
                 })
+                this.innerflyPageDropsVal.howToFly='one sided'
+                this.$refs.returnInput.nextElementSibling.classList.remove('rotate-45')
+                this.$refs.returnInput.nextElementSibling.classList.add('rotate-none')
                 this.selectedDayInputVal[1]=''
                 this.selectedDays[1] && this.selectedDays[1].element.classList.remove('active', 'active-calendar-days', 'text-white')
                 this.selectedDays.length === 2 && this.selectedDays.pop()

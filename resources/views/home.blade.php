@@ -125,9 +125,10 @@
                                 <div class="d-flex dropdowns-place mb-4 px-5">
                                     <div x-show="page==='innerfly'">
                                         <div class="dropdown dropdown-center"
-                                             x-data="{value:'one sided',valueSetter(){this.value=event.target.textContent}}">
+                                             x-data="{valueSetter(){innerflyPageDropsVal.howToFly=event.target.textContent}}">
                                             <button class=" btn border  dropdown-toggle" data-bs-toggle="dropdown"
-                                                    x-text="value"></button>
+                                                    x-text="innerflyPageDropsVal.howToFly"
+                                            ></button>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-item pointer-cursor"
                                                     @click="valueSetter(),isBackAndForth=false"
@@ -343,13 +344,17 @@
                                                                x-model="selectedDayInputVal[0]"
                                                                @keydown.prevent=''>
                                                     </label>
-                                                    <label class="position-relative coming-input-label-disable w-50">
+                                                    <label class="position-relative  w-50">
                                                         <input type="text"
                                                                class=" form-control-lg form-control rounded-start-0"
                                                                :disabled="(checkSelectedDaysPos)"
                                                                placeholder="Return date"
+                                                               x-ref="returnInput"
                                                                x-model="selectedDayInputVal[1]"
                                                                @keydown.prevent="">
+                                                        <span class="coming-input-label-disable"
+                                                              @click="isBackAndForth=!isBackAndForth,checkSelectedDaysPos"
+                                                        ></span>
                                                     </label>
                                                 </div>
                                                 <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">

@@ -18968,7 +18968,7 @@ textarea.form-control-lg {
 .bi-wikipedia::before {
   content: "\f8cc";
 }
-.coming-input-label-disable:after{
+.coming-input-label-disable{
     content: "";
     position: absolute;
     right: 10px;
@@ -19093,8 +19093,13 @@ textarea.form-control-lg {
     background: linear-gradient(to left top, transparent 45.5%, currentColor 47.5%, currentColor 52.5%, transparent 54.5%);
     pointer-events: none;
 }
-.rotate-none:after{
+.rotate-45{
+    transform: rotate(45deg);
+    transition: all ease-in 500ms;
+}
+.rotate-none{
     transform: rotate(0);
+    transition: all ease-in 500ms;
 }
 .days-between-selects{
     background: rgb(13, 110, 253,20%);
