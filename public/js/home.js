@@ -311,6 +311,7 @@ document.addEventListener('alpine:init', () => {
         indexOfSlide:null,
         selectedDayInputVal:['',''],
         selectedDays: [null],
+        firstTimeSelecting:true,
         datesAlt: 'Date departure',
         monthsAbbreviation:['Jan','Feb','Mar','Apr','May','June','July','Aug','Sep','Oct','Nov','Dec'],
         isSameValue(array) {
@@ -520,15 +521,17 @@ document.addEventListener('alpine:init', () => {
                         }
                     }
                     if(this.currYear===this.selectedDays[0].year&&this.currMonth===this.selectedDays[0].month){
-                        let realDays=[]
-                        for(let i=0;i<days.length/2;i++){
-                            if(this.indexOfSlide===1){
-                                realDays.push(days[i+days.length/2])
-                            }else{
-                                realDays.push(days[i])
+                        if(!this.firstTimeSelecting){
+                            let realDays=[]
+                            for(let i=0;i<days.length/2;i++){
+                                if(this.indexOfSlide===1){
+                                    realDays.push(days[i+days.length/2])
+                                }else{
+                                    realDays.push(days[i])
+                                }
                             }
-                        }
                         days=realDays
+                        }
                         setBetweens()
                     }else{
                         let setedBetween = document.querySelectorAll('.days-between-selects')
