@@ -436,7 +436,7 @@ button:not(:disabled),
   cursor: pointer;
 }
 
-::-moz-focus-inner {
+::-moz-focus-'inner' {
   padding: 0;
   border-style: none;
 }
@@ -5904,7 +5904,7 @@ textarea.form-control-lg {
   margin-right: -100%;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-  transition: transform 0.6s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
   .carousel-item {

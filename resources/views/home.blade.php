@@ -368,7 +368,8 @@
                                                 </div>
                                             </div>
                                             <div class="bg-white rounded border carousel slide" id="calendar"
-                                                 style="width: 450px">
+                                                 style="width: 450px"
+                                            >
                                                 <div class="carousel-inner">
                                                     <div class="d-flex justify-content-center p-3 align-items-baseline">
                                                         <p class="fs-4" x-text="calendarTitle" x-init=""></p>
@@ -381,7 +382,7 @@
                                                                     x-ref="prevMonth"
                                                                     class="user-select-none border border-dark material-symbols-outlined rounded-circle center position-absolute top-0 bottom-0 start-0  disabled"
                                                                     style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                                    @click="if($el.classList.contains('disabled')===false&&isSliding===false){setDays(-1),activatedDaysShow(),betweenSelectedDays(),isSliding=true,isSlidingToggle()}setRequiresInput(1,'next')">
+                                                                    @click="if($el.classList.contains('disabled')===false&&isSliding===false){setDays(-1),activatedDaysShow(),betweenSelectedDays(),isSliding=true,isSlidingToggle(300)}setRequiresInput(1,'next')">
                                                                     <</span>
                                                             <span
                                                                 x-ref="nextMonth"
@@ -389,10 +390,10 @@
                                                                 data-bs-target="#calendar"
                                                                 class="month-mover-hover user-select-none border position-absolute top-0 bottom-0 end-0 border-dark material-symbols-outlined rounded-circle center pointer-cursor ms-2"
                                                                 style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                                @click="if($el.classList.contains('disabled')===false&&isSliding===false){setDays(1),activatedDaysShow(),betweenSelectedDays(),isSliding=true,isSlidingToggle()}setRequiresInput(0,'prev'),firstTimeSelecting=false">></span>
+                                                                @click="if($el.classList.contains('disabled')===false&&isSliding===false){setDays(1),activatedDaysShow(),betweenSelectedDays(),isSliding=true,isSlidingToggle(300)}setRequiresInput(0,'prev'),firstTimeSelecting=false">></span>
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div class="carousel-items-parent">
                                                         <ul class="d-flex p-0 fw-bold">
                                                             <li class="list-group-item text-center"
                                                                 style="width: calc(100% /7)">Sun
@@ -479,7 +480,7 @@
                                                     <div
                                                         class="w-75 d-flex align-items-center justify-content-between mb-1"
                                                         style="height: 3rem;">
-                                                        <a class="link-primary text-decoration-none pointer-cursor">go
+                                                        <a class="link-primary text-decoration-none pointer-cursor" @click="goToday()">go
                                                             to today</a>
                                                         <button class="btn btn-primary text-white">submit</button>
                                                     </div>

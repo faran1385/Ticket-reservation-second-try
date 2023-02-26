@@ -270,7 +270,7 @@ document.addEventListener('alpine:init', () => {
 document.addEventListener('alpine:init', () => {
     Alpine.data('pageChanger', () => ({
         page: 'innerfly',
-        innerflyPageDropsVal:{howToFly:'one sided'},
+        innerflyPageDropsVal: {howToFly: 'one sided'},
         date: new Date(),
         isBackAndForth: false,
         changeActiveTitle() {
@@ -303,17 +303,17 @@ document.addEventListener('alpine:init', () => {
         currMonth: null,
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         calendarTitle: null,
-        daysOfLastMonth: [[],[]],
-        daysOfNextMonth: [[],[]],
-        daysOfThisMonth: [[],[]],
-        monthMoverSpans:null,
-        isSliding:false,
-        indexOfSlide:null,
-        selectedDayInputVal:['',''],
+        daysOfLastMonth: [[], []],
+        daysOfNextMonth: [[], []],
+        daysOfThisMonth: [[], []],
+        monthMoverSpans: null,
+        isSliding: false,
+        indexOfSlide: null,
+        selectedDayInputVal: ['', ''],
         selectedDays: [null],
-        firstTimeSelecting:true,
+        firstTimeSelecting: true,
         datesAlt: 'Date departure',
-        monthsAbbreviation:['Jan','Feb','Mar','Apr','May','June','July','Aug','Sep','Oct','Nov','Dec'],
+        monthsAbbreviation: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         isSameValue(array) {
             let isSame = array.every((element) => {
                 return element !== null
@@ -321,30 +321,30 @@ document.addEventListener('alpine:init', () => {
             return isSame
         },
         init() {
-            this.monthMoverSpans=[this.$refs.prevMonth,this.$refs.nextMonth]
+            this.monthMoverSpans = [this.$refs.prevMonth, this.$refs.nextMonth]
             this.currYear = this.date.getFullYear()
             this.currMonth = this.date.getMonth()
             this.setDays(0)
         },
-        isSlidingToggle(){
-          setTimeout(()=>{
-              this.isSliding=false
-          },600)
+        isSlidingToggle(time) {
+            setTimeout(() => {
+                this.isSliding = false
+            }, time)
         },
         setDays(monthChanger) {
-            let slides=document.querySelectorAll('.carousel-item')
-            for(let element of slides){
-                if(element.classList.contains('active')&&!element.classList.contains('not-first-time')){
+
+            let slides = document.querySelectorAll('.carousel-item')
+            for (let element of slides) {
+                if (element.classList.contains('active') && !element.classList.contains('not-first-time')) {
                     slides[0].classList.add('not-first-time')
                     slides[1].classList.add('not-first-time')
-                    this.indexOfSlide=Array.from(slides).indexOf(element)
+                    this.indexOfSlide = Array.from(slides).indexOf(element)
                     break;
-                }else if(!element.classList.contains('active')&&element.classList.contains('not-first-time')){
-                    this.indexOfSlide=Array.from(slides).indexOf(element)
+                } else if (!element.classList.contains('active') && element.classList.contains('not-first-time')) {
+                    this.indexOfSlide = Array.from(slides).indexOf(element)
                     break;
                 }
             }
-
             this.yearLimit(monthChanger)
             this.calendarTitle = this.months[this.currMonth] + ' ' + this.currYear
             let firstDayofMonth = new Date(this.currYear, this.currMonth, 1).getDay(),
@@ -382,14 +382,15 @@ document.addEventListener('alpine:init', () => {
         yearLimit(monthChanger) {
             let yearValidation = () => {
                 if (this.currMonth === this.date.getMonth() + 1 && this.currYear === this.date.getFullYear()) {
-                    setRequires(this.monthMoverSpans,0)
+                    setRequires(this.monthMoverSpans, 0)
                 } else if (this.currMonth === this.date.getMonth() - 1 && this.currYear === this.date.getFullYear() + 2) {
-                    setRequires(this.monthMoverSpans,1)
+                    setRequires(this.monthMoverSpans, 1)
                 }
-                function setRequires(array,index){
+
+                function setRequires(array, index) {
                     array[index].classList.add('disabled')
-                    array[index].classList.remove('month-mover-hover','pointer-cursor')
-                    array[index].removeAttribute('data-bs-slide','data-bs-target')
+                    array[index].classList.remove('month-mover-hover', 'pointer-cursor')
+                    array[index].removeAttribute('data-bs-slide', 'data-bs-target')
                 }
             }
             yearValidation()
@@ -416,28 +417,28 @@ document.addEventListener('alpine:init', () => {
             }
         },
         setActive() {
-            if (this.selectedDays.length === 2&&this.$el.children[0].classList.contains('past-day')===false) {
+            if (this.selectedDays.length === 2 && this.$el.children[0].classList.contains('past-day') === false) {
                 if (this.selectedDays[0] === null || this.selectedDays[1] === null) {
-                    if (this.$el.children[0].classList.contains('past-day')===false) {
+                    if (this.$el.children[0].classList.contains('past-day') === false) {
                         if (this.selectedDays[0] === null) {
-                            setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
+                            setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
                         } else {
                             if (this.selectedDays[0].year <= this.currYear) {
                                 if (this.selectedDays[0].month < this.currMonth) {
-                                    setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
+                                    setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
                                     this.betweenSelectedDays()
                                 } else if (this.selectedDays[0].month == this.currMonth && +(this.selectedDays[0].day) < +(this.$el.textContent.trim())) {
-                                    setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
+                                    setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
                                     this.betweenSelectedDays()
                                 } else {
-                                    setEmpty(this.selectedDays, 0,this.selectedDayInputVal)
-                                    setEmpty(this.selectedDays, 1,this.selectedDayInputVal)
-                                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
+                                    setEmpty(this.selectedDays, 0, this.selectedDayInputVal)
+                                    setEmpty(this.selectedDays, 1, this.selectedDayInputVal)
+                                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
                                 }
                             } else {
-                                setEmpty(this.selectedDays, 0,this.selectedDayInputVal)
-                                setEmpty(this.selectedDays, 1,this.selectedDayInputVal)
-                                setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
+                                setEmpty(this.selectedDays, 0, this.selectedDayInputVal)
+                                setEmpty(this.selectedDays, 1, this.selectedDayInputVal)
+                                setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
                             }
                         }
                     }
@@ -446,30 +447,30 @@ document.addEventListener('alpine:init', () => {
                     setedBetween.forEach(element => {
                         element.classList.remove('days-between-selects')
                     })
-                    setEmpty(this.selectedDays, 0,this.selectedDayInputVal)
-                    setEmpty(this.selectedDays, 1,this.selectedDayInputVal)
-                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
+                    setEmpty(this.selectedDays, 0, this.selectedDayInputVal)
+                    setEmpty(this.selectedDays, 1, this.selectedDayInputVal)
+                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
                 }
             } else {
                 if (this.selectedDays[0] === null && !this.$el.children[0].classList.contains('past-day')) {
-                    setEmpty(this.selectedDays, 0,this.selectedDayInputVal)
-                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
+                    setEmpty(this.selectedDays, 0, this.selectedDayInputVal)
+                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
                 } else if (this.selectedDays[0] !== null && !this.$el.children[0].classList.contains('past-day')) {
-                    setEmpty(this.selectedDays, 0,this.selectedDayInputVal)
-                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth,this.selectedDayInputVal,this.monthsAbbreviation)
+                    setEmpty(this.selectedDays, 0, this.selectedDayInputVal)
+                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
                 }
             }
 
-            function setActive(index, target, array, year, month,inputValue,monthsAbbreviation) {
+            function setActive(index, target, array, year, month, inputValue, monthsAbbreviation) {
                 target.classList.add('active', 'active-calendar-days', 'text-white')
                 array[index] = {element: target, year: year, month: month, day: target.textContent.trim()}
-                inputValue[index]=`${monthsAbbreviation[month]} ${target.textContent.trim()}.${year}`
+                inputValue[index] = `${monthsAbbreviation[month]} ${target.textContent.trim()}.${year}`
             }
 
-            function setEmpty(array, index,inputVal) {
+            function setEmpty(array, index, inputVal) {
                 if ((array[index] === null) === false) {
                     array[index].element.classList.remove('active', 'active-calendar-days', 'text-white')
-                    inputVal[index]=''
+                    inputVal[index] = ''
                     array[index] = null
                 }
             }
@@ -480,17 +481,17 @@ document.addEventListener('alpine:init', () => {
                 this.selectedDays.push(null)
                 this.$refs.returnInput.nextElementSibling.classList.remove('rotate-none')
                 this.$refs.returnInput.nextElementSibling.classList.add('rotate-45')
-                this.innerflyPageDropsVal.howToFly='back and forth'
+                this.innerflyPageDropsVal.howToFly = 'back and forth'
                 return false
             } else {
                 let setedBetween = document.querySelectorAll('.days-between-selects')
                 setedBetween.forEach(element => {
                     element.classList.remove('days-between-selects')
                 })
-                this.innerflyPageDropsVal.howToFly='one sided'
+                this.innerflyPageDropsVal.howToFly = 'one sided'
                 this.$refs.returnInput.nextElementSibling.classList.remove('rotate-45')
                 this.$refs.returnInput.nextElementSibling.classList.add('rotate-none')
-                this.selectedDayInputVal[1]=''
+                this.selectedDayInputVal[1] = ''
                 this.selectedDays[1] && this.selectedDays[1].element.classList.remove('active', 'active-calendar-days', 'text-white')
                 this.selectedDays.length === 2 && this.selectedDays.pop()
                 return true
@@ -512,7 +513,7 @@ document.addEventListener('alpine:init', () => {
 
             if (this.selectedDays.length === 2 && this.isSameValue(this.selectedDays)) {
                 if (this.selectedDays[0].year === this.selectedDays[1].year && this.selectedDays[0].month === this.selectedDays[1].month) {
-                    let setBetweens=()=>{
+                    let setBetweens = () => {
                         for (let i = +(this.selectedDays[0].day); i < +(this.selectedDays[1].day); i++) {
                             if (typeof i == "number") {
 
@@ -520,20 +521,20 @@ document.addEventListener('alpine:init', () => {
                             }
                         }
                     }
-                    if(this.currYear===this.selectedDays[0].year&&this.currMonth===this.selectedDays[0].month){
-                        if(!this.firstTimeSelecting){
-                            let realDays=[]
-                            for(let i=0;i<days.length/2;i++){
-                                if(this.indexOfSlide===1){
-                                    realDays.push(days[i+days.length/2])
-                                }else{
+                    if (this.currYear === this.selectedDays[0].year && this.currMonth === this.selectedDays[0].month) {
+                        if (!this.firstTimeSelecting) {
+                            let realDays = []
+                            for (let i = 0; i < days.length / 2; i++) {
+                                if (this.indexOfSlide === 1) {
+                                    realDays.push(days[i + days.length / 2])
+                                } else {
                                     realDays.push(days[i])
                                 }
                             }
-                        days=realDays
+                            days = realDays
                         }
                         setBetweens()
-                    }else{
+                    } else {
                         let setedBetween = document.querySelectorAll('.days-between-selects')
                         setedBetween.forEach(element => {
                             element.classList.remove('days-between-selects')
@@ -552,48 +553,85 @@ document.addEventListener('alpine:init', () => {
                 element.classList.remove('days-between-selects')
             })
             let days = document.querySelectorAll('.calendar-day')
-            let realDays=[]
-                for(let i=0;i<days.length/2;i++){
-                    if(this.indexOfSlide===1){
-                        realDays.push(days[i+days.length/2])
-                    }else{
-                        realDays.push(days[i])
-                    }
+            let realDays = []
+            for (let i = 0; i < days.length / 2; i++) {
+                if (this.indexOfSlide === 1) {
+                    realDays.push(days[i + days.length / 2])
+                } else {
+                    realDays.push(days[i])
                 }
-            days=realDays
-            if (this.currYear === this.selectedDays[0].year&&this.currMonth === this.selectedDays[0].month) {
+            }
+            days = realDays
+            if (this.currYear === this.selectedDays[0].year && this.currMonth === this.selectedDays[0].month) {
                 for (let i = this.selectedDays[0].day; i <= thisMonthLastDay; i++) {
                     days[i - 1].classList.add('days-between-selects')
                 }
-            } else if (this.currYear === this.selectedDays[1].year&&this.currMonth === this.selectedDays[1].month) {
+            } else if (this.currYear === this.selectedDays[1].year && this.currMonth === this.selectedDays[1].month) {
                 for (let i = 1; i < this.selectedDays[1].day; i++) {
                     days[i - 1].classList.add('days-between-selects')
                 }
-            } else if(this.currMonth<this.selectedDays[1].month&&this.currMonth>this.selectedDays[0].month){
+            } else if (this.currMonth < this.selectedDays[1].month && this.currMonth > this.selectedDays[0].month) {
                 for (let i = 1; i <= thisMonthLastDay; i++) {
                     days[i - 1].classList.add('days-between-selects')
                 }
-            }else if(this.selectedDays[1].year>this.selectedDays[0].year){
-                function set(){
+            } else if (this.selectedDays[1].year > this.selectedDays[0].year) {
+                function set() {
                     for (let i = 1; i <= thisMonthLastDay; i++) {
                         days[i - 1].classList.add('days-between-selects')
                     }
                 }
-                if(this.currYear===this.selectedDays[1].year&&this.currMonth<this.selectedDays[1].month){
+
+                if (this.currYear === this.selectedDays[1].year && this.currMonth < this.selectedDays[1].month) {
                     set()
-                }else if(this.currYear>this.selectedDays[0].year&&this.currYear<this.selectedDays[1].year){
+                } else if (this.currYear > this.selectedDays[0].year && this.currYear < this.selectedDays[1].year) {
                     set()
-                }else if(this.currYear===this.selectedDays[0].year&&this.currMonth>this.selectedDays[0].month){
+                } else if (this.currYear === this.selectedDays[0].year && this.currMonth > this.selectedDays[0].month) {
                     set()
                 }
             }
         },
-        setRequiresInput(index,sliderMoverValue){
+        setRequiresInput(index, sliderMoverValue) {
             this.monthMoverSpans[index].classList.remove('disabled')
-            this.monthMoverSpans[index].classList.add('month-mover-hover','pointer-cursor')
-            this.monthMoverSpans[index].setAttribute('data-bs-slide',sliderMoverValue)
-            this.monthMoverSpans[index].setAttribute('data-bs-target','#calendar')
+            this.monthMoverSpans[index].classList.add('month-mover-hover', 'pointer-cursor')
+            this.monthMoverSpans[index].setAttribute('data-bs-slide', sliderMoverValue)
+            this.monthMoverSpans[index].setAttribute('data-bs-target', '#calendar')
 
+        },
+        goToday() {
+            if (this.currYear === this.date.getFullYear() && this.currMonth === this.date.getMonth()) {
+
+            } else {
+                const carousel = new bootstrap.Carousel('#calendar')
+                const carouselItemsParent = document.querySelector('.carousel-items-parent')
+                Array.from(carouselItemsParent.children).forEach(element=>{
+                    element.style.transition='transform 0.05s ease-in-out'
+                })
+                let set = () => {
+                    setTimeout(() => {
+                        this.setDays(-1)
+                        this.activatedDaysShow()
+                        this.betweenSelectedDays()
+                        carousel.prev()
+                        if (this.currYear !== this.date.getFullYear() || this.currMonth !== this.date.getMonth()) {
+                            set()
+                        } else {
+                            this.isSliding = false
+                            Array.from(carouselItemsParent.children).forEach(element=>{
+                                element.style.transition='transform 0.4s ease-in-out'
+                            })
+                        }
+                    }, 50)
+                }
+                this.isSliding = true
+                if (this.currYear === this.date.getFullYear() && this.currMonth === this.date.getMonth()) {
+                    clearInterval(this)
+                    this.isSlidingToggle(0)
+                } else {
+                    set()
+                    this.isSliding = true
+                }
+
+            }
         }
     }))
 })
