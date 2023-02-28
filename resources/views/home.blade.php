@@ -1,7 +1,6 @@
 @extends('layouts.master')
 @section('title','Ticket reservation')
 @section('content')
-
     <div x-data="pageChanger" x-init="pageDetector">
         <section class="container mt-5">
             <div class="row">
@@ -417,7 +416,7 @@
                                                                 style="width: calc(100% /7)">Sat
                                                             </li>
                                                         </ul>
-                                                        <div class="carousel-item" >
+                                                        <div class="carousel-item">
                                                             <ul class="d-flex flex-wrap p-0">
                                                                 <template x-for="day in daysOfLastMonth[0]">
                                                                     <li class=" list-group-item user-select-none  text-center mb-3 text-muted  default-cursor"
@@ -429,11 +428,15 @@
                                                                 <template x-for="day in daysOfThisMonth[0]">
                                                                     <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before calendar-day position-relative"
                                                                         style="z-index: 1;width: calc(100% / 7)"
-                                                                        :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
-                                                                        @click="setActive()" x-show="day.isShow">
+                                                                        @click="setActive()" x-show="day.isShow"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-title="Departure date"
+                                                                        data-bs-placement="top"
+                                                                        >
                                                                         <span x-text="daysOfThisMonth[0].indexOf(day)+1"
                                                                               class="" style="width: 1.5rem;"
-                                                                              :class="day.isPass&&'past-day text-muted'"></span>
+                                                                              :class="day.isPass&&'past-day text-muted'"
+                                                                              x-init="setTooltip(0,daysOfThisMonth[0].indexOf(day)+1)"></span>
 
                                                                     </li>
                                                                 </template>
@@ -455,16 +458,23 @@
                                                                     </li>
                                                                 </template>
                                                                 <template x-for="day in daysOfThisMonth[1]">
-                                                                    <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before calendar-day position-relative"
-                                                                        style="z-index: 1;width: calc(100% / 7)"
+                                                                    <li class="list-group-item user-select-none text-center  mb-3 calendar-days-before calendar-day position-relative"
+                                                                        style="z-index: 1;width: calc(100% / 7);"
                                                                         :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
-                                                                        @click="setActive()" x-show="day.isShow">
+                                                                        @click="setActive()"
+                                                                        x-show="day.isShow"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-title="Departure date"
+                                                                        data-bs-placement="top"
+                                                                    >
                                                                         <span x-text="daysOfThisMonth[1].indexOf(day)+1"
                                                                               class="" style="width: 1.5rem;"
-                                                                              :class="day.isPass&&'past-day text-muted'"></span>
+                                                                              :class="day.isPass&&'past-day text-muted'"
+                                                                              x-init="setTooltip(1,daysOfThisMonth[1].indexOf(day)+1)"></span>
 
                                                                     </li>
                                                                 </template>
+                                                                <div x-init="setTooltip(1)"></div>
                                                                 <template x-for="day in daysOfNextMonth[1]">
                                                                     <li class=" list-group-item  user-select-none text-center mb-3 text-muted default-cursor"
                                                                         style="z-index: 1;width: calc(100% / 7)"
@@ -480,7 +490,8 @@
                                                     <div
                                                         class="w-75 d-flex align-items-center justify-content-between mb-1"
                                                         style="height: 3rem;">
-                                                        <a class="link-primary text-decoration-none pointer-cursor" @click="goToday()">go
+                                                        <a class="link-primary text-decoration-none pointer-cursor"
+                                                           @click="goToday()">go
                                                             to today</a>
                                                         <button class="btn btn-primary text-white">submit</button>
                                                     </div>
