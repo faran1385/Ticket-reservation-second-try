@@ -19074,6 +19074,7 @@ textarea.form-control-lg {
 
  }
 .calendar-days-before-hover:hover::before {
+    cursor: pointer;
     background: rgb(13, 110, 253,50%);
 }
 .active-calendar-days:before{
@@ -19126,5 +19127,4 @@ textarea.form-control-lg {
         transform: scale(1);
     }
 }
-
 

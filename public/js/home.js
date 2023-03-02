@@ -309,6 +309,7 @@ document.addEventListener('alpine:init', () => {
             monthMoverSpans: null,
             isSliding: false,
             indexOfSlide: null,
+            calendarOpen: false,
             firstTimeCompiling: [true, true],
             selectedDayInputVal: ['', ''],
             selectedDays: [null],
@@ -328,7 +329,6 @@ document.addEventListener('alpine:init', () => {
                 this.setDays(0)
             },
             isSlidingToggle(time) {
-                this.changeTooltip()
                 setTimeout(() => {
                     this.isSliding = false
                 }, time)
@@ -651,49 +651,9 @@ document.addEventListener('alpine:init', () => {
 
                 }
             },
-            setTooltip(activeSlide, day) {
-                let set = () => {
-                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-                    tooltipTriggerList.forEach(element => {
-                        if (element.firstElementChild.classList.contains('past-day')) {
-                            element.setAttribute('data-bs-title', 'past day')
-                        }
-                    })
-                    if (this.firstTimeCompiling[activeSlide]) {
-                        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-                        this.firstTimeCompiling[activeSlide] = false
-                    }
-                }
-                if (activeSlide === 1 && day === 31 && this.firstTimeCompiling[activeSlide]) {
-                    set()
-
-                } else if (activeSlide === 0 && day === 31 && this.firstTimeCompiling[activeSlide]) {
-                    set()
-
-                }
-            },
-            changeTooltip() {
-                if (this.firstTimeCompiling[0] === false && this.firstTimeCompiling[1] === false) {
-                    let tooltipValue = 'Departure date'
-                    let calendarDays = document.querySelectorAll('.calendar-day')
-                    if (this.isBackAndForth) {
-                        if (this.isSameValue(this.selectedDays)===false&&this.selectedDays[0]) {
-                            tooltipValue = 'Retrun date'
-                        }
-                    }
-
-                    if (this.currYear !== this.date.getFullYear() || this.currMonth !== this.date.getMonth()) {
-                        for(let i=0;i<31;i++){
-                            if(this.indexOfSlide===1){
-                                calendarDays[i+31].setAttribute('data-bs-title',tooltipValue)
-                                const tooltipList = [...[calendarDays[i+31]]].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-                            }else{
-
-                                calendarDays[i].setAttribute('data-bs-title',tooltipValue)
-                                const tooltipList = [...[calendarDays[i]]].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-                            }
-                        }
-                    }
+            closeCalendar() {
+                if(event.target.classList.contains('returnInput')===false&&event.target.classList.contains('departureInput')===false&&event.target.classList.contains('backAndForthToggler')===false){
+                    this.calendarOpen=false
                 }
             }
         })

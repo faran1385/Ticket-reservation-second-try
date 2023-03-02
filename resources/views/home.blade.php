@@ -335,23 +335,25 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4">
+                                                <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4" @click="calendarOpen=true">
                                                     <label class="w-50">
                                                         <input type="text"
-                                                               class=" form-control-lg form-control rounded-end-0 "
+                                                               class="departureInput form-control-lg form-control rounded-end-0 "
                                                                placeholder="Departure date"
                                                                x-model="selectedDayInputVal[0]"
-                                                               @keydown.prevent=''>
+                                                               @keydown.prevent=''
+                                                        >
                                                     </label>
-                                                    <label class="position-relative  w-50">
+                                                    <label class="position-relative  w-50"  @click="calendarOpen=true">
                                                         <input type="text"
-                                                               class=" form-control-lg form-control rounded-start-0"
+                                                               class="returnInput form-control-lg form-control rounded-start-0"
                                                                :disabled="(checkSelectedDaysPos)"
                                                                placeholder="Return date"
                                                                x-ref="returnInput"
                                                                x-model="selectedDayInputVal[1]"
-                                                               @keydown.prevent="">
-                                                        <span class="coming-input-label-disable"
+                                                               @keydown.prevent=""
+                                                        >
+                                                        <span class="coming-input-label-disable backAndForthToggler"
                                                               @click="isBackAndForth=!isBackAndForth,checkSelectedDaysPos"
                                                         ></span>
                                                     </label>
@@ -366,8 +368,9 @@
                                 </span>
                                                 </div>
                                             </div>
-                                            <div class="bg-white rounded border carousel slide" id="calendar"
-                                                 style="width: 450px"
+                                            <div class="bg-white rounded border carousel slide position-absolute p-4" id="calendar" x-show="calendarOpen"
+                                                 style="width: 450px;z-index: 100;left: 36.5%"
+                                                 @click.outside="closeCalendar"
                                             >
                                                 <div class="carousel-inner">
                                                     <div class="d-flex justify-content-center p-3 align-items-baseline">
@@ -426,17 +429,14 @@
                                                                     </li>
                                                                 </template>
                                                                 <template x-for="day in daysOfThisMonth[0]">
-                                                                    <li class=" list-group-item user-select-none  text-center  mb-3 calendar-days-before calendar-day position-relative"
+                                                                    <li class="list-group-item user-select-none  text-center  mb-3 calendar-days-before calendar-day position-relative"
                                                                         style="z-index: 1;width: calc(100% / 7)"
+                                                                        :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
                                                                         @click="setActive()" x-show="day.isShow"
-                                                                        data-bs-toggle="tooltip"
-                                                                        data-bs-title="Departure date"
-                                                                        data-bs-placement="top"
                                                                         >
                                                                         <span x-text="daysOfThisMonth[0].indexOf(day)+1"
                                                                               class="" style="width: 1.5rem;"
-                                                                              :class="day.isPass&&'past-day text-muted'"
-                                                                              x-init="setTooltip(0,daysOfThisMonth[0].indexOf(day)+1)"></span>
+                                                                              :class="day.isPass&&'past-day text-muted'"></span>
 
                                                                     </li>
                                                                 </template>
@@ -452,8 +452,7 @@
                                                             <ul class="d-flex flex-wrap p-0">
                                                                 <template x-for="day in daysOfLastMonth[1]">
                                                                     <li class=" list-group-item user-select-none  text-center mb-3 text-muted  default-cursor"
-                                                                        style="z-index: 1;width: calc(100% / 7)"
-                                                                        x-init="">
+                                                                        style="z-index: 1;width: calc(100% / 7)">
                                                                         <span class=""></span>
                                                                     </li>
                                                                 </template>
@@ -463,18 +462,13 @@
                                                                         :class="(day.isPass===false)&&'pointer-cursor calendar-days-before-hover'"
                                                                         @click="setActive()"
                                                                         x-show="day.isShow"
-                                                                        data-bs-toggle="tooltip"
-                                                                        data-bs-title="Departure date"
-                                                                        data-bs-placement="top"
                                                                     >
                                                                         <span x-text="daysOfThisMonth[1].indexOf(day)+1"
                                                                               class="" style="width: 1.5rem;"
-                                                                              :class="day.isPass&&'past-day text-muted'"
-                                                                              x-init="setTooltip(1,daysOfThisMonth[1].indexOf(day)+1)"></span>
+                                                                              :class="day.isPass&&'past-day text-muted'"></span>
 
                                                                     </li>
                                                                 </template>
-                                                                <div x-init="setTooltip(1)"></div>
                                                                 <template x-for="day in daysOfNextMonth[1]">
                                                                     <li class=" list-group-item  user-select-none text-center mb-3 text-muted default-cursor"
                                                                         style="z-index: 1;width: calc(100% / 7)"
@@ -493,7 +487,7 @@
                                                         <a class="link-primary text-decoration-none pointer-cursor"
                                                            @click="goToday()">go
                                                             to today</a>
-                                                        <button class="btn btn-primary text-white">submit</button>
+                                                        <button class="btn btn-primary text-white disabled">submit</button>
                                                     </div>
                                                 </div>
                                             </div>
