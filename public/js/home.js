@@ -315,6 +315,7 @@ document.addEventListener('alpine:init', () => {
             selectedDays: [null],
             firstTimeSelecting: true,
             datesAlt: 'Date departure',
+            counter:0,
             monthsAbbreviation: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             isSameValue(array) {
                 let isSame = array.every((element) => {
@@ -425,23 +426,28 @@ document.addEventListener('alpine:init', () => {
                         if (this.$el.children[0].classList.contains('past-day') === false) {
                             if (this.selectedDays[0] === null) {
                                 setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
+                                this.changeTooltip(31)
                             } else {
                                 if (this.selectedDays[0].year <= this.currYear) {
                                     if (this.selectedDays[0].month < this.currMonth) {
                                         setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                                         this.betweenSelectedDays()
+                                        this.changeTooltip(31)
                                     } else if (this.selectedDays[0].month == this.currMonth && +(this.selectedDays[0].day) < +(this.$el.textContent.trim())) {
                                         setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                                         this.betweenSelectedDays()
+                                        this.changeTooltip(31)
                                     } else {
                                         this.$refs.submitCalendarBtn(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                                         setEmpty(this.selectedDays, 1, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                                         setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
+                                        this.changeTooltip(31)
                                     }
                                 } else {
                                     setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                                     setEmpty(this.selectedDays, 1, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                                     setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
+                                    this.changeTooltip(31)
                                 }
                             }
                         }
@@ -453,14 +459,17 @@ document.addEventListener('alpine:init', () => {
                         setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                         setEmpty(this.selectedDays, 1, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                         setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
+                        this.changeTooltip(31)
                     }
                 } else {
                     if (this.selectedDays[0] === null && !this.$el.children[0].classList.contains('past-day')) {
                         setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                         setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
+                        this.changeTooltip(31)
                     } else if (this.selectedDays[0] !== null && !this.$el.children[0].classList.contains('past-day')) {
                         setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                         setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
+                        this.changeTooltip(31)
                     }
                 }
 
@@ -619,9 +628,9 @@ document.addEventListener('alpine:init', () => {
                             break;
                         }
                     }
-
                     Target.classList.add('pulse-primary')
                     setTimeout(() => {
+                        console.log(Target.classList.contains('pulse-primary'))
                         Target.classList.remove('pulse-primary')
                     }, 1000)
 
@@ -664,8 +673,75 @@ document.addEventListener('alpine:init', () => {
                 }
             },
             submitCalendar() {
-                if(this.$el.classList.contains('opacity-50')===false){
-                    this.calendarOpen=false
+                if (this.$el.classList.contains('opacity-50') === false) {
+                    this.calendarOpen = false
+                }
+            },
+            setTooltip(day) {
+                if (day === 31) {
+                    let calendarDays = document.querySelectorAll('.calendar-day')
+                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                    tooltipTriggerList.forEach(element => {
+                        if (element.firstElementChild.classList.contains('past-day')) {
+                            element.setAttribute('data-bs-title', 'past day')
+                        }
+                        new bootstrap.Tooltip(element)
+                    })
+                }
+            },
+            changeTooltip(day) {
+                if (day === 31) {
+                    let lastDayOfMonth=new Date(this.currYear, this.currMonth + 1, 0).getDate()-1
+                    let calendarDays = document.querySelectorAll('.calendar-day')
+                    let setAndValidate = (element,i) => {
+                        let set = (value,i) => {
+                            element.setAttribute('data-bs-title', value)
+                            if (!this.firstTimeCompiling[0] && this.indexOfSlide === 0) {
+                                const tooltip = bootstrap.Tooltip.getInstance(element)
+                                tooltip.setContent({'.tooltip-inner': value})
+                            } else if (this.indexOfSlide === 0) {
+                                new bootstrap.Tooltip(element)
+                                if(i==lastDayOfMonth){
+                                    this.firstTimeCompiling[0]=false
+                                }
+                            } else {
+                                const tooltip = bootstrap.Tooltip.getInstance(element)
+                                tooltip.setContent({'.tooltip-inner': value})
+                            }
+                        }
+                        if (element.style.display !== 'none') {
+                            if (!element.firstElementChild.classList.contains('past-day')) {
+                                if (!this.isBackAndForth) {
+                                    set('Departure date',i)
+                                } else {
+                                    if (this.selectedDays[0] === null) {
+                                        set('Departure date',i)
+                                    } else if (this.selectedDays[1] === null) {
+                                        if (this.currYear > this.selectedDays[0].year || this.currMonth > this.selectedDays[0].month || +(this.selectedDays[0].day) < +(element.textContent.trim())) {
+                                            set('Return date',i)
+                                        } else {
+                                            set('Departure date',i)
+                                        }
+                                    } else if (this.selectedDays[1] && this.selectedDays[0]) {
+                                        set('Departure date')
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    for (let i = 0; i < 31; i++) {
+                        if (this.indexOfSlide === 1) {
+                            if (this.firstTimeCompiling[1]) {
+                                setAndValidate(calendarDays[i],i)
+                            } else {
+                                setAndValidate(calendarDays[i + 31],i)
+                            }
+                        } else {
+                            setAndValidate(calendarDays[i],i)
+
+                        }
+                    }
                 }
             }
         })
