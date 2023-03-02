@@ -226,11 +226,11 @@ document.addEventListener('alpine:init', () => {
                 }
             },
             ['@mouseover']() {
-                if (this.ValueSelected[1] && this.ValueSelected[0]) {
+                `                if (this.ValueSelected[1] && this.ValueSelected[0]) {
                     this.$el.style.cursor = 'pointer'
                 } else {
                     this.$el.style.cursor = 'not-allowed'
-                }
+                }`
             }
         }, selectNextCity() {
             if (this.cityIndex === null) {
@@ -419,28 +419,29 @@ document.addEventListener('alpine:init', () => {
                 }
             },
             setActive() {
+
                 if (this.selectedDays.length === 2 && this.$el.children[0].classList.contains('past-day') === false) {
                     if (this.selectedDays[0] === null || this.selectedDays[1] === null) {
                         if (this.$el.children[0].classList.contains('past-day') === false) {
                             if (this.selectedDays[0] === null) {
-                                setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
+                                setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                             } else {
                                 if (this.selectedDays[0].year <= this.currYear) {
                                     if (this.selectedDays[0].month < this.currMonth) {
-                                        setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
+                                        setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                                         this.betweenSelectedDays()
                                     } else if (this.selectedDays[0].month == this.currMonth && +(this.selectedDays[0].day) < +(this.$el.textContent.trim())) {
-                                        setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
+                                        setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                                         this.betweenSelectedDays()
                                     } else {
-                                        setEmpty(this.selectedDays, 0, this.selectedDayInputVal)
-                                        setEmpty(this.selectedDays, 1, this.selectedDayInputVal)
-                                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
+                                        this.$refs.submitCalendarBtn(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
+                                        setEmpty(this.selectedDays, 1, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
+                                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                                     }
                                 } else {
-                                    setEmpty(this.selectedDays, 0, this.selectedDayInputVal)
-                                    setEmpty(this.selectedDays, 1, this.selectedDayInputVal)
-                                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
+                                    setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
+                                    setEmpty(this.selectedDays, 1, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
+                                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                                 }
                             }
                         }
@@ -449,31 +450,37 @@ document.addEventListener('alpine:init', () => {
                         setedBetween.forEach(element => {
                             element.classList.remove('days-between-selects')
                         })
-                        setEmpty(this.selectedDays, 0, this.selectedDayInputVal)
-                        setEmpty(this.selectedDays, 1, this.selectedDayInputVal)
-                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
+                        setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
+                        setEmpty(this.selectedDays, 1, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
+                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                     }
                 } else {
                     if (this.selectedDays[0] === null && !this.$el.children[0].classList.contains('past-day')) {
-                        setEmpty(this.selectedDays, 0, this.selectedDayInputVal)
-                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
+                        setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
+                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                     } else if (this.selectedDays[0] !== null && !this.$el.children[0].classList.contains('past-day')) {
-                        setEmpty(this.selectedDays, 0, this.selectedDayInputVal)
-                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation)
+                        setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
+                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                     }
                 }
 
-                function setActive(index, target, array, year, month, inputValue, monthsAbbreviation) {
+                function setActive(index, target, array, year, month, inputValue, monthsAbbreviation, calendarSubBtn) {
                     target.classList.add('active', 'active-calendar-days', 'text-white')
                     array[index] = {element: target, year: year, month: month, day: target.textContent.trim()}
                     inputValue[index] = `${monthsAbbreviation[month]} ${target.textContent.trim()}.${year}`
+                    if (array.length === 1 || (array[0] && array[1])) {
+                        calendarSubBtn.classList.remove('opacity-50', 'cursor-not-allowed')
+                    }
                 }
 
-                function setEmpty(array, index, inputVal) {
+                function setEmpty(array, index, inputVal, calendarSubBtn) {
                     if ((array[index] === null) === false) {
                         array[index].element.classList.remove('active', 'active-calendar-days', 'text-white')
                         inputVal[index] = ''
                         array[index] = null
+                        if (array.length === 2) {
+                            calendarSubBtn.classList.remove('opacity-50', 'cursor-not-allowed')
+                        }
                     }
                 }
             },
@@ -481,6 +488,7 @@ document.addEventListener('alpine:init', () => {
 
                 if (this.isBackAndForth === true) {
                     this.selectedDays.push(null)
+                    this.$refs.submitCalendarBtn.classList.add('opacity-50', 'cursor-not-allowed')
                     this.$refs.returnInput.nextElementSibling.classList.remove('rotate-none')
                     this.$refs.returnInput.nextElementSibling.classList.add('rotate-45')
                     this.innerflyPageDropsVal.howToFly = 'back and forth'
@@ -600,7 +608,6 @@ document.addEventListener('alpine:init', () => {
 
             },
             goToday() {
-                console.log(this.currYear === this.date.getFullYear() && this.currMonth === this.date.getMonth())
                 if (this.currYear === this.date.getFullYear() && this.currMonth === this.date.getMonth()) {
                     let Target = null
 
@@ -652,7 +659,12 @@ document.addEventListener('alpine:init', () => {
                 }
             },
             closeCalendar() {
-                if(event.target.classList.contains('returnInput')===false&&event.target.classList.contains('departureInput')===false&&event.target.classList.contains('backAndForthToggler')===false){
+                if (event.target.classList.contains('returnInput') === false && event.target.classList.contains('departureInput') === false && event.target.classList.contains('backAndForthToggler') === false) {
+                    this.calendarOpen = false
+                }
+            },
+            submitCalendar() {
+                if(this.$el.classList.contains('opacity-50')===false){
                     this.calendarOpen=false
                 }
             }

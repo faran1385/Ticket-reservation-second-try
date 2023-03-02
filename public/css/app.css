@@ -19127,4 +19127,6 @@ textarea.form-control-lg {
         transform: scale(1);
     }
 }
-
+.cursor-not-allowed{
+    cursor:not-allowed!important;
+}

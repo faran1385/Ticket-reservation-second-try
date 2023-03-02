@@ -482,12 +482,14 @@
                                                 <div class="d-flex justify-content-center"
                                                      style="border-top: 1px solid #eee">
                                                     <div
-                                                        class="w-75 d-flex align-items-center justify-content-between mb-1"
+                                                        class="w-100 d-flex align-items-center justify-content-between mb-1"
                                                         style="height: 3rem;">
                                                         <a class="link-primary text-decoration-none pointer-cursor"
                                                            @click="goToday()">go
                                                             to today</a>
-                                                        <button class="btn btn-primary text-white disabled">submit</button>
+                                                        <button class="btn btn-primary text-white opacity-50 cursor-not-allowed"
+                                                                x-ref="submitCalendarBtn"
+                                                                @click="submitCalendar">submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -667,7 +669,7 @@
                                         </div>
                                         <div class="col-lg-2 col-11 ms-2 mb-lg-0 mb-4">
                                             <input type="text" class=" form-control-lg form-control"
-                                                   value="1 passenger">
+                                                   value="1 passenger">w
                                         </div>
                                         <div class="col-lg-1 col-11 ms-2">
                                 <span class="d-grid">
