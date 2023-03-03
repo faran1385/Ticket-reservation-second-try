@@ -355,7 +355,7 @@
                                                                @keydown.prevent=""
                                                         >
                                                         <span class="coming-input-label-disable backAndForthToggler"
-                                                              @click="isBackAndForth=!isBackAndForth,checkSelectedDaysPos"
+                                                              @click="sender()"
                                                         ></span>
                                                     </label>
                                                 </div>
@@ -394,7 +394,7 @@
                                                                 data-bs-target="#calendar"
                                                                 class="month-mover-hover user-select-none border position-absolute top-0 bottom-0 end-0 border-dark material-symbols-outlined rounded-circle center pointer-cursor ms-2"
                                                                 style="font-family: 'Poppins', sans-serif;width: 38px;height: 38px"
-                                                                @click="if($el.classList.contains('disabled')===false&&isSliding===false){setDays(1),activatedDaysShow(),betweenSelectedDays(),isSliding=true,isSlidingToggle(300)}setRequiresInput(0,'prev'),firstTimeSelecting=false">></span>
+                                                                @click="if($el.classList.contains('disabled')===false&&isSliding===false){setDays(1),activatedDaysShow(),betweenSelectedDays(),isSliding=true,isSlidingToggle(300)}setRequiresInput(0,'prev'),firstTimeSelecting=false ">></span>
                                                         </div>
                                                     </div>
                                                     <div class="carousel-items-parent">

@@ -315,7 +315,7 @@ document.addEventListener('alpine:init', () => {
             selectedDays: [null],
             firstTimeSelecting: true,
             datesAlt: 'Date departure',
-            counter:0,
+            counter: 0,
             monthsAbbreviation: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             isSameValue(array) {
                 let isSame = array.every((element) => {
@@ -332,10 +332,12 @@ document.addEventListener('alpine:init', () => {
             isSlidingToggle(time) {
                 setTimeout(() => {
                     this.isSliding = false
+                    if (!this.firstTimeCompiling[1] && !this.firstTimeCompiling[0]) {
+                        this.changeTooltip(31)
+                    }
                 }, time)
             },
             setDays(monthChanger) {
-
                 let slides = document.querySelectorAll('.carousel-item')
                 for (let element of slides) {
                     if (element.classList.contains('active') && !element.classList.contains('not-first-time')) {
@@ -420,7 +422,6 @@ document.addEventListener('alpine:init', () => {
                 }
             },
             setActive() {
-
                 if (this.selectedDays.length === 2 && this.$el.children[0].classList.contains('past-day') === false) {
                     if (this.selectedDays[0] === null || this.selectedDays[1] === null) {
                         if (this.$el.children[0].classList.contains('past-day') === false) {
@@ -438,7 +439,7 @@ document.addEventListener('alpine:init', () => {
                                         this.betweenSelectedDays()
                                         this.changeTooltip(31)
                                     } else {
-                                        this.$refs.submitCalendarBtn(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
+                                        setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                                         setEmpty(this.selectedDays, 1, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                                         setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn)
                                         this.changeTooltip(31)
@@ -496,7 +497,7 @@ document.addEventListener('alpine:init', () => {
             checkSelectedDaysPos() {
 
                 if (this.isBackAndForth === true) {
-                    this.selectedDays.push(null)
+                    this.selectedDays.length === 1 && this.selectedDays.push(null)
                     this.$refs.submitCalendarBtn.classList.add('opacity-50', 'cursor-not-allowed')
                     this.$refs.returnInput.nextElementSibling.classList.remove('rotate-none')
                     this.$refs.returnInput.nextElementSibling.classList.add('rotate-45')
@@ -653,6 +654,7 @@ document.addEventListener('alpine:init', () => {
                                 Array.from(carouselItemsParent.children).forEach(element => {
                                     element.style.transition = 'transform 0.4s ease-in-out'
                                 })
+                                this.changeTooltip(31)
                             }
                         }, 50)
                     }
@@ -687,22 +689,23 @@ document.addEventListener('alpine:init', () => {
                         }
                         new bootstrap.Tooltip(element)
                     })
+                    this.firstTimeCompiling[1] = false
                 }
             },
             changeTooltip(day) {
                 if (day === 31) {
-                    let lastDayOfMonth=new Date(this.currYear, this.currMonth + 1, 0).getDate()-1
+                    let lastDayOfMonth = new Date(this.currYear, this.currMonth + 1, 0).getDate() - 1
                     let calendarDays = document.querySelectorAll('.calendar-day')
-                    let setAndValidate = (element,i) => {
-                        let set = (value,i) => {
+                    let setAndValidate = (element, i) => {
+                        let set = (value, i) => {
                             element.setAttribute('data-bs-title', value)
                             if (!this.firstTimeCompiling[0] && this.indexOfSlide === 0) {
                                 const tooltip = bootstrap.Tooltip.getInstance(element)
                                 tooltip.setContent({'.tooltip-inner': value})
                             } else if (this.indexOfSlide === 0) {
                                 new bootstrap.Tooltip(element)
-                                if(i==lastDayOfMonth){
-                                    this.firstTimeCompiling[0]=false
+                                if (i == lastDayOfMonth) {
+                                    this.firstTimeCompiling[0] = false
                                 }
                             } else {
                                 const tooltip = bootstrap.Tooltip.getInstance(element)
@@ -710,39 +713,52 @@ document.addEventListener('alpine:init', () => {
                             }
                         }
                         if (element.style.display !== 'none') {
-                            if (!element.firstElementChild.classList.contains('past-day')) {
-                                if (!this.isBackAndForth) {
-                                    set('Departure date',i)
-                                } else {
-                                    if (this.selectedDays[0] === null) {
-                                        set('Departure date',i)
-                                    } else if (this.selectedDays[1] === null) {
-                                        if (this.currYear > this.selectedDays[0].year || this.currMonth > this.selectedDays[0].month || +(this.selectedDays[0].day) < +(element.textContent.trim())) {
-                                            set('Return date',i)
+                            if (element.firstElementChild.className.includes('past-day') && this.currYear === this.date.getFullYear() && this.currMonth === this.date.getMonth()) {
+                                set('past day', i)
+                            } else if (!this.isBackAndForth) {
+                                set('Departure date', i)
+                            } else {
+                                if (this.selectedDays[0] === null) {
+                                    set('Departure date', i)
+                                } else if (this.selectedDays[1] === null) {
+                                    if (this.currYear >= this.selectedDays[0].year) {
+                                        if (this.currMonth > this.selectedDays[0].month) {
+                                            set('Return date', i)
+                                        } else if (this.currMonth === this.selectedDays[0].month) {
+                                            if (+(this.selectedDays[0].day) < +(element.textContent.trim())){
+                                                set('Return date', i)
+                                            }else{
+                                                set('Departure date', i)
+                                            }
                                         } else {
-                                            set('Departure date',i)
+                                            set('Departure date', i)
                                         }
-                                    } else if (this.selectedDays[1] && this.selectedDays[0]) {
-                                        set('Departure date')
                                     }
+                                } else if (this.selectedDays[1] && this.selectedDays[0]) {
+                                    set('Departure date')
                                 }
                             }
+
                         }
                     }
-
                     for (let i = 0; i < 31; i++) {
                         if (this.indexOfSlide === 1) {
-                            if (this.firstTimeCompiling[1]) {
-                                setAndValidate(calendarDays[i],i)
+                            if (this.firstTimeCompiling[0]) {
+                                setAndValidate(calendarDays[i], i)
                             } else {
-                                setAndValidate(calendarDays[i + 31],i)
+                                setAndValidate(calendarDays[i + 31], i)
                             }
                         } else {
-                            setAndValidate(calendarDays[i],i)
+                            setAndValidate(calendarDays[i], i)
 
                         }
                     }
                 }
+            },
+            async sender() {
+                this.isBackAndForth = !this.isBackAndForth
+                await this.checkSelectedDaysPos();
+                this.changeTooltip(31)
             }
         })
     )
