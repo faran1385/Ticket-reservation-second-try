@@ -626,9 +626,16 @@ document.addEventListener('alpine:init', () => {
                     let calendarDays = document.querySelectorAll('.calendar-day')
 
                     for (element of calendarDays) {
-                        if (!element.firstElementChild.classList.contains('past-day')) {
+                        if (calendarDays.length===31&&!element.firstElementChild.classList.contains('past-day')) {
                             Target = element
                             break;
+                        }else{
+                            if(Array.from(calendarDays).indexOf(element)>31){
+                                if (!element.firstElementChild.classList.contains('past-day')) {
+                                    Target=element
+                                    break;
+                                }
+                            }
                         }
                     }
                     Target.classList.add('pulse-primary')
