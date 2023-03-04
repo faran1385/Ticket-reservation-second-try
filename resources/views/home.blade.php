@@ -336,7 +336,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-11 ms-2 d-flex mb-lg-0 mb-4"
-                                                     @click="calendarOpen=true">
+                                                     @click="checkTooltip()">
                                                     <label class="w-50">
                                                         <input type="text"
                                                                class="departureInput form-control-lg form-control rounded-end-0 "
@@ -345,7 +345,7 @@
                                                                @keydown.prevent=''
                                                         >
                                                     </label>
-                                                    <label class="position-relative  w-50" @click="calendarOpen=true">
+                                                    <label class="position-relative  w-50" @click="sender()">
                                                         <input type="text"
                                                                class="returnInput form-control-lg form-control rounded-start-0"
                                                                :disabled="(checkSelectedDaysPos)"
@@ -355,7 +355,7 @@
                                                                @keydown.prevent=""
                                                         >
                                                         <span class="coming-input-label-disable backAndForthToggler"
-                                                              @click="sender()"
+
                                                         ></span>
                                                     </label>
                                                 </div>

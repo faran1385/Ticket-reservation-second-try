@@ -293,7 +293,7 @@ document.addEventListener('alpine:init', () => {
             let defaultActive = document.querySelector(`.${this.page}`)
             defaultActive.classList.remove('card-header-items-hover')
             defaultActive.classList.add('text-primary')
-        }
+        },
     }))
 })
 document.addEventListener('alpine:init', () => {
@@ -350,7 +350,7 @@ document.addEventListener('alpine:init', () => {
                         break;
                     }
                 }
-                console.log(this.indexOfSlide)
+
                 this.yearLimit(monthChanger)
                 this.calendarTitle = this.months[this.currMonth] + ' ' + this.currYear
                 let firstDayofMonth = new Date(this.currYear, this.currMonth, 1).getDay(),
@@ -427,28 +427,28 @@ document.addEventListener('alpine:init', () => {
                     if (this.selectedDays[0] === null || this.selectedDays[1] === null) {
                         if (this.$el.children[0].classList.contains('past-day') === false) {
                             if (this.selectedDays[0] === null) {
-                                setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn,this.indexOfSlide)
+                                setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn, this.indexOfSlide)
                                 this.changeTooltip(31)
                             } else {
                                 if (this.selectedDays[0].year <= this.currYear) {
                                     if (this.selectedDays[0].month < this.currMonth) {
-                                        setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn,this.indexOfSlide)
+                                        setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn, this.indexOfSlide)
                                         this.betweenSelectedDays()
                                         this.changeTooltip(31)
                                     } else if (this.selectedDays[0].month == this.currMonth && +(this.selectedDays[0].day) < +(this.$el.textContent.trim())) {
-                                        setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn,this.indexOfSlide)
+                                        setActive(1, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn, this.indexOfSlide)
                                         this.betweenSelectedDays()
                                         this.changeTooltip(31)
                                     } else {
                                         setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                                         setEmpty(this.selectedDays, 1, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
-                                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn,this.indexOfSlide)
+                                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn, this.indexOfSlide)
                                         this.changeTooltip(31)
                                     }
                                 } else {
                                     setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                                     setEmpty(this.selectedDays, 1, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
-                                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn,this.indexOfSlide)
+                                    setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn, this.indexOfSlide)
                                     this.changeTooltip(31)
                                 }
                             }
@@ -460,25 +460,25 @@ document.addEventListener('alpine:init', () => {
                         })
                         setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
                         setEmpty(this.selectedDays, 1, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
-                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn,this.indexOfSlide)
+                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn, this.indexOfSlide)
                         this.changeTooltip(31)
                     }
                 } else {
                     if (this.selectedDays[0] === null && !this.$el.children[0].classList.contains('past-day')) {
                         setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
-                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn,this.indexOfSlide)
+                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn, this.indexOfSlide)
                         this.changeTooltip(31)
 
                     } else if (this.selectedDays[0] !== null && !this.$el.children[0].classList.contains('past-day')) {
                         setEmpty(this.selectedDays, 0, this.selectedDayInputVal, this.$refs.submitCalendarBtn)
-                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn,this.indexOfSlide)
+                        setActive(0, this.$el, this.selectedDays, this.currYear, this.currMonth, this.selectedDayInputVal, this.monthsAbbreviation, this.$refs.submitCalendarBtn, this.indexOfSlide)
                         this.changeTooltip(31)
                     }
                 }
 
-                function setActive(index, target, array, year, month, inputValue, monthsAbbreviation, calendarSubBtn,slide) {
+                function setActive(index, target, array, year, month, inputValue, monthsAbbreviation, calendarSubBtn, slide) {
                     target.classList.add('active', 'active-calendar-days', 'text-white')
-                    array[index] = {element: target, year: year, month: month, day: target.textContent.trim(),slide:slide}
+                    array[index] = {element: target, year: year, month: month, day: target.textContent.trim(), slide: slide}
                     inputValue[index] = `${monthsAbbreviation[month]} ${target.textContent.trim()}.${year}`
                     if (array.length === 1 || (array[0] && array[1])) {
                         calendarSubBtn.classList.remove('opacity-50', 'cursor-not-allowed')
@@ -497,7 +497,6 @@ document.addEventListener('alpine:init', () => {
                 }
             },
             checkSelectedDaysPos() {
-
                 if (this.isBackAndForth === true) {
                     this.selectedDays.length === 1 && this.selectedDays.push(null)
                     this.$refs.submitCalendarBtn.classList.add('opacity-50', 'cursor-not-allowed')
@@ -626,13 +625,13 @@ document.addEventListener('alpine:init', () => {
                     let calendarDays = document.querySelectorAll('.calendar-day')
 
                     for (element of calendarDays) {
-                        if (calendarDays.length===31&&!element.firstElementChild.classList.contains('past-day')) {
+                        if (calendarDays.length === 31 && !element.firstElementChild.classList.contains('past-day')) {
                             Target = element
                             break;
-                        }else{
-                            if(Array.from(calendarDays).indexOf(element)>31){
+                        } else {
+                            if (Array.from(calendarDays).indexOf(element) > 31) {
                                 if (!element.firstElementChild.classList.contains('past-day')) {
-                                    Target=element
+                                    Target = element
                                     break;
                                 }
                             }
@@ -649,7 +648,7 @@ document.addEventListener('alpine:init', () => {
                     Array.from(carouselItemsParent.children).forEach(element => {
                         element.style.transition = 'transform 0.1s ease-in-out'
                     })
-                    let set =  () => {
+                    let set = () => {
                         setTimeout(async () => {
                             await this.setDays(-1)
                             await this.activatedDaysShow()
@@ -765,9 +764,21 @@ document.addEventListener('alpine:init', () => {
                 }
             },
             async sender() {
-                this.isBackAndForth = !this.isBackAndForth
-                await this.checkSelectedDaysPos();
-                this.changeTooltip(31)
+                if (event.target.classList.contains('backAndForthToggler')) {
+                    this.isBackAndForth = !this.isBackAndForth
+                    await this.checkSelectedDaysPos();
+                    this.changeTooltip(31)
+                } else if (this.isBackAndForth === false) {
+                    this.isBackAndForth = !this.isBackAndForth
+                    await this.checkSelectedDaysPos();
+                    this.changeTooltip(31)
+                }
+            },
+            async checkTooltip() {
+                this.calendarOpen = true
+                if (!this.firstTimeCompiling[1]) {
+                    this.changeTooltip(31)
+                }
             }
         })
     )
